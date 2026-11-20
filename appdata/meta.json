@@ -1,8 +1,8 @@
 {
  "first_hour": "2026-04-09 23:00:00",
  "last_hour": "2026-11-17 10:00:00",
- "prepared_at": "2026-11-20 22:12:01",
+ "prepared_at": "2026-11-20 22:48:55",
  "source_foundation": "/home/claude/foundation",
- "source_replay": "/home/claude/replay",
+ "source_replay": "/home/claude/replay2",
  "devices": 157
 }

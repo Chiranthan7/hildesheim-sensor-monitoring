@@ -1,35 +1,38 @@
 {
  "emails_by_kind": {
-  "REMINDER": 1164,
-  "RECOVERY": 976,
-  "OPEN": 927,
-  "ESCALATION": 177
+  "OPEN": 383,
+  "SUMMARY": 1
  },
  "incidents_by_type": {
-  "SENSOR_DOWN": 440,
+  "SENSOR_DOWN": 441,
   "MEASUREMENT_DEGRADATION": 260,
-  "DEGRADED_COMMUNICATION": 195,
-  "BACKEND_FAILURE": 40,
+  "DEGRADED_COMMUNICATION": 198,
+  "BACKEND_FAILURE": 41,
   "SEVERE_MALFUNCTION": 33,
   "RISK_ELEVATED": 32,
+  "FAILURE_EXPECTED_24H": 26,
   "GATEWAY_DOWN": 12,
   "REDUCED_REPORTING_MODE": 6,
   "NETWORK_OUTAGE": 1,
   "BATTERY_LOW": 1
  },
- "grouped_emails": 18,
+ "grouped_emails": 11,
  "duplicate_email_rate": 0.0,
- "max_emails_per_incident": 19,
+ "max_emails_per_incident": 1,
  "outages_ge6h": 406,
- "outages_ge6h_notified_share": 0.9630541871921182,
+ "outages_ge6h_notified_share": 0.9014778325123153,
  "outages_ge6h_ongoing_at_an_hourly_check": 389,
- "outages_ge6h_ongoing_notified_share": 1.0,
- "median_notification_delay_from_onset_h": 9.560749618055555,
- "recoveries": 895,
- "premature_recovery_rate_24h": 0.10837988826815642,
+ "outages_ge6h_ongoing_notified_share": 0.9357326478149101,
+ "median_notification_delay_from_onset_h": 10.926666666666666,
+ "outages_sensor_stopped_ongoing": 361,
+ "outages_sensor_stopped_emailed_share": 1.0,
+ "outages_server_side_not_emailed": 25,
+ "recoveries": 925,
+ "premature_recovery_rate_24h": 0.11459459459459459,
  "premature_recovery_rate_by_type": {
-  "BACKEND_FAILURE": 0.444,
-  "DEGRADED_COMMUNICATION": 0.168,
+  "BACKEND_FAILURE": 0.381,
+  "DEGRADED_COMMUNICATION": 0.176,
+  "FAILURE_EXPECTED_24H": 0.28,
   "GATEWAY_DOWN": 0.0,
   "MEASUREMENT_DEGRADATION": 0.0,
   "NETWORK_OUTAGE": 0.0,
@@ -38,9 +41,16 @@
   "SENSOR_DOWN": 0.137,
   "SEVERE_MALFUNCTION": 0.0
  },
- "emails_per_device_week": 1.334084021600239,
+ "emails_per_device_week": 0.15791870046069414,
  "risk_warnings": 32,
  "risk_warning_precision_7d": 0.6875,
  "prolonged_outages": 160,
- "prolonged_outages_warned_before_share": 0.14375
+ "prolonged_outages_warned_before_share": 0.14375,
+ "warnings_24h_emailed": 26,
+ "warnings_24h_followed_by_outage_within_24h": 0.46153846153846156,
+ "emails_total": 384,
+ "emails_by_type": {
+  "SENSOR_DOWN": 441,
+  "FAILURE_EXPECTED_24H": 26
+ }
 }

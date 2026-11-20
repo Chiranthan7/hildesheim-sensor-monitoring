@@ -59,6 +59,10 @@
   </section>
 
   <section id="view-alerts" class="view pad">
+    <div class="card" style="margin-top:14px"><h3>✉️ E-mail alerts</h3>
+      <p class="mute" style="margin:4px 0 10px">An e-mail is sent only when a sensor <b>stops working</b> or <b>may stop working within 24 hours</b>. Each e-mail contains the sensor, its location, a Google Maps route and what was detected.</p>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center"><input id="adminCode" type="password" placeholder="Admin code" style="padding:8px 10px;border:1px solid var(--line);border-radius:8px">
+      <button class="btn small" id="testMailBtn">Send test e-mails</button><span id="testMailMsg" class="mute"></span></div></div>
     <h2>Open alerts</h2><div id="openAlerts" class="tablewrap"></div>
     <h2>E-mails sent <span class="mute" id="mailNote"></span></h2><div id="sentMails" class="tablewrap"></div>
   </section>

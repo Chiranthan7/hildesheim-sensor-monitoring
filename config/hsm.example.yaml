@@ -13,11 +13,18 @@ data:
 notifications:
   enabled: false                        # real e-mails only when enabled AND dry_run is false
   dry_run: true                         # dry run writes .eml files to outbox_dir instead of sending
+  # which alerts are e-mailed (all others are still tracked and shown in the app):
+  email_types: [SENSOR_DOWN, FAILURE_EXPECTED_24H]   # sensor stopped working / may stop within 24 h (AI forecast or critical battery)
+  email_kinds: [OPEN]                   # one e-mail when the problem is detected (add REMINDER, RECOVERY, ESCALATION if wanted)
+  email_style: simple                   # plain-language e-mail with location, Google Maps directions and what was detected
+  baseline_digest: true                 # first run: one summary e-mail for problems that already exist, not one per sensor
   outbox_dir: ./outbox
   store: ./state/notifications.sqlite
   recipients: [admin@example.org]
   escalation_recipients: [maintenance-lead@example.org]
   dashboard_url: ""                     # e.g. https://monitoring.example.org/dashboard.html
+  # Gmail: HSM_SMTP_HOST=smtp.gmail.com, HSM_SMTP_PORT=587, HSM_SMTP_USER=<your gmail address>,
+  #        HSM_SMTP_PASSWORD=<16-character Google App Password, NOT your normal password>, HSM_SMTP_FROM=<your gmail address>
   smtp:
     host_env: HSM_SMTP_HOST
     port_env: HSM_SMTP_PORT             # default 587

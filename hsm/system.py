@@ -18,6 +18,51 @@ WARNING_BUDGET = const('WARNING_BUDGET', 0.25, 'operational', 'evaluation',
                        'predictive warnings: threshold = lowest validation threshold with <= 0.25 false alert episodes per sensor-week '
                        '(revised operational policy, chosen after the held-out evaluation; documented as such)')
 
+EMAIL_BUDGET = const('EMAIL_BUDGET', dict(false_per_sensor_week=0.10, min_recall=0.10), 'operational', 'evaluation',
+    'e-mail warning "may stop within 24 h": per family the lowest validation threshold of the 24-h onset risk with <= 0.10 false alert '
+    'episodes per sensor-week AND >= 10 % of validation onsets caught; families that cannot meet both get no 24-h e-mail warnings. '
+    'Set 2026-11-20 for the e-mail policy (test metrics were visible while choosing the budget; documented in docs/SYSTEM.md)')
+
+def correct_backend_latch(S):
+    """'data not saved (backend)' needs the device to be HEARD recently: a single reception after the last stored record must not
+    keep a device that has been silent for weeks in the backend state. Without a reception within max(24 h, 6 report intervals) the
+    device counts as not sending (declared outage) or degraded (silence not yet declared). Applied downstream of Module 1, whose
+    timeline and evaluation are unchanged."""
+    S = S.copy()
+    win = pd.to_timedelta(np.maximum(24 * 60, 6 * S.family.map(NOMINAL_MIN).astype(float)), unit='m')
+    stale = (S.state == 'backend_data_unavailable') & (S.rx_last_arrival.isna() | (S.rx_last_arrival < S.hour_end - win))
+    if stale.any():
+        S.loc[stale, 'state'] = np.where(S.loc[stale, 'in_declared_outage'].fillna(False).astype(bool), 'significant_interruption', 'degraded')
+        S.loc[stale, 'traffic_light'] = np.where(S.loc[stale, 'state'] == 'significant_interruption', 'red', 'yellow')
+    return S
+
+def device_locations(fd):
+    """GPS position per device as reported in the data (never estimated) and gateway site coordinates"""
+    rd = lambda n, c: pd.read_parquet(f'{fd}/{n}.parquet', columns=c)
+    parts = []
+    for n in ['silver_soil', 'silver_weather']:
+        try: parts.append(rd(n, ['device_id', 'sensor_lat', 'sensor_lon']).dropna().groupby('device_id').median())
+        except Exception: pass
+    try:
+        d = rd('silver_devices', ['device_id', 'loc_role', 'loc_lat', 'loc_lon'])
+        parts.append(d[d.loc_role == 'device_position'].groupby('device_id')[['loc_lat', 'loc_lon']].median().rename(columns={'loc_lat': 'sensor_lat', 'loc_lon': 'sensor_lon'}))
+    except Exception: pass
+    L = pd.concat(parts); L = L[~L.index.duplicated()]
+    out = {k: (float(v.sensor_lat), float(v.sensor_lon), None) for k, v in L.iterrows()}
+    try:
+        G = pd.read_parquet(f'{fd}/gold_gw_current.parquet')
+        out.update({f'gw:{r.gw_site}': (float(r.lat), float(r.lon), None) for r in G.itertuples() if pd.notna(r.lat)})
+    except Exception: pass
+    return out
+
+def add_p24(S):
+    """probability that the device stops sending within the next 24 h (the onset-risk horizon that equals 24 h for its family)"""
+    S = S.copy()
+    long24 = S.get('risk_long_H', pd.Series(np.nan, index=S.index)) == 24
+    short24 = S.get('risk_short_H', pd.Series(np.nan, index=S.index)) == 24
+    S['p_stop_24h'] = np.where(long24, S.get('risk_long'), np.where(short24, S.get('risk_short'), np.nan)).astype(float)
+    return S
+
 MANUFACTURER = {'Sensoterra': ('Sensoterra', 'LoRaWAN soil moisture probe'), 'MeteoHelix': ('BARANI DESIGN', 'MeteoHelix IoT Pro weather station'),
                 'MeteoWind': ('BARANI DESIGN', 'MeteoWind IoT Pro wind sensor'), 'CloverSoilSensor': ('TEKTELIC', 'CLOVER agriculture sensor'),
                 'Agvolution': ('Agvolution', 'soil sensor node (climavi)'), 'OttSensor': ('OTT HydroMet', 'hydrological station (model not identified)'),
@@ -81,7 +126,7 @@ def device_status(fd):
     S['battery_condition'] = S.battery_condition.fillna(S.family.map(lambda f: 'not_measurable' if BATTERY_OBSERVABILITY[f]['signal'] is None else 'no_recent_reading'))
     A = anomaly_daily(fd).rename(columns={'avail_day': 'day_avail'})[['device_id', 'day_avail', 'anomaly_kinds', 'anomaly_high']]
     S = S.merge(A, on=['device_id', 'day_avail'], how='left'); S['anomaly_high'] = S.anomaly_high.fillna(0)
-    return S.drop(columns=['day_avail'])
+    return add_p24(correct_backend_latch(S.drop(columns=['day_avail'])))
 
 def diagnose(S):
     """primary probable cause, confidence, evidence, alternatives (vectorised rules, priority order of evidence strength)"""
@@ -205,4 +250,5 @@ def live_snapshot(fd, model_dir, warn_thr):
     S['battery_condition'] = S.battery_condition.fillna(S.family.map(lambda f: 'not_measurable' if BATTERY_OBSERVABILITY[f]['signal'] is None else 'no_recent_reading'))
     An = anomaly_daily(fd).rename(columns={'avail_day': 'day_avail'})[['device_id', 'day_avail', 'anomaly_kinds', 'anomaly_high']]
     S = S.merge(An, on=['device_id', 'day_avail'], how='left'); S['anomaly_high'] = S.anomaly_high.fillna(0)
-    return overall(diagnose(S.drop(columns=['day_avail'])), warn_thr)
+    S = add_p24(correct_backend_latch(S.drop(columns=['day_avail'])))
+    return overall(diagnose(S), warn_thr)

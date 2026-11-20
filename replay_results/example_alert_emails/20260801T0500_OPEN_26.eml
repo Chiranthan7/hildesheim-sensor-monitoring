@@ -1,0 +1,109 @@
+From: hsm-monitor@localhost
+To: admin@example.org
+Subject: [Sensor alert] Sensor stopped working: Soil moisture 647fda000001c735
+ near =?utf-8?q?R=C3=B6merring?=
+Message-ID: <0426fa32-5bfb-4f47-b794-74397c2bdbf7@hsm>
+MIME-Version: 1.0
+Content-Type: multipart/alternative;
+ boundary="===============2638510580458421385=="
+
+--===============2638510580458421385==
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+
+W1NlbnNvciBhbGVydF0gU2Vuc29yIHN0b3BwZWQgd29ya2luZzogU29pbCBtb2lzdHVyZSA2NDdm
+ZGEwMDAwMDFjNzM1IG5lYXIgUsO2bWVycmluZwoKCj09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQpTRU5TT1IgU1RPUFBFRCBXT1JLSU5H
+Cj09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PQpTZW5zb3I6ICAgICAgICBTb2lsIG1vaXN0dXJlIChURUtURUxJQyBDTE9WRVIgYWdyaWN1
+bHR1cmUgc2Vuc29yKQpTZW5zb3IgSUQ6ICAgICA2NDdmZGEwMDAwMDFjNzM1CkRldGVjdGVkOiAg
+ICAgIDIwMjYtMDgtMDEgMDc6MDAgKGxvY2FsIHRpbWUpCgpMT0NBVElPTgogIENvb3JkaW5hdGVz
+OiA1Mi4xNTUzOSwgOS45NDExMiAgIChuZWFyIGdhdGV3YXkgUsO2bWVycmluZykKICBOb3RlOiBU
+aGUgZXhhY3Qgc2Vuc29yIHBvc2l0aW9uIGlzIG5vdCBpbiB0aGUgZGF0YS4gVGhpcyBpcyB0aGUg
+bG9jYXRpb24gb2YgZ2F0ZXdheSAiUsO2bWVycmluZyIsIHdoaWNoIHJlY2VpdmVzIHRoaXMgc2Vu
+c29yIGJlc3QuCiAgRGlyZWN0aW9uczogIGh0dHBzOi8vd3d3Lmdvb2dsZS5jb20vbWFwcy9kaXIv
+P2FwaT0xJmRlc3RpbmF0aW9uPTUyLjE1NTM5MCw5Ljk0MTEyMCZ0cmF2ZWxtb2RlPWRyaXZpbmcK
+CldIQVQgV0FTIERFVEVDVEVECiAgLSBObyBkYXRhIGhhcyBhcnJpdmVkIGZvciAyIGhvdXJzIChu
+b3JtYWxseSBvbmUgbWVzc2FnZSBldmVyeSAxNSBtaW51dGVzKS4KICAtIExhc3QgbWVzc2FnZSBy
+ZWNlaXZlZDogMjAyNi0wOC0wMSAwNTowNSAoMiBob3VycyBhZ28pLiBMYXN0IGRhdGEgc2F2ZWQ6
+IDIwMjYtMDgtMDEgMDU6MDUuCiAgLSBUaGUgb3V0YWdlIGRldGVjdG9yIGRlY2xhcmVkIHRoZSBi
+cmVha2Rvd24gYXQgMjAyNi0wOC0wMSAwNzowMCBhZnRlciB0aGUgc2lsZW5jZSBiZWNhbWUgc3Rh
+dGlzdGljYWxseSBpbXByb2JhYmxlIGZvciB0aGlzIHNlbnNvci4KICAtIE9ubHkgdGhpcyBzZW5z
+b3IgaXMgYWZmZWN0ZWQ7IGl0cyBnYXRld2F5IGFuZCB0aGUgbmV0d29yayBhcmUgd29ya2luZy4K
+ICAtIEFJIGZvcmVjYXN0OiBjaGFuY2UgaXQgaXMgc3RpbGwgbm90IHdvcmtpbmcgdG9tb3Jyb3c6
+IDI4JS4KICAtIEFJIGZvcmVjYXN0OiBjaGFuY2UgaXQgaXMgc3RpbGwgbm90IHdvcmtpbmcgaW4g
+NyBkYXlzOiA0JS4KClBST0JBQkxFIENBVVNFIChwb3NzaWJsZSkKICBUaGUgc2Vuc29yIHN0b3Bw
+ZWQgc2VuZGluZy4gVGhlIGV4YWN0IHJlYXNvbiBpcyBub3Qga25vd24uCgpXSEFUIFRPIERPCiAg
+VmlzaXQgdGhlIHNlbnNvcjogY2hlY2sgdGhhdCBpdCBpcyBzdGlsbCB0aGVyZSwgdW5kYW1hZ2Vk
+IGFuZCBwb3dlcmVkLgogIFNpdGUgdmlzaXQgbmVlZGVkLgoKQmF0dGVyeTogR29vZCAoOTggJSkK
+CgoKLS0gClNtYXJ0IFNlbnNvciBNb25pdG9yaW5nIEhpbGRlc2hlaW0uIEF1dG9tYXRpYyBtZXNz
+YWdlLCBzZW50IG9ubHkgd2hlbiBhIHNlbnNvciBzdG9wcyB3b3JraW5nIG9yIG1heSBzdG9wIHdp
+dGhpbiAyNCBob3Vycy4K
+
+--===============2638510580458421385==
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+
+<!DOCTYPE html><html><body style=3D"margin:0;background:#f3f5f8;font-family:S=
+egoe UI,Helvetica,Arial,sans-serif;color:#17202b">
+<div style=3D"max-width:640px;margin:0 auto;padding:18px">
+<div style=3D"background:#0f2a4a;color:#fff;border-radius:12px 12px 0 0;paddi=
+ng:14px 18px;font-size:18px;font-weight:700">=F0=9F=93=A1 Smart Sensor Monito=
+ring =C2=B7 Hildesheim</div>
+<div style=3D"background:#fff;border-radius:0 0 12px 12px;padding:18px">
+
+
+
+<div style=3D"border:1px solid #e2e7ee;border-left:7px solid #d32f2f;border-r=
+adius:10px;padding:14px 16px;margin:0 0 16px">
+  <div style=3D"font-size:19px;font-weight:800;color:#d32f2f">=E2=9B=94 Senso=
+r stopped working</div>
+  <div style=3D"font-size:16px;margin-top:6px">=F0=9F=92=A7 <b>Soil moisture<=
+/b> =C2=B7 TEKTELIC CLOVER agriculture sensor</div>
+  <div style=3D"color:#5f6c7b;font-size:13px">Sensor ID 647fda000001c735 =C2=
+=B7 detected 2026-08-01 07:00 (local time)</div>
+
+  <div style=3D"margin-top:12px;font-weight:700">=F0=9F=93=8D Location</div>
+ =20
+  <div>52.15539, 9.94112 =C2=B7 near gateway R=C3=B6merring</div>
+  <div style=3D"color:#5f6c7b;font-size:13px">The exact sensor position is no=
+t in the data. This is the location of gateway &#34;R=C3=B6merring&#34;, whic=
+h receives this sensor best.</div>
+  <a href=3D"https://www.google.com/maps/dir/?api=3D1&amp;destination=3D52.15=
+5390,9.941120&amp;travelmode=3Ddriving" style=3D"display:inline-block;margin-=
+top:8px;background:#2e9e5b;color:#fff;text-decoration:none;font-weight:700;pa=
+dding:9px 14px;border-radius:8px">=F0=9F=A7=AD Directions in Google Maps</a>
+ =20
+
+  <div style=3D"margin-top:14px;font-weight:700">=F0=9F=94=8E What was detect=
+ed</div>
+  <ul style=3D"margin:6px 0 0 18px;padding:0"><li style=3D"margin:3px 0">No d=
+ata has arrived for 2 hours (normally one message every 15 minutes).</li><li =
+style=3D"margin:3px 0">Last message received: 2026-08-01 05:05 (2 hours ago).=
+ Last data saved: 2026-08-01 05:05.</li><li style=3D"margin:3px 0">The outage=
+ detector declared the breakdown at 2026-08-01 07:00 after the silence became=
+ statistically improbable for this sensor.</li><li style=3D"margin:3px 0">Onl=
+y this sensor is affected; its gateway and the network are working.</li><li s=
+tyle=3D"margin:3px 0">AI forecast: chance it is still not working tomorrow: 2=
+8%.</li><li style=3D"margin:3px 0">AI forecast: chance it is still not workin=
+g in 7 days: 4%.</li></ul>
+  <div style=3D"margin-top:12px"><b>Probable cause</b> (possible): The sensor=
+ stopped sending. The exact reason is not known.</div>
+  <div style=3D"margin-top:12px;background:#f1f7ff;border-left:5px solid #256=
+3eb;padding:10px 12px;border-radius:6px;font-weight:600">=F0=9F=91=89 Visit t=
+he sensor: check that it is still there, undamaged and powered.
+    <span style=3D"display:inline-block;margin-left:6px;font-size:12px;paddin=
+g:2px 8px;border-radius:12px;background:#ffe3e3;color:#b42318">Site visit nee=
+ded</span></div>
+  <div style=3D"margin-top:10px;font-size:14px">=F0=9F=94=8B Battery: Good (9=
+8 %)</div>
+</div>
+
+
+<p style=3D"color:#8a94a0;font-size:12px;margin-bottom:0">Automatic message f=
+rom Smart Sensor Monitoring Hildesheim. Sent only when a sensor stops working=
+ or may stop within 24 hours.</p>
+</div></div></body></html>
+
+--===============2638510580458421385==--

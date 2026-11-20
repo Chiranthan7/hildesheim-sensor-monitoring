@@ -1,0 +1,33 @@
+# Alert e-mail settings for the web app and for running on your computer. No secrets here:
+# recipients, real sending and the mail account come from environment variables (see docs/EMAIL_ALERTS.md).
+data:
+  raw_dir: ./exports
+  foundation_dir: ./foundation_live
+  poll_minutes: 30
+  feed_stale_h: 3
+  eval_foundation_dir: ./foundation_live
+  live_dir: ./live_state
+  app_data_dir: ./appdata
+notifications:
+  enabled: false                 # HSM_EMAIL_ENABLED=1 switches real sending on
+  dry_run: true
+  outbox_dir: ./outbox
+  store: ./state/notifications.sqlite
+  recipients: []                 # HSM_ALERT_TO=you@gmail.com
+  email_types: [SENSOR_DOWN, FAILURE_EXPECTED_24H]
+  email_kinds: [OPEN]
+  email_style: simple
+  baseline_digest: true
+  smtp: {host_env: HSM_SMTP_HOST, port_env: HSM_SMTP_PORT, username_env: HSM_SMTP_USER, password_env: HSM_SMTP_PASSWORD, from_env: HSM_SMTP_FROM, starttls: true, timeout_s: 20, max_attempts: 3}
+  resend: {api_key_env: HSM_RESEND_API_KEY}
+  cooldown_h: 6
+  min_clear_h: {SENSOR_DOWN: 2, FAILURE_EXPECTED_24H: 24, default: 24}
+  risk_hysteresis: 0.7
+  reminder_h: {critical: 24, warning: 72}
+  reminder_max_h: 168
+  flapping_onsets_7d: 3
+  flapping_clear_h: 24
+  early_silence_warning: false
+  escalate_h: 48
+  degraded_min_h: 24
+  warnings_enabled: true

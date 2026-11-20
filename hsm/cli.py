@@ -7,6 +7,7 @@
   python -m hsm.cli dashboard --foundation FD --replay RD --out dashboard.html [--as-of T] [--serve]
   python -m hsm.cli notify-test --config CFG [--to ADDR]       # test e-mail (dry-run unless enabled in the config)
   python -m hsm.cli ack --config CFG --incident ID             # acknowledge an incident (stops escalation)
+  python -m hsm.cli notify-sample --config CFG                 # the two alert e-mails from real historical cases, marked [TEST]
   python -m hsm.cli monitor --config CFG --models MD [--once] [--now T]   # live monitoring cycle(s)
   python -m hsm.cli prepare --foundation FD --replay RD --out appdata       # data for the web app
   python -m hsm.cli app --data appdata [--port 8050] [--live-config CFG --models MD]   # interactive web app
@@ -18,7 +19,11 @@ import numpy as np, pandas as pd, yaml
 ROOT = Path(__file__).resolve().parent.parent
 
 def load_cfg(path):
+    """config file + environment: HSM_ALERT_TO (comma-separated recipients), HSM_EMAIL_ENABLED=1 (real sending), HSM_APP_URL"""
     cfg = yaml.safe_load(open(path)); n = cfg.setdefault('notifications', {})
+    if os.environ.get('HSM_ALERT_TO'): n['recipients'] = [x.strip() for x in os.environ['HSM_ALERT_TO'].split(',') if x.strip()]
+    if os.environ.get('HSM_EMAIL_ENABLED') == '1': n['enabled'] = True; n['dry_run'] = False
+    if os.environ.get('HSM_APP_URL'): n['dashboard_url'] = os.environ['HSM_APP_URL']
     return cfg
 
 def cmd_build(a):
@@ -44,10 +49,12 @@ def cmd_dashboard(a):
         d = str(Path(out).resolve().parent); h = functools.partial(http.server.SimpleHTTPRequestHandler, directory=d)
         print(f'serving http://localhost:{a.port}/{Path(out).name}'); http.server.ThreadingHTTPServer(('', a.port), h).serve_forever()
 
-def _engine(cfg):
+def _engine(cfg, fd=None):
     from hsm.notify.engine import Engine, Store
     from hsm.notify.mailer import Mailer
-    n = cfg['notifications']; return Engine(n, Store(n.get('store', './state/notifications.sqlite')), Mailer(n))
+    from hsm import system
+    n = cfg['notifications']; loc = system.device_locations(fd) if fd else {}
+    return Engine(n, Store(n.get('store', './state/notifications.sqlite')), Mailer(n), loc)
 
 def cmd_notify_test(a):
     from hsm.notify.mailer import Mailer
@@ -56,6 +63,11 @@ def cmd_notify_test(a):
     r = m.send(to, '[HSM TEST] notification channel test', 'This is a test e-mail from the Hildesheim Smart Sensor Monitoring system.\nNo action required.',
                '<p>This is a <b>test e-mail</b> from the Hildesheim Smart Sensor Monitoring system. No action required.</p>', tag=f'test_{int(time.time())}')
     print(json.dumps(dict(dry_run=m.dry, recipients=to, **r), indent=1))
+
+def cmd_notify_sample(a):
+    """send the two alert e-mails (stopped working / may stop within 24 h) built from real historical cases, marked [TEST]"""
+    from hsm.notify.samples import send_samples
+    print(json.dumps(send_samples(load_cfg(a.config)['notifications'], a.data, a.models), indent=1, default=str))
 
 def cmd_ack(a):
     e = _engine(load_cfg(a.config)); e.acknowledge(a.incident, pd.Timestamp.now('UTC').tz_localize(None)); print(f'incident {a.incident} acknowledged')
@@ -111,6 +123,7 @@ def monitor_once(cfg, models, now=None):
     run_foundation.main(cfg['data']['raw_dir'], fd, str(now), stream_end={k: (pd.Timestamp(v['newest_record']) if v['stale'] and v['newest_record'] not in (None, 'NaT') else now)
                                                                          for k, v in feed.items()})
     run_gateway.main(fd); run_battery.main(fd); run_anomaly.main(fd)
+    eng.locations = system.device_locations(fd)
     thr = {tuple(k.split('|')): v for k, v in json.load(open(Path(models) / 'warning_thresholds.json')).items()} if (Path(models) / 'warning_thresholds.json').exists() else {}
     S = system.live_snapshot(fd, models, thr)
     hour = S.hour_end.max()
@@ -158,6 +171,8 @@ def main(argv=None):
     p = sp.add_parser('dashboard'); p.add_argument('--foundation', required=True); p.add_argument('--replay', required=True); p.add_argument('--out', default='dashboard.html')
     p.add_argument('--as-of'); p.add_argument('--serve', action='store_true'); p.add_argument('--port', type=int, default=8050); p.set_defaults(f=cmd_dashboard)
     p = sp.add_parser('notify-test'); p.add_argument('--config', required=True); p.add_argument('--to'); p.set_defaults(f=cmd_notify_test)
+    p = sp.add_parser('notify-sample'); p.add_argument('--config', required=True); p.add_argument('--data', default='appdata'); p.add_argument('--models', default='models')
+    p.set_defaults(f=cmd_notify_sample)
     p = sp.add_parser('ack'); p.add_argument('--config', required=True); p.add_argument('--incident', type=int, required=True); p.set_defaults(f=cmd_ack)
     p = sp.add_parser('monitor'); p.add_argument('--config', required=True); p.add_argument('--models', required=True); p.add_argument('--once', action='store_true')
     p.add_argument('--now', help='evaluation time (default: current UTC); use a past time to simulate'); p.set_defaults(f=cmd_monitor)

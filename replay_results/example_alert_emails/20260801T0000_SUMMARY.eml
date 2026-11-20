@@ -1,0 +1,591 @@
+From: hsm-monitor@localhost
+To: admin@example.org
+Subject: [Sensor alert] Monitoring started: 9 sensors not working
+Message-ID: <27b25cba-7ced-4179-a96c-3c77d66b9a50@hsm>
+MIME-Version: 1.0
+Content-Type: multipart/alternative;
+ boundary="===============1603949345201730367=="
+
+--===============1603949345201730367==
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+
+W1NlbnNvciBhbGVydF0gTW9uaXRvcmluZyBzdGFydGVkOiA5IHNlbnNvcnMgbm90IHdvcmtpbmcK
+Ck1vbml0b3JpbmcgaGFzIHN0YXJ0ZWQuIFRoZXNlIHNlbnNvcnMgYWxyZWFkeSBoYWQgYSBwcm9i
+bGVtIGF0IHRoZSBzdGFydC4gRnJvbSBub3cgb24geW91IGdldCBvbmUgZS1tYWlsIHBlciBuZXcg
+cHJvYmxlbS4KCgo9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT0KU0VOU09SIFNUT1BQRUQgV09SS0lORwo9PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KU2Vuc29yOiAgICAgICAg
+VGVtcGVyYXR1cmUgKEFkZXVuaXMgVEVNUCBMb1JhV0FOIHRlbXBlcmF0dXJlIHNlbnNvcikKU2Vu
+c29yIElEOiAgICAgMDAxOGIyMDAwMDAyNjkwYwpEZXRlY3RlZDogICAgICAyMDI2LTA4LTAxIDAy
+OjAwIChsb2NhbCB0aW1lKQoKTE9DQVRJT04KICBUaGUgcG9zaXRpb24gb2YgdGhpcyBzZW5zb3Ig
+aXMgbm90IGluIHRoZSBkYXRhLgoKV0hBVCBXQVMgREVURUNURUQKICAtIE5vIGRhdGEgaGFzIGFy
+cml2ZWQgZm9yIDE1IGRheXMgKG5vcm1hbGx5IG9uZSBtZXNzYWdlIGV2ZXJ5IDEwIG1pbnV0ZXMp
+LgogIC0gTGFzdCBtZXNzYWdlIHJlY2VpdmVkOiAyMDI2LTA3LTE3IDEwOjMwICgxNSBkYXlzIGFn
+bykuIExhc3QgZGF0YSBzYXZlZDogMjAyNi0wNy0xNyAxMDozMC4KICAtIFRoZSBvdXRhZ2UgZGV0
+ZWN0b3IgZGVjbGFyZWQgdGhlIGJyZWFrZG93biBhdCAyMDI2LTA4LTAxIDAyOjAwIGFmdGVyIHRo
+ZSBzaWxlbmNlIGJlY2FtZSBzdGF0aXN0aWNhbGx5IGltcHJvYmFibGUgZm9yIHRoaXMgc2Vuc29y
+LgogIC0gT25seSB0aGlzIHNlbnNvciBpcyBhZmZlY3RlZDsgaXRzIGdhdGV3YXkgYW5kIHRoZSBu
+ZXR3b3JrIGFyZSB3b3JraW5nLgogIC0gQUkgZm9yZWNhc3Q6IGNoYW5jZSBpdCBpcyBzdGlsbCBu
+b3Qgd29ya2luZyB0b21vcnJvdzogOTklLgogIC0gQUkgZm9yZWNhc3Q6IGNoYW5jZSBpdCBpcyBz
+dGlsbCBub3Qgd29ya2luZyBpbiA3IGRheXM6IDcxJS4KClBST0JBQkxFIENBVVNFIChwb3NzaWJs
+ZSkKICBUaGUgc2Vuc29yIHN0b3BwZWQgc2VuZGluZy4gVGhlIGV4YWN0IHJlYXNvbiBpcyBub3Qg
+a25vd24uCgpXSEFUIFRPIERPCiAgVmlzaXQgdGhlIHNlbnNvcjogY2hlY2sgdGhhdCBpdCBpcyBz
+dGlsbCB0aGVyZSwgdW5kYW1hZ2VkIGFuZCBwb3dlcmVkLgogIFNpdGUgdmlzaXQgbmVlZGVkLgoK
+QmF0dGVyeTogTm8gcmVhZGluZyB5ZXQKCgo9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KU0VOU09SIFNUT1BQRUQgV09SS0lORwo9PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0K
+U2Vuc29yOiAgICAgICAgU29pbCBtb2lzdHVyZSAoU2Vuc290ZXJyYSBMb1JhV0FOIHNvaWwgbW9p
+c3R1cmUgcHJvYmUpClNlbnNvciBJRDogICAgIDAwODAwMDAwMDQwN2FmYjAKRGV0ZWN0ZWQ6ICAg
+ICAgMjAyNi0wOC0wMSAwMjowMCAobG9jYWwgdGltZSkKCkxPQ0FUSU9OCiAgQ29vcmRpbmF0ZXM6
+IDUyLjEzMzIwLCA5Ljk0MTY0CiAgRGlyZWN0aW9uczogIGh0dHBzOi8vd3d3Lmdvb2dsZS5jb20v
+bWFwcy9kaXIvP2FwaT0xJmRlc3RpbmF0aW9uPTUyLjEzMzIwMyw5Ljk0MTY0NCZ0cmF2ZWxtb2Rl
+PWRyaXZpbmcKCldIQVQgV0FTIERFVEVDVEVECiAgLSBObyBkYXRhIGhhcyBhcnJpdmVkIGZvciA1
+MiBkYXlzIChub3JtYWxseSBvbmUgbWVzc2FnZSBldmVyeSBob3VyKS4KICAtIExhc3QgbWVzc2Fn
+ZSByZWNlaXZlZDogMjAyNi0wNi0wOSAxNjozOSAoNTIgZGF5cyBhZ28pLiBMYXN0IGRhdGEgc2F2
+ZWQ6IDIwMjYtMDYtMDkgMTY6MzkuCiAgLSBUaGUgb3V0YWdlIGRldGVjdG9yIGRlY2xhcmVkIHRo
+ZSBicmVha2Rvd24gYXQgMjAyNi0wOC0wMSAwMjowMCBhZnRlciB0aGUgc2lsZW5jZSBiZWNhbWUg
+c3RhdGlzdGljYWxseSBpbXByb2JhYmxlIGZvciB0aGlzIHNlbnNvci4KICAtIE9ubHkgdGhpcyBz
+ZW5zb3IgaXMgYWZmZWN0ZWQ7IGl0cyBnYXRld2F5IGFuZCB0aGUgbmV0d29yayBhcmUgd29ya2lu
+Zy4KICAtIEFJIGZvcmVjYXN0OiBjaGFuY2UgaXQgaXMgc3RpbGwgbm90IHdvcmtpbmcgdG9tb3Jy
+b3c6IDk5JS4KICAtIEFJIGZvcmVjYXN0OiBjaGFuY2UgaXQgaXMgc3RpbGwgbm90IHdvcmtpbmcg
+aW4gNyBkYXlzOiA5OCUuCgpQUk9CQUJMRSBDQVVTRSAocG9zc2libGUpCiAgVGhlIHNlbnNvciBz
+dG9wcGVkIHNlbmRpbmcuIFRoZSBleGFjdCByZWFzb24gaXMgbm90IGtub3duLgoKV0hBVCBUTyBE
+TwogIFZpc2l0IHRoZSBzZW5zb3I6IGNoZWNrIHRoYXQgaXQgaXMgc3RpbGwgdGhlcmUsIHVuZGFt
+YWdlZCBhbmQgcG93ZXJlZC4KICBTaXRlIHZpc2l0IG5lZWRlZC4KCkJhdHRlcnk6IFNlYWxlZCBi
+YXR0ZXJ5CgoKPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09ClNFTlNPUiBTVE9QUEVEIFdPUktJTkcKPT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09ClNlbnNvcjogICAgICAgIFNv
+aWwgbW9pc3R1cmUgKFNlbnNvdGVycmEgTG9SYVdBTiBzb2lsIG1vaXN0dXJlIHByb2JlKQpTZW5z
+b3IgSUQ6ICAgICAwMDgwMDAwMDA0MDgyOTNkCkRldGVjdGVkOiAgICAgIDIwMjYtMDgtMDEgMDI6
+MDAgKGxvY2FsIHRpbWUpCgpMT0NBVElPTgogIFRoZSBwb3NpdGlvbiBvZiB0aGlzIHNlbnNvciBp
+cyBub3QgaW4gdGhlIGRhdGEuCgpXSEFUIFdBUyBERVRFQ1RFRAogIC0gTm8gZGF0YSBoYXMgYXJy
+aXZlZCBmb3IgNjYgZGF5cyAobm9ybWFsbHkgb25lIG1lc3NhZ2UgZXZlcnkgaG91cikuCiAgLSBM
+YXN0IG1lc3NhZ2UgcmVjZWl2ZWQ6IDIwMjYtMDUtMjcgMTE6MjcgKDY2IGRheXMgYWdvKS4gTGFz
+dCBkYXRhIHNhdmVkOiAyMDI2LTA1LTI3IDExOjI3LgogIC0gVGhlIG91dGFnZSBkZXRlY3RvciBk
+ZWNsYXJlZCB0aGUgYnJlYWtkb3duIGF0IDIwMjYtMDgtMDEgMDI6MDAgYWZ0ZXIgdGhlIHNpbGVu
+Y2UgYmVjYW1lIHN0YXRpc3RpY2FsbHkgaW1wcm9iYWJsZSBmb3IgdGhpcyBzZW5zb3IuCiAgLSBP
+bmx5IHRoaXMgc2Vuc29yIGlzIGFmZmVjdGVkOyBpdHMgZ2F0ZXdheSBhbmQgdGhlIG5ldHdvcmsg
+YXJlIHdvcmtpbmcuCiAgLSBBSSBmb3JlY2FzdDogY2hhbmNlIGl0IGlzIHN0aWxsIG5vdCB3b3Jr
+aW5nIHRvbW9ycm93OiA5OSUuCiAgLSBBSSBmb3JlY2FzdDogY2hhbmNlIGl0IGlzIHN0aWxsIG5v
+dCB3b3JraW5nIGluIDcgZGF5czogOTglLgoKUFJPQkFCTEUgQ0FVU0UgKHBvc3NpYmxlKQogIFRo
+ZSBzZW5zb3Igc3RvcHBlZCBzZW5kaW5nLiBUaGUgZXhhY3QgcmVhc29uIGlzIG5vdCBrbm93bi4K
+CldIQVQgVE8gRE8KICBWaXNpdCB0aGUgc2Vuc29yOiBjaGVjayB0aGF0IGl0IGlzIHN0aWxsIHRo
+ZXJlLCB1bmRhbWFnZWQgYW5kIHBvd2VyZWQuCiAgU2l0ZSB2aXNpdCBuZWVkZWQuCgpCYXR0ZXJ5
+OiBTZWFsZWQgYmF0dGVyeQoKCj09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PQpTRU5TT1IgU1RPUFBFRCBXT1JLSU5HCj09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQpTZW5zb3I6
+ICAgICAgICBTb2lsIG1vaXN0dXJlIChTZW5zb3RlcnJhIExvUmFXQU4gc29pbCBtb2lzdHVyZSBw
+cm9iZSkKU2Vuc29yIElEOiAgICAgMDA4MDAwMDAwNDA4Mjk1YwpEZXRlY3RlZDogICAgICAyMDI2
+LTA4LTAxIDAyOjAwIChsb2NhbCB0aW1lKQoKTE9DQVRJT04KICBDb29yZGluYXRlczogNTIuMTQy
+MDYsIDkuOTQ2MzgKICBEaXJlY3Rpb25zOiAgaHR0cHM6Ly93d3cuZ29vZ2xlLmNvbS9tYXBzL2Rp
+ci8/YXBpPTEmZGVzdGluYXRpb249NTIuMTQyMDU3LDkuOTQ2MzgyJnRyYXZlbG1vZGU9ZHJpdmlu
+ZwoKV0hBVCBXQVMgREVURUNURUQKICAtIE5vIGRhdGEgaGFzIGFycml2ZWQgZm9yIDEwIGRheXMg
+KG5vcm1hbGx5IG9uZSBtZXNzYWdlIGV2ZXJ5IGhvdXIpLgogIC0gTGFzdCBtZXNzYWdlIHJlY2Vp
+dmVkOiAyMDI2LTA3LTIyIDAwOjUxICgxMCBkYXlzIGFnbykuIExhc3QgZGF0YSBzYXZlZDogMjAy
+Ni0wNy0yMiAwMDo1MS4KICAtIFRoZSBvdXRhZ2UgZGV0ZWN0b3IgZGVjbGFyZWQgdGhlIGJyZWFr
+ZG93biBhdCAyMDI2LTA4LTAxIDAyOjAwIGFmdGVyIHRoZSBzaWxlbmNlIGJlY2FtZSBzdGF0aXN0
+aWNhbGx5IGltcHJvYmFibGUgZm9yIHRoaXMgc2Vuc29yLgogIC0gT25seSB0aGlzIHNlbnNvciBp
+cyBhZmZlY3RlZDsgaXRzIGdhdGV3YXkgYW5kIHRoZSBuZXR3b3JrIGFyZSB3b3JraW5nLgogIC0g
+QUkgZm9yZWNhc3Q6IGNoYW5jZSBpdCBpcyBzdGlsbCBub3Qgd29ya2luZyB0b21vcnJvdzogOTgl
+LgogIC0gQUkgZm9yZWNhc3Q6IGNoYW5jZSBpdCBpcyBzdGlsbCBub3Qgd29ya2luZyBpbiA3IGRh
+eXM6IDkwJS4KClBST0JBQkxFIENBVVNFIChwb3NzaWJsZSkKICBUaGUgc2Vuc29yIHN0b3BwZWQg
+c2VuZGluZy4gVGhlIGV4YWN0IHJlYXNvbiBpcyBub3Qga25vd24uCgpXSEFUIFRPIERPCiAgVmlz
+aXQgdGhlIHNlbnNvcjogY2hlY2sgdGhhdCBpdCBpcyBzdGlsbCB0aGVyZSwgdW5kYW1hZ2VkIGFu
+ZCBwb3dlcmVkLgogIFNpdGUgdmlzaXQgbmVlZGVkLgoKQmF0dGVyeTogU2VhbGVkIGJhdHRlcnkK
+Cgo9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT0KU0VOU09SIFNUT1BQRUQgV09SS0lORwo9PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KU2Vuc29yOiAgICAgICAgU29pbCBtb2lz
+dHVyZSAoU2Vuc290ZXJyYSBMb1JhV0FOIHNvaWwgbW9pc3R1cmUgcHJvYmUpClNlbnNvciBJRDog
+ICAgIDAwODAwMDAwMDQwODI5NjMKRGV0ZWN0ZWQ6ICAgICAgMjAyNi0wOC0wMSAwMjowMCAobG9j
+YWwgdGltZSkKCkxPQ0FUSU9OCiAgQ29vcmRpbmF0ZXM6IDUyLjEzMjkzLCA5Ljk0Mjc2CiAgRGly
+ZWN0aW9uczogIGh0dHBzOi8vd3d3Lmdvb2dsZS5jb20vbWFwcy9kaXIvP2FwaT0xJmRlc3RpbmF0
+aW9uPTUyLjEzMjkzNCw5Ljk0Mjc1OSZ0cmF2ZWxtb2RlPWRyaXZpbmcKCldIQVQgV0FTIERFVEVD
+VEVECiAgLSBObyBkYXRhIGhhcyBhcnJpdmVkIGZvciA5NiBkYXlzIChub3JtYWxseSBvbmUgbWVz
+c2FnZSBldmVyeSBob3VyKS4KICAtIExhc3QgbWVzc2FnZSByZWNlaXZlZDogMjAyNi0wNC0yNiAy
+MTo1MyAoOTYgZGF5cyBhZ28pLiBMYXN0IGRhdGEgc2F2ZWQ6IDIwMjYtMDQtMjYgMjE6NTMuCiAg
+LSBUaGUgb3V0YWdlIGRldGVjdG9yIGRlY2xhcmVkIHRoZSBicmVha2Rvd24gYXQgMjAyNi0wOC0w
+MSAwMjowMCBhZnRlciB0aGUgc2lsZW5jZSBiZWNhbWUgc3RhdGlzdGljYWxseSBpbXByb2JhYmxl
+IGZvciB0aGlzIHNlbnNvci4KICAtIE9ubHkgdGhpcyBzZW5zb3IgaXMgYWZmZWN0ZWQ7IGl0cyBn
+YXRld2F5IGFuZCB0aGUgbmV0d29yayBhcmUgd29ya2luZy4KICAtIEFJIGZvcmVjYXN0OiBjaGFu
+Y2UgaXQgaXMgc3RpbGwgbm90IHdvcmtpbmcgdG9tb3Jyb3c6IDk5JS4KICAtIEFJIGZvcmVjYXN0
+OiBjaGFuY2UgaXQgaXMgc3RpbGwgbm90IHdvcmtpbmcgaW4gNyBkYXlzOiA5OCUuCgpQUk9CQUJM
+RSBDQVVTRSAocG9zc2libGUpCiAgVGhlIHNlbnNvciBzdG9wcGVkIHNlbmRpbmcuIFRoZSBleGFj
+dCByZWFzb24gaXMgbm90IGtub3duLgoKV0hBVCBUTyBETwogIFZpc2l0IHRoZSBzZW5zb3I6IGNo
+ZWNrIHRoYXQgaXQgaXMgc3RpbGwgdGhlcmUsIHVuZGFtYWdlZCBhbmQgcG93ZXJlZC4KICBTaXRl
+IHZpc2l0IG5lZWRlZC4KCkJhdHRlcnk6IFNlYWxlZCBiYXR0ZXJ5CgoKPT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09ClNFTlNPUiBTVE9Q
+UEVEIFdPUktJTkcKPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09ClNlbnNvcjogICAgICAgIFNvaWwgbW9pc3R1cmUgKFNlbnNvdGVycmEg
+TG9SYVdBTiBzb2lsIG1vaXN0dXJlIHByb2JlKQpTZW5zb3IgSUQ6ICAgICAwMDgwMDAwMDA0MDgy
+OTZlCkRldGVjdGVkOiAgICAgIDIwMjYtMDgtMDEgMDI6MDAgKGxvY2FsIHRpbWUpCgpMT0NBVElP
+TgogIENvb3JkaW5hdGVzOiA1Mi4xMzIxOCwgOS45Mzk0OAogIERpcmVjdGlvbnM6ICBodHRwczov
+L3d3dy5nb29nbGUuY29tL21hcHMvZGlyLz9hcGk9MSZkZXN0aW5hdGlvbj01Mi4xMzIxNzYsOS45
+Mzk0ODQmdHJhdmVsbW9kZT1kcml2aW5nCgpXSEFUIFdBUyBERVRFQ1RFRAogIC0gTm8gZGF0YSBo
+YXMgYXJyaXZlZCBmb3IgNzcgZGF5cyAobm9ybWFsbHkgb25lIG1lc3NhZ2UgZXZlcnkgaG91ciku
+CiAgLSBMYXN0IG1lc3NhZ2UgcmVjZWl2ZWQ6IDIwMjYtMDUtMTYgMDg6MzIgKDc3IGRheXMgYWdv
+KS4gTGFzdCBkYXRhIHNhdmVkOiAyMDI2LTA1LTE2IDA4OjMyLgogIC0gVGhlIG91dGFnZSBkZXRl
+Y3RvciBkZWNsYXJlZCB0aGUgYnJlYWtkb3duIGF0IDIwMjYtMDgtMDEgMDI6MDAgYWZ0ZXIgdGhl
+IHNpbGVuY2UgYmVjYW1lIHN0YXRpc3RpY2FsbHkgaW1wcm9iYWJsZSBmb3IgdGhpcyBzZW5zb3Iu
+CiAgLSBPbmx5IHRoaXMgc2Vuc29yIGlzIGFmZmVjdGVkOyBpdHMgZ2F0ZXdheSBhbmQgdGhlIG5l
+dHdvcmsgYXJlIHdvcmtpbmcuCiAgLSBBSSBmb3JlY2FzdDogY2hhbmNlIGl0IGlzIHN0aWxsIG5v
+dCB3b3JraW5nIHRvbW9ycm93OiA5OSUuCiAgLSBBSSBmb3JlY2FzdDogY2hhbmNlIGl0IGlzIHN0
+aWxsIG5vdCB3b3JraW5nIGluIDcgZGF5czogOTglLgoKUFJPQkFCTEUgQ0FVU0UgKHBvc3NpYmxl
+KQogIFRoZSBzZW5zb3Igc3RvcHBlZCBzZW5kaW5nLiBUaGUgZXhhY3QgcmVhc29uIGlzIG5vdCBr
+bm93bi4KCldIQVQgVE8gRE8KICBWaXNpdCB0aGUgc2Vuc29yOiBjaGVjayB0aGF0IGl0IGlzIHN0
+aWxsIHRoZXJlLCB1bmRhbWFnZWQgYW5kIHBvd2VyZWQuCiAgU2l0ZSB2aXNpdCBuZWVkZWQuCgpC
+YXR0ZXJ5OiBTZWFsZWQgYmF0dGVyeQoKCj09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PQpTRU5TT1IgU1RPUFBFRCBXT1JLSU5HCj09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQpT
+ZW5zb3I6ICAgICAgICBTb2lsIG1vaXN0dXJlIChTZW5zb3RlcnJhIExvUmFXQU4gc29pbCBtb2lz
+dHVyZSBwcm9iZSkKU2Vuc29yIElEOiAgICAgMDA4MDAwMDAwNDA4Mjk5YwpEZXRlY3RlZDogICAg
+ICAyMDI2LTA4LTAxIDAyOjAwIChsb2NhbCB0aW1lKQoKTE9DQVRJT04KICBDb29yZGluYXRlczog
+NTIuMTI3NTMsIDkuOTQ4MTkgICAobmVhciBnYXRld2F5IFLDtm1lcnJpbmcpCiAgRGlyZWN0aW9u
+czogIGh0dHBzOi8vd3d3Lmdvb2dsZS5jb20vbWFwcy9kaXIvP2FwaT0xJmRlc3RpbmF0aW9uPTUy
+LjEyNzUzNCw5Ljk0ODE5MSZ0cmF2ZWxtb2RlPWRyaXZpbmcKCldIQVQgV0FTIERFVEVDVEVECiAg
+LSBObyBkYXRhIGhhcyBhcnJpdmVkIGZvciA2IGRheXMgKG5vcm1hbGx5IG9uZSBtZXNzYWdlIGV2
+ZXJ5IGhvdXIpLgogIC0gTGFzdCBtZXNzYWdlIHJlY2VpdmVkOiAyMDI2LTA3LTI2IDA0OjQyICg2
+IGRheXMgYWdvKS4gTGFzdCBkYXRhIHNhdmVkOiAyMDI2LTA3LTI2IDA0OjQyLgogIC0gVGhlIG91
+dGFnZSBkZXRlY3RvciBkZWNsYXJlZCB0aGUgYnJlYWtkb3duIGF0IDIwMjYtMDgtMDEgMDI6MDAg
+YWZ0ZXIgdGhlIHNpbGVuY2UgYmVjYW1lIHN0YXRpc3RpY2FsbHkgaW1wcm9iYWJsZSBmb3IgdGhp
+cyBzZW5zb3IuCiAgLSBPbmx5IHRoaXMgc2Vuc29yIGlzIGFmZmVjdGVkOyBpdHMgZ2F0ZXdheSBh
+bmQgdGhlIG5ldHdvcmsgYXJlIHdvcmtpbmcuCiAgLSBBSSBmb3JlY2FzdDogY2hhbmNlIGl0IGlz
+IHN0aWxsIG5vdCB3b3JraW5nIHRvbW9ycm93OiA5OCUuCiAgLSBBSSBmb3JlY2FzdDogY2hhbmNl
+IGl0IGlzIHN0aWxsIG5vdCB3b3JraW5nIGluIDcgZGF5czogOTUlLgoKUFJPQkFCTEUgQ0FVU0Ug
+KGxpa2VseSkKICBUaGUgcmFkaW8gc2lnbmFsIGlzIHdlYWsuCgpXSEFUIFRPIERPCiAgQ2hlY2sg
+dGhlIGFudGVubmEgYW5kIG5ldyBvYnN0YWNsZXMgKHRyZWVzLCBidWlsZGluZ3MpLiBDb25zaWRl
+ciBtb3ZpbmcgdGhlIHNlbnNvci4KICBTaXRlIHZpc2l0IG5lZWRlZC4KCkJhdHRlcnk6IFNlYWxl
+ZCBiYXR0ZXJ5CgoKPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09ClNFTlNPUiBTVE9QUEVEIFdPUktJTkcKPT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09ClNlbnNvcjogICAgICAg
+IFNvaWwgbW9pc3R1cmUgKFNlbnNvdGVycmEgTG9SYVdBTiBzb2lsIG1vaXN0dXJlIHByb2JlKQpT
+ZW5zb3IgSUQ6ICAgICAwMDgwMDAwMDA0MDgyYWY5CkRldGVjdGVkOiAgICAgIDIwMjYtMDgtMDEg
+MDI6MDAgKGxvY2FsIHRpbWUpCgpMT0NBVElPTgogIENvb3JkaW5hdGVzOiA1Mi4xMjU4NiwgOS45
+NDQwNQogIERpcmVjdGlvbnM6ICBodHRwczovL3d3dy5nb29nbGUuY29tL21hcHMvZGlyLz9hcGk9
+MSZkZXN0aW5hdGlvbj01Mi4xMjU4NjEsOS45NDQwNTImdHJhdmVsbW9kZT1kcml2aW5nCgpXSEFU
+IFdBUyBERVRFQ1RFRAogIC0gTm8gZGF0YSBoYXMgYXJyaXZlZCBmb3IgODkgZGF5cyAobm9ybWFs
+bHkgb25lIG1lc3NhZ2UgZXZlcnkgaG91cikuCiAgLSBMYXN0IG1lc3NhZ2UgcmVjZWl2ZWQ6IDIw
+MjYtMDUtMDQgMDc6NTQgKDg5IGRheXMgYWdvKS4gTGFzdCBkYXRhIHNhdmVkOiAyMDI2LTA1LTA0
+IDA3OjU0LgogIC0gVGhlIG91dGFnZSBkZXRlY3RvciBkZWNsYXJlZCB0aGUgYnJlYWtkb3duIGF0
+IDIwMjYtMDgtMDEgMDI6MDAgYWZ0ZXIgdGhlIHNpbGVuY2UgYmVjYW1lIHN0YXRpc3RpY2FsbHkg
+aW1wcm9iYWJsZSBmb3IgdGhpcyBzZW5zb3IuCiAgLSBPbmx5IHRoaXMgc2Vuc29yIGlzIGFmZmVj
+dGVkOyBpdHMgZ2F0ZXdheSBhbmQgdGhlIG5ldHdvcmsgYXJlIHdvcmtpbmcuCiAgLSBBSSBmb3Jl
+Y2FzdDogY2hhbmNlIGl0IGlzIHN0aWxsIG5vdCB3b3JraW5nIHRvbW9ycm93OiAxMDAlLgogIC0g
+QUkgZm9yZWNhc3Q6IGNoYW5jZSBpdCBpcyBzdGlsbCBub3Qgd29ya2luZyBpbiA3IGRheXM6IDk5
+JS4KClBST0JBQkxFIENBVVNFIChwb3NzaWJsZSkKICBUaGUgc2Vuc29yIHN0b3BwZWQgc2VuZGlu
+Zy4gVGhlIGV4YWN0IHJlYXNvbiBpcyBub3Qga25vd24uCgpXSEFUIFRPIERPCiAgVmlzaXQgdGhl
+IHNlbnNvcjogY2hlY2sgdGhhdCBpdCBpcyBzdGlsbCB0aGVyZSwgdW5kYW1hZ2VkIGFuZCBwb3dl
+cmVkLgogIFNpdGUgdmlzaXQgbmVlZGVkLgoKQmF0dGVyeTogU2VhbGVkIGJhdHRlcnkKCgo9PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0K
+U0VOU09SIFNUT1BQRUQgV09SS0lORwo9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT0KU2Vuc29yOiAgICAgICAgU29pbCBtb2lzdHVyZSAo
+U2Vuc290ZXJyYSBMb1JhV0FOIHNvaWwgbW9pc3R1cmUgcHJvYmUpClNlbnNvciBJRDogICAgIDAw
+ODAwMDAwMDQwODJiMGYKRGV0ZWN0ZWQ6ICAgICAgMjAyNi0wOC0wMSAwMjowMCAobG9jYWwgdGlt
+ZSkKCkxPQ0FUSU9OCiAgVGhlIHBvc2l0aW9uIG9mIHRoaXMgc2Vuc29yIGlzIG5vdCBpbiB0aGUg
+ZGF0YS4KCldIQVQgV0FTIERFVEVDVEVECiAgLSBObyBkYXRhIGhhcyBhcnJpdmVkIGZvciAxMDUg
+ZGF5cyAobm9ybWFsbHkgb25lIG1lc3NhZ2UgZXZlcnkgaG91cikuCiAgLSBMYXN0IG1lc3NhZ2Ug
+cmVjZWl2ZWQ6IDIwMjYtMDQtMTggMDU6MzQgKDEwNSBkYXlzIGFnbykuIExhc3QgZGF0YSBzYXZl
+ZDogMjAyNi0wNC0xOCAwNTozNC4KICAtIFRoZSBvdXRhZ2UgZGV0ZWN0b3IgZGVjbGFyZWQgdGhl
+IGJyZWFrZG93biBhdCAyMDI2LTA4LTAxIDAyOjAwIGFmdGVyIHRoZSBzaWxlbmNlIGJlY2FtZSBz
+dGF0aXN0aWNhbGx5IGltcHJvYmFibGUgZm9yIHRoaXMgc2Vuc29yLgogIC0gT25seSB0aGlzIHNl
+bnNvciBpcyBhZmZlY3RlZDsgaXRzIGdhdGV3YXkgYW5kIHRoZSBuZXR3b3JrIGFyZSB3b3JraW5n
+LgogIC0gQUkgZm9yZWNhc3Q6IGNoYW5jZSBpdCBpcyBzdGlsbCBub3Qgd29ya2luZyB0b21vcnJv
+dzogOTklLgogIC0gQUkgZm9yZWNhc3Q6IGNoYW5jZSBpdCBpcyBzdGlsbCBub3Qgd29ya2luZyBp
+biA3IGRheXM6IDk4JS4KClBST0JBQkxFIENBVVNFIChwb3NzaWJsZSkKICBUaGUgc2Vuc29yIHN0
+b3BwZWQgc2VuZGluZy4gVGhlIGV4YWN0IHJlYXNvbiBpcyBub3Qga25vd24uCgpXSEFUIFRPIERP
+CiAgVmlzaXQgdGhlIHNlbnNvcjogY2hlY2sgdGhhdCBpdCBpcyBzdGlsbCB0aGVyZSwgdW5kYW1h
+Z2VkIGFuZCBwb3dlcmVkLgogIFNpdGUgdmlzaXQgbmVlZGVkLgoKQmF0dGVyeTogU2VhbGVkIGJh
+dHRlcnkKCgoKLS0gClNtYXJ0IFNlbnNvciBNb25pdG9yaW5nIEhpbGRlc2hlaW0uIEF1dG9tYXRp
+YyBtZXNzYWdlLCBzZW50IG9ubHkgd2hlbiBhIHNlbnNvciBzdG9wcyB3b3JraW5nIG9yIG1heSBz
+dG9wIHdpdGhpbiAyNCBob3Vycy4K
+
+--===============1603949345201730367==
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+
+<!DOCTYPE html><html><body style=3D"margin:0;background:#f3f5f8;font-family:S=
+egoe UI,Helvetica,Arial,sans-serif;color:#17202b">
+<div style=3D"max-width:640px;margin:0 auto;padding:18px">
+<div style=3D"background:#0f2a4a;color:#fff;border-radius:12px 12px 0 0;paddi=
+ng:14px 18px;font-size:18px;font-weight:700">=F0=9F=93=A1 Smart Sensor Monito=
+ring =C2=B7 Hildesheim</div>
+<div style=3D"background:#fff;border-radius:0 0 12px 12px;padding:18px">
+<p style=3D"margin-top:0">Monitoring has started. These sensors already had a=
+ problem at the start. From now on you get <b>one e-mail per new problem</b>.=
+</p>
+
+
+<div style=3D"border:1px solid #e2e7ee;border-left:7px solid #d32f2f;border-r=
+adius:10px;padding:14px 16px;margin:0 0 16px">
+  <div style=3D"font-size:19px;font-weight:800;color:#d32f2f">=E2=9B=94 Senso=
+r stopped working</div>
+  <div style=3D"font-size:16px;margin-top:6px">=F0=9F=8C=A1=EF=B8=8F <b>Tempe=
+rature</b> =C2=B7 Adeunis TEMP LoRaWAN temperature sensor</div>
+  <div style=3D"color:#5f6c7b;font-size:13px">Sensor ID 0018b2000002690c =C2=
+=B7 detected 2026-08-01 02:00 (local time)</div>
+
+  <div style=3D"margin-top:12px;font-weight:700">=F0=9F=93=8D Location</div>
+  <div>The position of this sensor is not in the data.</div>
+
+  <div style=3D"margin-top:14px;font-weight:700">=F0=9F=94=8E What was detect=
+ed</div>
+  <ul style=3D"margin:6px 0 0 18px;padding:0"><li style=3D"margin:3px 0">No d=
+ata has arrived for 15 days (normally one message every 10 minutes).</li><li =
+style=3D"margin:3px 0">Last message received: 2026-07-17 10:30 (15 days ago).=
+ Last data saved: 2026-07-17 10:30.</li><li style=3D"margin:3px 0">The outage=
+ detector declared the breakdown at 2026-08-01 02:00 after the silence became=
+ statistically improbable for this sensor.</li><li style=3D"margin:3px 0">Onl=
+y this sensor is affected; its gateway and the network are working.</li><li s=
+tyle=3D"margin:3px 0">AI forecast: chance it is still not working tomorrow: 9=
+9%.</li><li style=3D"margin:3px 0">AI forecast: chance it is still not workin=
+g in 7 days: 71%.</li></ul>
+  <div style=3D"margin-top:12px"><b>Probable cause</b> (possible): The sensor=
+ stopped sending. The exact reason is not known.</div>
+  <div style=3D"margin-top:12px;background:#f1f7ff;border-left:5px solid #256=
+3eb;padding:10px 12px;border-radius:6px;font-weight:600">=F0=9F=91=89 Visit t=
+he sensor: check that it is still there, undamaged and powered.
+    <span style=3D"display:inline-block;margin-left:6px;font-size:12px;paddin=
+g:2px 8px;border-radius:12px;background:#ffe3e3;color:#b42318">Site visit nee=
+ded</span></div>
+  <div style=3D"margin-top:10px;font-size:14px">=F0=9F=94=8B Battery: No read=
+ing yet</div>
+</div>
+
+<div style=3D"border:1px solid #e2e7ee;border-left:7px solid #d32f2f;border-r=
+adius:10px;padding:14px 16px;margin:0 0 16px">
+  <div style=3D"font-size:19px;font-weight:800;color:#d32f2f">=E2=9B=94 Senso=
+r stopped working</div>
+  <div style=3D"font-size:16px;margin-top:6px">=F0=9F=92=A7 <b>Soil moisture<=
+/b> =C2=B7 Sensoterra LoRaWAN soil moisture probe</div>
+  <div style=3D"color:#5f6c7b;font-size:13px">Sensor ID 008000000407afb0 =C2=
+=B7 detected 2026-08-01 02:00 (local time)</div>
+
+  <div style=3D"margin-top:12px;font-weight:700">=F0=9F=93=8D Location</div>
+ =20
+  <div>52.13320, 9.94164</div>
+ =20
+  <a href=3D"https://www.google.com/maps/dir/?api=3D1&amp;destination=3D52.13=
+3203,9.941644&amp;travelmode=3Ddriving" style=3D"display:inline-block;margin-=
+top:8px;background:#2e9e5b;color:#fff;text-decoration:none;font-weight:700;pa=
+dding:9px 14px;border-radius:8px">=F0=9F=A7=AD Directions in Google Maps</a>
+ =20
+
+  <div style=3D"margin-top:14px;font-weight:700">=F0=9F=94=8E What was detect=
+ed</div>
+  <ul style=3D"margin:6px 0 0 18px;padding:0"><li style=3D"margin:3px 0">No d=
+ata has arrived for 52 days (normally one message every hour).</li><li style=
+=3D"margin:3px 0">Last message received: 2026-06-09 16:39 (52 days ago). Last=
+ data saved: 2026-06-09 16:39.</li><li style=3D"margin:3px 0">The outage dete=
+ctor declared the breakdown at 2026-08-01 02:00 after the silence became stat=
+istically improbable for this sensor.</li><li style=3D"margin:3px 0">Only thi=
+s sensor is affected; its gateway and the network are working.</li><li style=
+=3D"margin:3px 0">AI forecast: chance it is still not working tomorrow: 99%.<=
+/li><li style=3D"margin:3px 0">AI forecast: chance it is still not working in=
+ 7 days: 98%.</li></ul>
+  <div style=3D"margin-top:12px"><b>Probable cause</b> (possible): The sensor=
+ stopped sending. The exact reason is not known.</div>
+  <div style=3D"margin-top:12px;background:#f1f7ff;border-left:5px solid #256=
+3eb;padding:10px 12px;border-radius:6px;font-weight:600">=F0=9F=91=89 Visit t=
+he sensor: check that it is still there, undamaged and powered.
+    <span style=3D"display:inline-block;margin-left:6px;font-size:12px;paddin=
+g:2px 8px;border-radius:12px;background:#ffe3e3;color:#b42318">Site visit nee=
+ded</span></div>
+  <div style=3D"margin-top:10px;font-size:14px">=F0=9F=94=8B Battery: Sealed =
+battery</div>
+</div>
+
+<div style=3D"border:1px solid #e2e7ee;border-left:7px solid #d32f2f;border-r=
+adius:10px;padding:14px 16px;margin:0 0 16px">
+  <div style=3D"font-size:19px;font-weight:800;color:#d32f2f">=E2=9B=94 Senso=
+r stopped working</div>
+  <div style=3D"font-size:16px;margin-top:6px">=F0=9F=92=A7 <b>Soil moisture<=
+/b> =C2=B7 Sensoterra LoRaWAN soil moisture probe</div>
+  <div style=3D"color:#5f6c7b;font-size:13px">Sensor ID 008000000408293d =C2=
+=B7 detected 2026-08-01 02:00 (local time)</div>
+
+  <div style=3D"margin-top:12px;font-weight:700">=F0=9F=93=8D Location</div>
+  <div>The position of this sensor is not in the data.</div>
+
+  <div style=3D"margin-top:14px;font-weight:700">=F0=9F=94=8E What was detect=
+ed</div>
+  <ul style=3D"margin:6px 0 0 18px;padding:0"><li style=3D"margin:3px 0">No d=
+ata has arrived for 66 days (normally one message every hour).</li><li style=
+=3D"margin:3px 0">Last message received: 2026-05-27 11:27 (66 days ago). Last=
+ data saved: 2026-05-27 11:27.</li><li style=3D"margin:3px 0">The outage dete=
+ctor declared the breakdown at 2026-08-01 02:00 after the silence became stat=
+istically improbable for this sensor.</li><li style=3D"margin:3px 0">Only thi=
+s sensor is affected; its gateway and the network are working.</li><li style=
+=3D"margin:3px 0">AI forecast: chance it is still not working tomorrow: 99%.<=
+/li><li style=3D"margin:3px 0">AI forecast: chance it is still not working in=
+ 7 days: 98%.</li></ul>
+  <div style=3D"margin-top:12px"><b>Probable cause</b> (possible): The sensor=
+ stopped sending. The exact reason is not known.</div>
+  <div style=3D"margin-top:12px;background:#f1f7ff;border-left:5px solid #256=
+3eb;padding:10px 12px;border-radius:6px;font-weight:600">=F0=9F=91=89 Visit t=
+he sensor: check that it is still there, undamaged and powered.
+    <span style=3D"display:inline-block;margin-left:6px;font-size:12px;paddin=
+g:2px 8px;border-radius:12px;background:#ffe3e3;color:#b42318">Site visit nee=
+ded</span></div>
+  <div style=3D"margin-top:10px;font-size:14px">=F0=9F=94=8B Battery: Sealed =
+battery</div>
+</div>
+
+<div style=3D"border:1px solid #e2e7ee;border-left:7px solid #d32f2f;border-r=
+adius:10px;padding:14px 16px;margin:0 0 16px">
+  <div style=3D"font-size:19px;font-weight:800;color:#d32f2f">=E2=9B=94 Senso=
+r stopped working</div>
+  <div style=3D"font-size:16px;margin-top:6px">=F0=9F=92=A7 <b>Soil moisture<=
+/b> =C2=B7 Sensoterra LoRaWAN soil moisture probe</div>
+  <div style=3D"color:#5f6c7b;font-size:13px">Sensor ID 008000000408295c =C2=
+=B7 detected 2026-08-01 02:00 (local time)</div>
+
+  <div style=3D"margin-top:12px;font-weight:700">=F0=9F=93=8D Location</div>
+ =20
+  <div>52.14206, 9.94638</div>
+ =20
+  <a href=3D"https://www.google.com/maps/dir/?api=3D1&amp;destination=3D52.14=
+2057,9.946382&amp;travelmode=3Ddriving" style=3D"display:inline-block;margin-=
+top:8px;background:#2e9e5b;color:#fff;text-decoration:none;font-weight:700;pa=
+dding:9px 14px;border-radius:8px">=F0=9F=A7=AD Directions in Google Maps</a>
+ =20
+
+  <div style=3D"margin-top:14px;font-weight:700">=F0=9F=94=8E What was detect=
+ed</div>
+  <ul style=3D"margin:6px 0 0 18px;padding:0"><li style=3D"margin:3px 0">No d=
+ata has arrived for 10 days (normally one message every hour).</li><li style=
+=3D"margin:3px 0">Last message received: 2026-07-22 00:51 (10 days ago). Last=
+ data saved: 2026-07-22 00:51.</li><li style=3D"margin:3px 0">The outage dete=
+ctor declared the breakdown at 2026-08-01 02:00 after the silence became stat=
+istically improbable for this sensor.</li><li style=3D"margin:3px 0">Only thi=
+s sensor is affected; its gateway and the network are working.</li><li style=
+=3D"margin:3px 0">AI forecast: chance it is still not working tomorrow: 98%.<=
+/li><li style=3D"margin:3px 0">AI forecast: chance it is still not working in=
+ 7 days: 90%.</li></ul>
+  <div style=3D"margin-top:12px"><b>Probable cause</b> (possible): The sensor=
+ stopped sending. The exact reason is not known.</div>
+  <div style=3D"margin-top:12px;background:#f1f7ff;border-left:5px solid #256=
+3eb;padding:10px 12px;border-radius:6px;font-weight:600">=F0=9F=91=89 Visit t=
+he sensor: check that it is still there, undamaged and powered.
+    <span style=3D"display:inline-block;margin-left:6px;font-size:12px;paddin=
+g:2px 8px;border-radius:12px;background:#ffe3e3;color:#b42318">Site visit nee=
+ded</span></div>
+  <div style=3D"margin-top:10px;font-size:14px">=F0=9F=94=8B Battery: Sealed =
+battery</div>
+</div>
+
+<div style=3D"border:1px solid #e2e7ee;border-left:7px solid #d32f2f;border-r=
+adius:10px;padding:14px 16px;margin:0 0 16px">
+  <div style=3D"font-size:19px;font-weight:800;color:#d32f2f">=E2=9B=94 Senso=
+r stopped working</div>
+  <div style=3D"font-size:16px;margin-top:6px">=F0=9F=92=A7 <b>Soil moisture<=
+/b> =C2=B7 Sensoterra LoRaWAN soil moisture probe</div>
+  <div style=3D"color:#5f6c7b;font-size:13px">Sensor ID 0080000004082963 =C2=
+=B7 detected 2026-08-01 02:00 (local time)</div>
+
+  <div style=3D"margin-top:12px;font-weight:700">=F0=9F=93=8D Location</div>
+ =20
+  <div>52.13293, 9.94276</div>
+ =20
+  <a href=3D"https://www.google.com/maps/dir/?api=3D1&amp;destination=3D52.13=
+2934,9.942759&amp;travelmode=3Ddriving" style=3D"display:inline-block;margin-=
+top:8px;background:#2e9e5b;color:#fff;text-decoration:none;font-weight:700;pa=
+dding:9px 14px;border-radius:8px">=F0=9F=A7=AD Directions in Google Maps</a>
+ =20
+
+  <div style=3D"margin-top:14px;font-weight:700">=F0=9F=94=8E What was detect=
+ed</div>
+  <ul style=3D"margin:6px 0 0 18px;padding:0"><li style=3D"margin:3px 0">No d=
+ata has arrived for 96 days (normally one message every hour).</li><li style=
+=3D"margin:3px 0">Last message received: 2026-04-26 21:53 (96 days ago). Last=
+ data saved: 2026-04-26 21:53.</li><li style=3D"margin:3px 0">The outage dete=
+ctor declared the breakdown at 2026-08-01 02:00 after the silence became stat=
+istically improbable for this sensor.</li><li style=3D"margin:3px 0">Only thi=
+s sensor is affected; its gateway and the network are working.</li><li style=
+=3D"margin:3px 0">AI forecast: chance it is still not working tomorrow: 99%.<=
+/li><li style=3D"margin:3px 0">AI forecast: chance it is still not working in=
+ 7 days: 98%.</li></ul>
+  <div style=3D"margin-top:12px"><b>Probable cause</b> (possible): The sensor=
+ stopped sending. The exact reason is not known.</div>
+  <div style=3D"margin-top:12px;background:#f1f7ff;border-left:5px solid #256=
+3eb;padding:10px 12px;border-radius:6px;font-weight:600">=F0=9F=91=89 Visit t=
+he sensor: check that it is still there, undamaged and powered.
+    <span style=3D"display:inline-block;margin-left:6px;font-size:12px;paddin=
+g:2px 8px;border-radius:12px;background:#ffe3e3;color:#b42318">Site visit nee=
+ded</span></div>
+  <div style=3D"margin-top:10px;font-size:14px">=F0=9F=94=8B Battery: Sealed =
+battery</div>
+</div>
+
+<div style=3D"border:1px solid #e2e7ee;border-left:7px solid #d32f2f;border-r=
+adius:10px;padding:14px 16px;margin:0 0 16px">
+  <div style=3D"font-size:19px;font-weight:800;color:#d32f2f">=E2=9B=94 Senso=
+r stopped working</div>
+  <div style=3D"font-size:16px;margin-top:6px">=F0=9F=92=A7 <b>Soil moisture<=
+/b> =C2=B7 Sensoterra LoRaWAN soil moisture probe</div>
+  <div style=3D"color:#5f6c7b;font-size:13px">Sensor ID 008000000408296e =C2=
+=B7 detected 2026-08-01 02:00 (local time)</div>
+
+  <div style=3D"margin-top:12px;font-weight:700">=F0=9F=93=8D Location</div>
+ =20
+  <div>52.13218, 9.93948</div>
+ =20
+  <a href=3D"https://www.google.com/maps/dir/?api=3D1&amp;destination=3D52.13=
+2176,9.939484&amp;travelmode=3Ddriving" style=3D"display:inline-block;margin-=
+top:8px;background:#2e9e5b;color:#fff;text-decoration:none;font-weight:700;pa=
+dding:9px 14px;border-radius:8px">=F0=9F=A7=AD Directions in Google Maps</a>
+ =20
+
+  <div style=3D"margin-top:14px;font-weight:700">=F0=9F=94=8E What was detect=
+ed</div>
+  <ul style=3D"margin:6px 0 0 18px;padding:0"><li style=3D"margin:3px 0">No d=
+ata has arrived for 77 days (normally one message every hour).</li><li style=
+=3D"margin:3px 0">Last message received: 2026-05-16 08:32 (77 days ago). Last=
+ data saved: 2026-05-16 08:32.</li><li style=3D"margin:3px 0">The outage dete=
+ctor declared the breakdown at 2026-08-01 02:00 after the silence became stat=
+istically improbable for this sensor.</li><li style=3D"margin:3px 0">Only thi=
+s sensor is affected; its gateway and the network are working.</li><li style=
+=3D"margin:3px 0">AI forecast: chance it is still not working tomorrow: 99%.<=
+/li><li style=3D"margin:3px 0">AI forecast: chance it is still not working in=
+ 7 days: 98%.</li></ul>
+  <div style=3D"margin-top:12px"><b>Probable cause</b> (possible): The sensor=
+ stopped sending. The exact reason is not known.</div>
+  <div style=3D"margin-top:12px;background:#f1f7ff;border-left:5px solid #256=
+3eb;padding:10px 12px;border-radius:6px;font-weight:600">=F0=9F=91=89 Visit t=
+he sensor: check that it is still there, undamaged and powered.
+    <span style=3D"display:inline-block;margin-left:6px;font-size:12px;paddin=
+g:2px 8px;border-radius:12px;background:#ffe3e3;color:#b42318">Site visit nee=
+ded</span></div>
+  <div style=3D"margin-top:10px;font-size:14px">=F0=9F=94=8B Battery: Sealed =
+battery</div>
+</div>
+
+<div style=3D"border:1px solid #e2e7ee;border-left:7px solid #d32f2f;border-r=
+adius:10px;padding:14px 16px;margin:0 0 16px">
+  <div style=3D"font-size:19px;font-weight:800;color:#d32f2f">=E2=9B=94 Senso=
+r stopped working</div>
+  <div style=3D"font-size:16px;margin-top:6px">=F0=9F=92=A7 <b>Soil moisture<=
+/b> =C2=B7 Sensoterra LoRaWAN soil moisture probe</div>
+  <div style=3D"color:#5f6c7b;font-size:13px">Sensor ID 008000000408299c =C2=
+=B7 detected 2026-08-01 02:00 (local time)</div>
+
+  <div style=3D"margin-top:12px;font-weight:700">=F0=9F=93=8D Location</div>
+ =20
+  <div>52.12753, 9.94819 =C2=B7 near gateway R=C3=B6merring</div>
+ =20
+  <a href=3D"https://www.google.com/maps/dir/?api=3D1&amp;destination=3D52.12=
+7534,9.948191&amp;travelmode=3Ddriving" style=3D"display:inline-block;margin-=
+top:8px;background:#2e9e5b;color:#fff;text-decoration:none;font-weight:700;pa=
+dding:9px 14px;border-radius:8px">=F0=9F=A7=AD Directions in Google Maps</a>
+ =20
+
+  <div style=3D"margin-top:14px;font-weight:700">=F0=9F=94=8E What was detect=
+ed</div>
+  <ul style=3D"margin:6px 0 0 18px;padding:0"><li style=3D"margin:3px 0">No d=
+ata has arrived for 6 days (normally one message every hour).</li><li style=
+=3D"margin:3px 0">Last message received: 2026-07-26 04:42 (6 days ago). Last =
+data saved: 2026-07-26 04:42.</li><li style=3D"margin:3px 0">The outage detec=
+tor declared the breakdown at 2026-08-01 02:00 after the silence became stati=
+stically improbable for this sensor.</li><li style=3D"margin:3px 0">Only this=
+ sensor is affected; its gateway and the network are working.</li><li style=
+=3D"margin:3px 0">AI forecast: chance it is still not working tomorrow: 98%.<=
+/li><li style=3D"margin:3px 0">AI forecast: chance it is still not working in=
+ 7 days: 95%.</li></ul>
+  <div style=3D"margin-top:12px"><b>Probable cause</b> (likely): The radio si=
+gnal is weak.</div>
+  <div style=3D"margin-top:12px;background:#f1f7ff;border-left:5px solid #256=
+3eb;padding:10px 12px;border-radius:6px;font-weight:600">=F0=9F=91=89 Check t=
+he antenna and new obstacles (trees, buildings). Consider moving the sensor.
+    <span style=3D"display:inline-block;margin-left:6px;font-size:12px;paddin=
+g:2px 8px;border-radius:12px;background:#ffe3e3;color:#b42318">Site visit nee=
+ded</span></div>
+  <div style=3D"margin-top:10px;font-size:14px">=F0=9F=94=8B Battery: Sealed =
+battery</div>
+</div>
+
+<div style=3D"border:1px solid #e2e7ee;border-left:7px solid #d32f2f;border-r=
+adius:10px;padding:14px 16px;margin:0 0 16px">
+  <div style=3D"font-size:19px;font-weight:800;color:#d32f2f">=E2=9B=94 Senso=
+r stopped working</div>
+  <div style=3D"font-size:16px;margin-top:6px">=F0=9F=92=A7 <b>Soil moisture<=
+/b> =C2=B7 Sensoterra LoRaWAN soil moisture probe</div>
+  <div style=3D"color:#5f6c7b;font-size:13px">Sensor ID 0080000004082af9 =C2=
+=B7 detected 2026-08-01 02:00 (local time)</div>
+
+  <div style=3D"margin-top:12px;font-weight:700">=F0=9F=93=8D Location</div>
+ =20
+  <div>52.12586, 9.94405</div>
+ =20
+  <a href=3D"https://www.google.com/maps/dir/?api=3D1&amp;destination=3D52.12=
+5861,9.944052&amp;travelmode=3Ddriving" style=3D"display:inline-block;margin-=
+top:8px;background:#2e9e5b;color:#fff;text-decoration:none;font-weight:700;pa=
+dding:9px 14px;border-radius:8px">=F0=9F=A7=AD Directions in Google Maps</a>
+ =20
+
+  <div style=3D"margin-top:14px;font-weight:700">=F0=9F=94=8E What was detect=
+ed</div>
+  <ul style=3D"margin:6px 0 0 18px;padding:0"><li style=3D"margin:3px 0">No d=
+ata has arrived for 89 days (normally one message every hour).</li><li style=
+=3D"margin:3px 0">Last message received: 2026-05-04 07:54 (89 days ago). Last=
+ data saved: 2026-05-04 07:54.</li><li style=3D"margin:3px 0">The outage dete=
+ctor declared the breakdown at 2026-08-01 02:00 after the silence became stat=
+istically improbable for this sensor.</li><li style=3D"margin:3px 0">Only thi=
+s sensor is affected; its gateway and the network are working.</li><li style=
+=3D"margin:3px 0">AI forecast: chance it is still not working tomorrow: 100%.=
+</li><li style=3D"margin:3px 0">AI forecast: chance it is still not working i=
+n 7 days: 99%.</li></ul>
+  <div style=3D"margin-top:12px"><b>Probable cause</b> (possible): The sensor=
+ stopped sending. The exact reason is not known.</div>
+  <div style=3D"margin-top:12px;background:#f1f7ff;border-left:5px solid #256=
+3eb;padding:10px 12px;border-radius:6px;font-weight:600">=F0=9F=91=89 Visit t=
+he sensor: check that it is still there, undamaged and powered.
+    <span style=3D"display:inline-block;margin-left:6px;font-size:12px;paddin=
+g:2px 8px;border-radius:12px;background:#ffe3e3;color:#b42318">Site visit nee=
+ded</span></div>
+  <div style=3D"margin-top:10px;font-size:14px">=F0=9F=94=8B Battery: Sealed =
+battery</div>
+</div>
+
+<div style=3D"border:1px solid #e2e7ee;border-left:7px solid #d32f2f;border-r=
+adius:10px;padding:14px 16px;margin:0 0 16px">
+  <div style=3D"font-size:19px;font-weight:800;color:#d32f2f">=E2=9B=94 Senso=
+r stopped working</div>
+  <div style=3D"font-size:16px;margin-top:6px">=F0=9F=92=A7 <b>Soil moisture<=
+/b> =C2=B7 Sensoterra LoRaWAN soil moisture probe</div>
+  <div style=3D"color:#5f6c7b;font-size:13px">Sensor ID 0080000004082b0f =C2=
+=B7 detected 2026-08-01 02:00 (local time)</div>
+
+  <div style=3D"margin-top:12px;font-weight:700">=F0=9F=93=8D Location</div>
+  <div>The position of this sensor is not in the data.</div>
+
+  <div style=3D"margin-top:14px;font-weight:700">=F0=9F=94=8E What was detect=
+ed</div>
+  <ul style=3D"margin:6px 0 0 18px;padding:0"><li style=3D"margin:3px 0">No d=
+ata has arrived for 105 days (normally one message every hour).</li><li style=
+=3D"margin:3px 0">Last message received: 2026-04-18 05:34 (105 days ago). Las=
+t data saved: 2026-04-18 05:34.</li><li style=3D"margin:3px 0">The outage det=
+ector declared the breakdown at 2026-08-01 02:00 after the silence became sta=
+tistically improbable for this sensor.</li><li style=3D"margin:3px 0">Only th=
+is sensor is affected; its gateway and the network are working.</li><li style=
+=3D"margin:3px 0">AI forecast: chance it is still not working tomorrow: 99%.<=
+/li><li style=3D"margin:3px 0">AI forecast: chance it is still not working in=
+ 7 days: 98%.</li></ul>
+  <div style=3D"margin-top:12px"><b>Probable cause</b> (possible): The sensor=
+ stopped sending. The exact reason is not known.</div>
+  <div style=3D"margin-top:12px;background:#f1f7ff;border-left:5px solid #256=
+3eb;padding:10px 12px;border-radius:6px;font-weight:600">=F0=9F=91=89 Visit t=
+he sensor: check that it is still there, undamaged and powered.
+    <span style=3D"display:inline-block;margin-left:6px;font-size:12px;paddin=
+g:2px 8px;border-radius:12px;background:#ffe3e3;color:#b42318">Site visit nee=
+ded</span></div>
+  <div style=3D"margin-top:10px;font-size:14px">=F0=9F=94=8B Battery: Sealed =
+battery</div>
+</div>
+
+
+<p style=3D"color:#8a94a0;font-size:12px;margin-bottom:0">Automatic message f=
+rom Smart Sensor Monitoring Hildesheim. Sent only when a sensor stops working=
+ or may stop within 24 hours.</p>
+</div></div></body></html>
+
+--===============1603949345201730367==--

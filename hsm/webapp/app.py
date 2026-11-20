@@ -269,6 +269,27 @@ def create_app(data_dir, live=None):
         if not live: return jsonify(ok=False, message='Live monitoring is not configured. Start the app with --live-config.'), 400
         live.trigger(); return jsonify(ok=True, message='Check started. The map updates automatically when it is finished.')
 
+    last_test = {'t': 0.0}
+    @app.post('/api/admin/test-emails')
+    def test_emails():
+        """send the two [TEST] alert e-mails to the configured recipients. Needs HSM_ADMIN_TOKEN (environment) and
+        the same token in the request; recipients come only from the server configuration, never from the request."""
+        tok = os.environ.get('HSM_ADMIN_TOKEN')
+        if not tok: return jsonify(ok=False, message='Test e-mails are switched off: set HSM_ADMIN_TOKEN on the server.'), 403
+        if (request.get_json(silent=True) or {}).get('token') != tok: return jsonify(ok=False, message='Wrong admin code.'), 403
+        if time.time() - last_test['t'] < 60: return jsonify(ok=False, message='Please wait a minute between test e-mails.'), 429
+        last_test['t'] = time.time()
+        from ..cli import load_cfg
+        from ..notify.samples import send_samples
+        cfg = load_cfg(os.environ.get('HSM_CONFIG', str(Path(__file__).resolve().parents[2] / 'config' / 'alerts.yaml')))
+        if not cfg['notifications'].get('recipients'): return jsonify(ok=False, message='No recipient: set HSM_ALERT_TO on the server.'), 400
+        try: r = send_samples(cfg['notifications'], st.dir, os.environ.get('HSM_MODELS', str(Path(__file__).resolve().parents[2] / 'models')))
+        except Exception as e: return jsonify(ok=False, message=f'{type(e).__name__}: {e}'), 500
+        ok = all(x['status'] in ('sent', 'dry_run') for x in r['sent']) and r['sent']
+        msg = (f"{len(r['sent'])} test e-mail(s) " + ('sent to ' + ', '.join(r['recipients']) if r['real_email'] else 'written to the outbox (real sending is off: set HSM_EMAIL_ENABLED=1)')
+               if ok else 'Sending failed: ' + '; '.join(str(x.get('status')) for x in r['sent']))
+        return jsonify(ok=bool(ok), message=msg, detail=r)
+
     @app.get('/api/live')
     def live_status(): return jsonify(live=bool(live), status=live.status if live else None)
 
@@ -297,10 +318,15 @@ def quality_cards(ev):
     d = g('D_continuation_168h', 'Sensoterra', 'auc')
     if d: cards.append(dict(title='Once broken: will it still be broken in a week?', grade='Good', text=f"AUC {d:.2f} (soil probes). Helps decide whether a breakdown fixes itself or needs a visit."))
     rp = ev.get('replay', {})
-    if rp: cards.append(dict(title='E-mail alerts (replay Aug-Nov 2026, no e-mails really sent)', grade='Good',
-                             text=f"Every breakdown of 6 hours or more that was still going on was reported ({rp.get('outages_ge6h_ongoing_notified_share', 0):.0%}). "
-                                  f"About {rp.get('emails_per_device_week', 0):.1f} e-mails per sensor per week, no duplicates. "
-                                  f"{rp.get('premature_recovery_rate_24h', 0):.0%} of 'fixed' messages were followed by the problem returning within a day."))
+    if rp: cards.append(dict(title='E-mail alerts (replay Aug-Nov 2026, test mode: no e-mails really sent)', grade='Good',
+                             text=(f"E-mails go out only when a sensor stops working or may stop within 24 hours. Every breakdown where the sensor itself stopped "
+                                   f"was e-mailed ({rp.get('outages_sensor_stopped_emailed_share', rp.get('outages_ge6h_ongoing_notified_share', 0)):.0%} of "
+                                   f"{rp.get('outages_sensor_stopped_ongoing', '')}), on average {rp.get('emails_per_device_week', 0):.2f} e-mails per sensor per week. "
+                                   f"{rp.get('outages_server_side_not_emailed', 0)} server-side problems (sensor fine, data not saved) are shown in the app but not e-mailed.")))
+    if rp.get('warnings_24h_emailed'):
+        cards.append(dict(title='"May stop within 24 hours" e-mails', grade='Fair',
+                          text=f"{rp['warnings_24h_emailed']} warnings in the replay; {rp['warnings_24h_followed_by_outage_within_24h']:.0%} were followed by a breakdown within 24 hours. "
+                               "Only sent for sensor types where the forecast proved reliable enough on past data (wind sensors, CLOVER), and for critical 12 V batteries."))
     A = pd.DataFrame(ev.get('anomaly', []))
     if len(A):
         c = A[(A.detector == 'alarm_cusum') & A.fault.str.startswith('bias_2.5')]

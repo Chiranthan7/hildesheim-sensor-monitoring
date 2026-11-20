@@ -294,6 +294,14 @@ These changes were made **after** looking at validation, test or replay outputs.
 5. **Module 1 state:** short history is treated as insufficient information *after* the backend rule, because a Dragino backend failure had been hidden.
 6. **Dragino** uses the hierarchical default, because it has too few devices for any supervised model.
 7. **Live mode:** stream-level feed staleness and timeline-based degraded duration were added after the first simulated live cycle had flagged every sensor down on a stale export.
+8. **E-mail policy (20 Nov 2026, at the user's request):**
+   - E-mails go out only for "sensor stopped working" and "may stop within 24 hours". See `docs/EMAIL_ALERTS.md`.
+   - The 24-hour alert level uses `EMAIL_BUDGET`: at most 0.10 false alerts per sensor-week and at least 10 % recall, both on the validation months.
+   - Test-month metrics were visible while this budget was chosen, so the 24-hour e-mail figures are not a clean held-out result.
+   - Replay with this policy: 384 e-mails; 361 of 361 outages where the sensor itself stopped were e-mailed; 46 % of 24-hour warnings were followed by a breakdown within 24 h.
+9. **Backend-state latch:**
+   - A device heard once after its last stored record, then silent for months, stayed "data not saved". It is now "not sending" unless it was heard within max(24 h, 6 report intervals) (`system.correct_backend_latch`).
+   - The correction is applied downstream of Module 1; the Module 1 timeline and evaluation are unchanged.
 
 ## Main limitations
 - There are no physical failure labels and no gateway telemetry. All predictions concern communication interruptions observed in the exports.

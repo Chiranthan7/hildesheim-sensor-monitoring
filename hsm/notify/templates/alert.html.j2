@@ -1,0 +1,30 @@
+<!DOCTYPE html><html><body style="margin:0;background:#f3f5f8;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:#17202b">
+<div style="max-width:640px;margin:0 auto;padding:18px">
+<div style="background:#0f2a4a;color:#fff;border-radius:12px 12px 0 0;padding:14px 18px;font-size:18px;font-weight:700">📡 Smart Sensor Monitoring · Hildesheim</div>
+<div style="background:#fff;border-radius:0 0 12px 12px;padding:18px">
+{% if digest %}<p style="margin-top:0">Monitoring has started. These sensors already had a problem at the start. From now on you get <b>one e-mail per new problem</b>.</p>{% endif %}
+{% if items|length > 1 and items[0].group_note %}<p style="margin-top:0;font-size:16px;font-weight:700">{{ items[0].group_note }}</p>{% endif %}
+{% for it in items %}
+<div style="border:1px solid #e2e7ee;border-left:7px solid {% if it.type == 'SENSOR_DOWN' %}#d32f2f{% else %}#f2a900{% endif %};border-radius:10px;padding:14px 16px;margin:0 0 16px">
+  <div style="font-size:19px;font-weight:800;color:{% if it.type == 'SENSOR_DOWN' %}#d32f2f{% else %}#b07a00{% endif %}">{% if it.type == 'SENSOR_DOWN' %}⛔{% else %}⚠️{% endif %} {{ it.title }}</div>
+  <div style="font-size:16px;margin-top:6px">{{ it.icon }} <b>{{ it.measures }}</b> · {{ it.manufacturer }} {{ it.model }}</div>
+  <div style="color:#5f6c7b;font-size:13px">Sensor ID {{ it.device }} · detected {{ it.detected }} (local time)</div>
+
+  <div style="margin-top:12px;font-weight:700">📍 Location</div>
+  {% if it.location %}
+  <div>{{ it.location.coords }}{% if it.gateway %} · near gateway {{ it.gateway }}{% endif %}</div>
+  {% if it.location.approximate %}<div style="color:#5f6c7b;font-size:13px">{{ it.location.note }}</div>{% endif %}
+  <a href="{{ it.location.maps }}" style="display:inline-block;margin-top:8px;background:#2e9e5b;color:#fff;text-decoration:none;font-weight:700;padding:9px 14px;border-radius:8px">🧭 Directions in Google Maps</a>
+  {% else %}<div>The position of this sensor is not in the data.{% if it.gateway %} Main gateway: {{ it.gateway }}.{% endif %}</div>{% endif %}
+
+  <div style="margin-top:14px;font-weight:700">🔎 What was detected</div>
+  <ul style="margin:6px 0 0 18px;padding:0">{% for d in it.detection %}<li style="margin:3px 0">{{ d }}</li>{% endfor %}</ul>
+  {% if it.cause %}<div style="margin-top:12px"><b>Probable cause</b> ({{ it.certainty }}): {{ it.cause }}</div>{% endif %}
+  <div style="margin-top:12px;background:#f1f7ff;border-left:5px solid #2563eb;padding:10px 12px;border-radius:6px;font-weight:600">👉 {{ it.todo }}
+    <span style="display:inline-block;margin-left:6px;font-size:12px;padding:2px 8px;border-radius:12px;{% if it.visit %}background:#ffe3e3;color:#b42318{% else %}background:#dcfce7;color:#166534{% endif %}">{% if it.visit %}Site visit needed{% else %}No site visit needed{% endif %}</span></div>
+  {% if it.battery %}<div style="margin-top:10px;font-size:14px">🔋 Battery: {{ it.battery.text }}{% if it.battery.kind in ('band', 'percent', 'ok') %} ({{ it.battery.label }}){% endif %}</div>{% endif %}
+</div>
+{% endfor %}
+{% if app_url %}<a href="{{ app_url }}" style="display:inline-block;background:#2563eb;color:#fff;text-decoration:none;font-weight:700;padding:10px 16px;border-radius:8px">Open the monitoring app</a>{% endif %}
+<p style="color:#8a94a0;font-size:12px;margin-bottom:0">Automatic message from Smart Sensor Monitoring Hildesheim. Sent only when a sensor stops working or may stop within 24 hours.</p>
+</div></div></body></html>

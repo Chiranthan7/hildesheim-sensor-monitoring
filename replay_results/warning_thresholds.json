@@ -1,5 +1,7 @@
 {
  "A_prolonged_7d|Sensoterra": 0.7915432855433676,
+ "A_24h|CloverSoilSensor": 0.9563438306235592,
+ "A_24h|MeteoWind": 0.32899478671376015,
  "B_developing|MeteoHelix": 0.1944231597912986,
  "B_developing|Sensoterra": 0.2774925824619797,
  "B_developing|CloverSoilSensor": 0.14081899906406745,

@@ -16,7 +16,7 @@ SNAP_COLS = ['device_id', 'family', 'hour_end', 'state', 'traffic_light', 'overa
              'risk_long', 'risk_long_H', 'risk_prolonged_7d', 'risk_prolonged_14d', 'p_silence_becomes_outage', 'p_still_down_24h', 'p_still_down_7d',
              'primary_gateway', 'gateway_condition', 'primary_share_168h', 'n_sites_672h', 'battery_condition', 'battery_value',
              'anomaly_kinds', 'anomaly_high', 'probable_cause', 'cause_confidence', 'cause_evidence', 'alternative_causes', 'elevated_risk',
-             'beyond_ref_share_24h', 'snr_mean_168h']
+             'beyond_ref_share_24h', 'snr_mean_168h', 'p_stop_24h', 'in_declared_outage', 'risk_short', 'risk_short_H']
 
 def _rd(fd, ed):
     def rd(n, cols=None):

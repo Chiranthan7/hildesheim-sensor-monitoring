@@ -1,0 +1,570 @@
+From: hsm-monitor@localhost
+To: admin@example.org
+Subject: [Sensor alert] 8 sensors stopped working (network outage)
+Message-ID: <2198e8d2-df6e-48ac-8a6e-2362d30b7c2b@hsm>
+MIME-Version: 1.0
+Content-Type: multipart/alternative;
+ boundary="===============5250109136716810240=="
+
+--===============5250109136716810240==
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+
+W1NlbnNvciBhbGVydF0gOCBzZW5zb3JzIHN0b3BwZWQgd29ya2luZyAobmV0d29yayBvdXRhZ2Up
+Cgo4IHNlbnNvcnMgc3RvcHBlZCBhdCB0aGUgc2FtZSB0aW1lIChuZXR3b3JrIG91dGFnZSkuIFBy
+b2JhYmxlIGNvbW1vbiBjYXVzZTogVGhlIHdob2xlIG5ldHdvcmsgd2FzIGRvd24gYXQgdGhlIHNh
+bWUgdGltZS4KCgo9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT0KU0VOU09SIFNUT1BQRUQgV09SS0lORwo9PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KU2Vuc29yOiAgICAgICAg
+V2luZCBzcGVlZCAmIGRpcmVjdGlvbiAoQkFSQU5JIERFU0lHTiBNZXRlb1dpbmQgSW9UIFBybyB3
+aW5kIHNlbnNvcikKU2Vuc29yIElEOiAgICAgYWMxZjA5ZmZmZTBlMThiYwpEZXRlY3RlZDogICAg
+ICAyMDI2LTA5LTI5IDEwOjAwIChsb2NhbCB0aW1lKQoKTE9DQVRJT04KICBDb29yZGluYXRlczog
+NTIuMTQ5OTcsIDkuOTczNTgKICBEaXJlY3Rpb25zOiAgaHR0cHM6Ly93d3cuZ29vZ2xlLmNvbS9t
+YXBzL2Rpci8/YXBpPTEmZGVzdGluYXRpb249NTIuMTQ5OTY2LDkuOTczNTgyJnRyYXZlbG1vZGU9
+ZHJpdmluZwoKV0hBVCBXQVMgREVURUNURUQKICAtIE5vIGRhdGEgaGFzIGFycml2ZWQgZm9yIGxl
+c3MgdGhhbiBhbiBob3VyIChub3JtYWxseSBvbmUgbWVzc2FnZSBldmVyeSAxMCBtaW51dGVzKS4K
+ICAtIExhc3QgbWVzc2FnZSByZWNlaXZlZDogMjAyNi0wOS0yOSAwOToyMCAobGVzcyB0aGFuIGFu
+IGhvdXIgYWdvKS4gTGFzdCBkYXRhIHNhdmVkOiAyMDI2LTA5LTI5IDA5OjIwLgogIC0gVGhlIG91
+dGFnZSBkZXRlY3RvciBkZWNsYXJlZCB0aGUgYnJlYWtkb3duIGF0IDIwMjYtMDktMjkgMTA6MDAg
+YWZ0ZXIgdGhlIHNpbGVuY2UgYmVjYW1lIHN0YXRpc3RpY2FsbHkgaW1wcm9iYWJsZSBmb3IgdGhp
+cyBzZW5zb3IuCiAgLSBUaGUgd2hvbGUgbmV0d29yayB3YXMgZG93biBhdCB0aGUgc2FtZSB0aW1l
+LgogIC0gQUkgZm9yZWNhc3Q6IGNoYW5jZSBpdCBpcyBzdGlsbCBub3Qgd29ya2luZyB0b21vcnJv
+dzogMTQlLgogIC0gQUkgZm9yZWNhc3Q6IGNoYW5jZSBpdCBpcyBzdGlsbCBub3Qgd29ya2luZyBp
+biA3IGRheXM6IDMlLgoKUFJPQkFCTEUgQ0FVU0UgKHZlcnkgbGlrZWx5KQogIFRoZSB3aG9sZSBu
+ZXR3b3JrIHdhcyBkb3duIGF0IHRoZSBzYW1lIHRpbWUuCgpXSEFUIFRPIERPCiAgTm8gc2l0ZSB2
+aXNpdC4gQ2hlY2sgdGhlIG5ldHdvcmsgc2VydmVyIGFuZCBpdHMgaW50ZXJuZXQgY29ubmVjdGlv
+bi4KICBObyBzaXRlIHZpc2l0IG5lZWRlZC4KCkJhdHRlcnk6IFNvbGFyIHBvd2VyZWQKCgo9PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0K
+U0VOU09SIFNUT1BQRUQgV09SS0lORwo9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT0KU2Vuc29yOiAgICAgICAgV2luZCBzcGVlZCAmIGRp
+cmVjdGlvbiAoQkFSQU5JIERFU0lHTiBNZXRlb1dpbmQgSW9UIFBybyB3aW5kIHNlbnNvcikKU2Vu
+c29yIElEOiAgICAgYWMxZjA5ZmZmZTBlMThmOQpEZXRlY3RlZDogICAgICAyMDI2LTA5LTI5IDEw
+OjAwIChsb2NhbCB0aW1lKQoKTE9DQVRJT04KICBDb29yZGluYXRlczogNTIuMTUyNTUsIDkuOTUz
+MTYKICBEaXJlY3Rpb25zOiAgaHR0cHM6Ly93d3cuZ29vZ2xlLmNvbS9tYXBzL2Rpci8/YXBpPTEm
+ZGVzdGluYXRpb249NTIuMTUyNTQ2LDkuOTUzMTU5JnRyYXZlbG1vZGU9ZHJpdmluZwoKV0hBVCBX
+QVMgREVURUNURUQKICAtIE5vIGRhdGEgaGFzIGFycml2ZWQgZm9yIGxlc3MgdGhhbiBhbiBob3Vy
+IChub3JtYWxseSBvbmUgbWVzc2FnZSBldmVyeSAxMCBtaW51dGVzKS4KICAtIExhc3QgbWVzc2Fn
+ZSByZWNlaXZlZDogMjAyNi0wOS0yOSAwOToyMCAobGVzcyB0aGFuIGFuIGhvdXIgYWdvKS4gTGFz
+dCBkYXRhIHNhdmVkOiAyMDI2LTA5LTI5IDA5OjIwLgogIC0gVGhlIG91dGFnZSBkZXRlY3RvciBk
+ZWNsYXJlZCB0aGUgYnJlYWtkb3duIGF0IDIwMjYtMDktMjkgMTA6MDAgYWZ0ZXIgdGhlIHNpbGVu
+Y2UgYmVjYW1lIHN0YXRpc3RpY2FsbHkgaW1wcm9iYWJsZSBmb3IgdGhpcyBzZW5zb3IuCiAgLSBU
+aGUgd2hvbGUgbmV0d29yayB3YXMgZG93biBhdCB0aGUgc2FtZSB0aW1lLgogIC0gQUkgZm9yZWNh
+c3Q6IGNoYW5jZSBpdCBpcyBzdGlsbCBub3Qgd29ya2luZyB0b21vcnJvdzogMTQlLgogIC0gQUkg
+Zm9yZWNhc3Q6IGNoYW5jZSBpdCBpcyBzdGlsbCBub3Qgd29ya2luZyBpbiA3IGRheXM6IDMlLgoK
+UFJPQkFCTEUgQ0FVU0UgKHZlcnkgbGlrZWx5KQogIFRoZSB3aG9sZSBuZXR3b3JrIHdhcyBkb3du
+IGF0IHRoZSBzYW1lIHRpbWUuCgpXSEFUIFRPIERPCiAgTm8gc2l0ZSB2aXNpdC4gQ2hlY2sgdGhl
+IG5ldHdvcmsgc2VydmVyIGFuZCBpdHMgaW50ZXJuZXQgY29ubmVjdGlvbi4KICBObyBzaXRlIHZp
+c2l0IG5lZWRlZC4KCkJhdHRlcnk6IFNvbGFyIHBvd2VyZWQKCgo9PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KU0VOU09SIFNUT1BQRUQg
+V09SS0lORwo9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT0KU2Vuc29yOiAgICAgICAgV2luZCBzcGVlZCAmIGRpcmVjdGlvbiAoQkFSQU5J
+IERFU0lHTiBNZXRlb1dpbmQgSW9UIFBybyB3aW5kIHNlbnNvcikKU2Vuc29yIElEOiAgICAgYWMx
+ZjA5ZmZmZTBlMTk3YQpEZXRlY3RlZDogICAgICAyMDI2LTA5LTI5IDEwOjAwIChsb2NhbCB0aW1l
+KQoKTE9DQVRJT04KICBDb29yZGluYXRlczogNTIuMTUxNjMsIDkuOTIxODUKICBEaXJlY3Rpb25z
+OiAgaHR0cHM6Ly93d3cuZ29vZ2xlLmNvbS9tYXBzL2Rpci8/YXBpPTEmZGVzdGluYXRpb249NTIu
+MTUxNjMzLDkuOTIxODQ5JnRyYXZlbG1vZGU9ZHJpdmluZwoKV0hBVCBXQVMgREVURUNURUQKICAt
+IE5vIGRhdGEgaGFzIGFycml2ZWQgZm9yIGxlc3MgdGhhbiBhbiBob3VyIChub3JtYWxseSBvbmUg
+bWVzc2FnZSBldmVyeSAxMCBtaW51dGVzKS4KICAtIExhc3QgbWVzc2FnZSByZWNlaXZlZDogMjAy
+Ni0wOS0yOSAwOToyMCAobGVzcyB0aGFuIGFuIGhvdXIgYWdvKS4gTGFzdCBkYXRhIHNhdmVkOiAy
+MDI2LTA5LTI5IDA5OjIwLgogIC0gVGhlIG91dGFnZSBkZXRlY3RvciBkZWNsYXJlZCB0aGUgYnJl
+YWtkb3duIGF0IDIwMjYtMDktMjkgMTA6MDAgYWZ0ZXIgdGhlIHNpbGVuY2UgYmVjYW1lIHN0YXRp
+c3RpY2FsbHkgaW1wcm9iYWJsZSBmb3IgdGhpcyBzZW5zb3IuCiAgLSBUaGUgd2hvbGUgbmV0d29y
+ayB3YXMgZG93biBhdCB0aGUgc2FtZSB0aW1lLgogIC0gQUkgZm9yZWNhc3Q6IGNoYW5jZSBpdCBp
+cyBzdGlsbCBub3Qgd29ya2luZyB0b21vcnJvdzogMTQlLgogIC0gQUkgZm9yZWNhc3Q6IGNoYW5j
+ZSBpdCBpcyBzdGlsbCBub3Qgd29ya2luZyBpbiA3IGRheXM6IDMlLgoKUFJPQkFCTEUgQ0FVU0Ug
+KHZlcnkgbGlrZWx5KQogIFRoZSB3aG9sZSBuZXR3b3JrIHdhcyBkb3duIGF0IHRoZSBzYW1lIHRp
+bWUuCgpXSEFUIFRPIERPCiAgTm8gc2l0ZSB2aXNpdC4gQ2hlY2sgdGhlIG5ldHdvcmsgc2VydmVy
+IGFuZCBpdHMgaW50ZXJuZXQgY29ubmVjdGlvbi4KICBObyBzaXRlIHZpc2l0IG5lZWRlZC4KCkJh
+dHRlcnk6IFNvbGFyIHBvd2VyZWQKCgo9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT0KU0VOU09SIFNUT1BQRUQgV09SS0lORwo9PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KU2Vu
+c29yOiAgICAgICAgV2VhdGhlciAodGVtcGVyYXR1cmUsIGh1bWlkaXR5LCBhaXIgcHJlc3N1cmUp
+IChCQVJBTkkgREVTSUdOIE1ldGVvSGVsaXggSW9UIFBybyB3ZWF0aGVyIHN0YXRpb24pClNlbnNv
+ciBJRDogICAgIGFjMWYwOWZmZmUwZTIzYWIKRGV0ZWN0ZWQ6ICAgICAgMjAyNi0wOS0yOSAxMDow
+MCAobG9jYWwgdGltZSkKCkxPQ0FUSU9OCiAgQ29vcmRpbmF0ZXM6IDUyLjEyNTk0LCA5LjkzNjU3
+ICAgKG5lYXIgZ2F0ZXdheSBCw7ZyZGVzdHJhw59lKQogIERpcmVjdGlvbnM6ICBodHRwczovL3d3
+dy5nb29nbGUuY29tL21hcHMvZGlyLz9hcGk9MSZkZXN0aW5hdGlvbj01Mi4xMjU5NDEsOS45MzY1
+NzQmdHJhdmVsbW9kZT1kcml2aW5nCgpXSEFUIFdBUyBERVRFQ1RFRAogIC0gTm8gZGF0YSBoYXMg
+YXJyaXZlZCBmb3IgbGVzcyB0aGFuIGFuIGhvdXIgKG5vcm1hbGx5IG9uZSBtZXNzYWdlIGV2ZXJ5
+IDEwIG1pbnV0ZXMpLgogIC0gTGFzdCBtZXNzYWdlIHJlY2VpdmVkOiAyMDI2LTA5LTI5IDA5OjIw
+IChsZXNzIHRoYW4gYW4gaG91ciBhZ28pLiBMYXN0IGRhdGEgc2F2ZWQ6IDIwMjYtMDktMjkgMDk6
+MjAuCiAgLSBUaGUgb3V0YWdlIGRldGVjdG9yIGRlY2xhcmVkIHRoZSBicmVha2Rvd24gYXQgMjAy
+Ni0wOS0yOSAxMDowMCBhZnRlciB0aGUgc2lsZW5jZSBiZWNhbWUgc3RhdGlzdGljYWxseSBpbXBy
+b2JhYmxlIGZvciB0aGlzIHNlbnNvci4KICAtIFRoZSB3aG9sZSBuZXR3b3JrIHdhcyBkb3duIGF0
+IHRoZSBzYW1lIHRpbWUuCiAgLSBBSSBmb3JlY2FzdDogY2hhbmNlIGl0IGlzIHN0aWxsIG5vdCB3
+b3JraW5nIHRvbW9ycm93OiAxNCUuCiAgLSBBSSBmb3JlY2FzdDogY2hhbmNlIGl0IGlzIHN0aWxs
+IG5vdCB3b3JraW5nIGluIDcgZGF5czogMyUuCgpQUk9CQUJMRSBDQVVTRSAodmVyeSBsaWtlbHkp
+CiAgVGhlIHdob2xlIG5ldHdvcmsgd2FzIGRvd24gYXQgdGhlIHNhbWUgdGltZS4KCldIQVQgVE8g
+RE8KICBObyBzaXRlIHZpc2l0LiBDaGVjayB0aGUgbmV0d29yayBzZXJ2ZXIgYW5kIGl0cyBpbnRl
+cm5ldCBjb25uZWN0aW9uLgogIE5vIHNpdGUgdmlzaXQgbmVlZGVkLgoKQmF0dGVyeTogU29sYXIg
+cG93ZXJlZAoKCj09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PQpTRU5TT1IgU1RPUFBFRCBXT1JLSU5HCj09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQpTZW5zb3I6ICAgICAgICBX
+ZWF0aGVyICh0ZW1wZXJhdHVyZSwgaHVtaWRpdHksIGFpciBwcmVzc3VyZSkgKEJBUkFOSSBERVNJ
+R04gTWV0ZW9IZWxpeCBJb1QgUHJvIHdlYXRoZXIgc3RhdGlvbikKU2Vuc29yIElEOiAgICAgYWMx
+ZjA5ZmZmZTBlMjNkYwpEZXRlY3RlZDogICAgICAyMDI2LTA5LTI5IDEwOjAwIChsb2NhbCB0aW1l
+KQoKTE9DQVRJT04KICBDb29yZGluYXRlczogNTIuMTQ5OTcsIDkuOTczNTggICAobmVhciBnYXRl
+d2F5IFLDtm1lcnJpbmctMikKICBEaXJlY3Rpb25zOiAgaHR0cHM6Ly93d3cuZ29vZ2xlLmNvbS9t
+YXBzL2Rpci8/YXBpPTEmZGVzdGluYXRpb249NTIuMTQ5OTY2LDkuOTczNTgyJnRyYXZlbG1vZGU9
+ZHJpdmluZwoKV0hBVCBXQVMgREVURUNURUQKICAtIE5vIGRhdGEgaGFzIGFycml2ZWQgZm9yIGxl
+c3MgdGhhbiBhbiBob3VyIChub3JtYWxseSBvbmUgbWVzc2FnZSBldmVyeSAxMCBtaW51dGVzKS4K
+ICAtIExhc3QgbWVzc2FnZSByZWNlaXZlZDogMjAyNi0wOS0yOSAwOToyMCAobGVzcyB0aGFuIGFu
+IGhvdXIgYWdvKS4gTGFzdCBkYXRhIHNhdmVkOiAyMDI2LTA5LTI5IDA5OjIwLgogIC0gVGhlIG91
+dGFnZSBkZXRlY3RvciBkZWNsYXJlZCB0aGUgYnJlYWtkb3duIGF0IDIwMjYtMDktMjkgMTA6MDAg
+YWZ0ZXIgdGhlIHNpbGVuY2UgYmVjYW1lIHN0YXRpc3RpY2FsbHkgaW1wcm9iYWJsZSBmb3IgdGhp
+cyBzZW5zb3IuCiAgLSBUaGUgd2hvbGUgbmV0d29yayB3YXMgZG93biBhdCB0aGUgc2FtZSB0aW1l
+LgogIC0gQUkgZm9yZWNhc3Q6IGNoYW5jZSBpdCBpcyBzdGlsbCBub3Qgd29ya2luZyB0b21vcnJv
+dzogMTQlLgogIC0gQUkgZm9yZWNhc3Q6IGNoYW5jZSBpdCBpcyBzdGlsbCBub3Qgd29ya2luZyBp
+biA3IGRheXM6IDMlLgoKUFJPQkFCTEUgQ0FVU0UgKHZlcnkgbGlrZWx5KQogIFRoZSB3aG9sZSBu
+ZXR3b3JrIHdhcyBkb3duIGF0IHRoZSBzYW1lIHRpbWUuCgpXSEFUIFRPIERPCiAgTm8gc2l0ZSB2
+aXNpdC4gQ2hlY2sgdGhlIG5ldHdvcmsgc2VydmVyIGFuZCBpdHMgaW50ZXJuZXQgY29ubmVjdGlv
+bi4KICBObyBzaXRlIHZpc2l0IG5lZWRlZC4KCkJhdHRlcnk6IFNvbGFyIHBvd2VyZWQKCgo9PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0K
+U0VOU09SIFNUT1BQRUQgV09SS0lORwo9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT0KU2Vuc29yOiAgICAgICAgV2VhdGhlciAodGVtcGVy
+YXR1cmUsIGh1bWlkaXR5LCBhaXIgcHJlc3N1cmUpIChCQVJBTkkgREVTSUdOIE1ldGVvSGVsaXgg
+SW9UIFBybyB3ZWF0aGVyIHN0YXRpb24pClNlbnNvciBJRDogICAgIGFjMWYwOWZmZmUwZTIzZjEK
+RGV0ZWN0ZWQ6ICAgICAgMjAyNi0wOS0yOSAxMDowMCAobG9jYWwgdGltZSkKCkxPQ0FUSU9OCiAg
+Q29vcmRpbmF0ZXM6IDUyLjE0MzIwLCA5Ljk3NDExICAgKG5lYXIgZ2F0ZXdheSBSb3R0c2Jlcmcv
+TW96YXJ0c3RyLi9Sb3R0c2JlcmctMikKICBEaXJlY3Rpb25zOiAgaHR0cHM6Ly93d3cuZ29vZ2xl
+LmNvbS9tYXBzL2Rpci8/YXBpPTEmZGVzdGluYXRpb249NTIuMTQzMTk4LDkuOTc0MTA3JnRyYXZl
+bG1vZGU9ZHJpdmluZwoKV0hBVCBXQVMgREVURUNURUQKICAtIE5vIGRhdGEgaGFzIGFycml2ZWQg
+Zm9yIGxlc3MgdGhhbiBhbiBob3VyIChub3JtYWxseSBvbmUgbWVzc2FnZSBldmVyeSAxMCBtaW51
+dGVzKS4KICAtIExhc3QgbWVzc2FnZSByZWNlaXZlZDogMjAyNi0wOS0yOSAwOToyMCAobGVzcyB0
+aGFuIGFuIGhvdXIgYWdvKS4gTGFzdCBkYXRhIHNhdmVkOiAyMDI2LTA5LTI5IDA5OjIwLgogIC0g
+VGhlIG91dGFnZSBkZXRlY3RvciBkZWNsYXJlZCB0aGUgYnJlYWtkb3duIGF0IDIwMjYtMDktMjkg
+MTA6MDAgYWZ0ZXIgdGhlIHNpbGVuY2UgYmVjYW1lIHN0YXRpc3RpY2FsbHkgaW1wcm9iYWJsZSBm
+b3IgdGhpcyBzZW5zb3IuCiAgLSBUaGUgd2hvbGUgbmV0d29yayB3YXMgZG93biBhdCB0aGUgc2Ft
+ZSB0aW1lLgogIC0gQUkgZm9yZWNhc3Q6IGNoYW5jZSBpdCBpcyBzdGlsbCBub3Qgd29ya2luZyB0
+b21vcnJvdzogMTQlLgogIC0gQUkgZm9yZWNhc3Q6IGNoYW5jZSBpdCBpcyBzdGlsbCBub3Qgd29y
+a2luZyBpbiA3IGRheXM6IDMlLgoKUFJPQkFCTEUgQ0FVU0UgKHZlcnkgbGlrZWx5KQogIFRoZSB3
+aG9sZSBuZXR3b3JrIHdhcyBkb3duIGF0IHRoZSBzYW1lIHRpbWUuCgpXSEFUIFRPIERPCiAgTm8g
+c2l0ZSB2aXNpdC4gQ2hlY2sgdGhlIG5ldHdvcmsgc2VydmVyIGFuZCBpdHMgaW50ZXJuZXQgY29u
+bmVjdGlvbi4KICBObyBzaXRlIHZpc2l0IG5lZWRlZC4KCkJhdHRlcnk6IFNvbGFyIHBvd2VyZWQK
+Cgo9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT0KU0VOU09SIFNUT1BQRUQgV09SS0lORwo9PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KU2Vuc29yOiAgICAgICAgV2VhdGhlciAo
+dGVtcGVyYXR1cmUsIGh1bWlkaXR5LCBhaXIgcHJlc3N1cmUpIChCQVJBTkkgREVTSUdOIE1ldGVv
+SGVsaXggSW9UIFBybyB3ZWF0aGVyIHN0YXRpb24pClNlbnNvciBJRDogICAgIGFjMWYwOWZmZmUw
+ZTI0MTIKRGV0ZWN0ZWQ6ICAgICAgMjAyNi0wOS0yOSAxMDowMCAobG9jYWwgdGltZSkKCkxPQ0FU
+SU9OCiAgQ29vcmRpbmF0ZXM6IDUyLjE0NDUzLCA5Ljk2NzkzICAgKG5lYXIgZ2F0ZXdheSBSb3R0
+c2JlcmcvTW96YXJ0c3RyLi9Sb3R0c2JlcmctMikKICBEaXJlY3Rpb25zOiAgaHR0cHM6Ly93d3cu
+Z29vZ2xlLmNvbS9tYXBzL2Rpci8/YXBpPTEmZGVzdGluYXRpb249NTIuMTQ0NTI4LDkuOTY3OTM1
+JnRyYXZlbG1vZGU9ZHJpdmluZwoKV0hBVCBXQVMgREVURUNURUQKICAtIE5vIGRhdGEgaGFzIGFy
+cml2ZWQgZm9yIGxlc3MgdGhhbiBhbiBob3VyIChub3JtYWxseSBvbmUgbWVzc2FnZSBldmVyeSAx
+MCBtaW51dGVzKS4KICAtIExhc3QgbWVzc2FnZSByZWNlaXZlZDogMjAyNi0wOS0yOSAwOToxMCAo
+bGVzcyB0aGFuIGFuIGhvdXIgYWdvKS4gTGFzdCBkYXRhIHNhdmVkOiAyMDI2LTA5LTI5IDA5OjEw
+LgogIC0gVGhlIG91dGFnZSBkZXRlY3RvciBkZWNsYXJlZCB0aGUgYnJlYWtkb3duIGF0IDIwMjYt
+MDktMjkgMTA6MDAgYWZ0ZXIgdGhlIHNpbGVuY2UgYmVjYW1lIHN0YXRpc3RpY2FsbHkgaW1wcm9i
+YWJsZSBmb3IgdGhpcyBzZW5zb3IuCiAgLSBUaGUgd2hvbGUgbmV0d29yayB3YXMgZG93biBhdCB0
+aGUgc2FtZSB0aW1lLgogIC0gQUkgZm9yZWNhc3Q6IGNoYW5jZSBpdCBpcyBzdGlsbCBub3Qgd29y
+a2luZyB0b21vcnJvdzogMTQlLgogIC0gQUkgZm9yZWNhc3Q6IGNoYW5jZSBpdCBpcyBzdGlsbCBu
+b3Qgd29ya2luZyBpbiA3IGRheXM6IDMlLgoKUFJPQkFCTEUgQ0FVU0UgKHZlcnkgbGlrZWx5KQog
+IFRoZSB3aG9sZSBuZXR3b3JrIHdhcyBkb3duIGF0IHRoZSBzYW1lIHRpbWUuCgpXSEFUIFRPIERP
+CiAgTm8gc2l0ZSB2aXNpdC4gQ2hlY2sgdGhlIG5ldHdvcmsgc2VydmVyIGFuZCBpdHMgaW50ZXJu
+ZXQgY29ubmVjdGlvbi4KICBObyBzaXRlIHZpc2l0IG5lZWRlZC4KCkJhdHRlcnk6IFNvbGFyIHBv
+d2VyZWQKCgo9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT0KU0VOU09SIFNUT1BQRUQgV09SS0lORwo9PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KU2Vuc29yOiAgICAgICAgV2Vh
+dGhlciAodGVtcGVyYXR1cmUsIGh1bWlkaXR5LCBhaXIgcHJlc3N1cmUpIChCQVJBTkkgREVTSUdO
+IE1ldGVvSGVsaXggSW9UIFBybyB3ZWF0aGVyIHN0YXRpb24pClNlbnNvciBJRDogICAgIGFjMWYw
+OWZmZmUwZTI0NDEKRGV0ZWN0ZWQ6ICAgICAgMjAyNi0wOS0yOSAxMDowMCAobG9jYWwgdGltZSkK
+CkxPQ0FUSU9OCiAgQ29vcmRpbmF0ZXM6IDUyLjE1MTYzLCA5LjkyMTg1ICAgKG5lYXIgZ2F0ZXdh
+eSBSb3R0c2JlcmcvTW96YXJ0c3RyLi9Sb3R0c2JlcmctMikKICBEaXJlY3Rpb25zOiAgaHR0cHM6
+Ly93d3cuZ29vZ2xlLmNvbS9tYXBzL2Rpci8/YXBpPTEmZGVzdGluYXRpb249NTIuMTUxNjMzLDku
+OTIxODQ5JnRyYXZlbG1vZGU9ZHJpdmluZwoKV0hBVCBXQVMgREVURUNURUQKICAtIE5vIGRhdGEg
+aGFzIGFycml2ZWQgZm9yIGxlc3MgdGhhbiBhbiBob3VyIChub3JtYWxseSBvbmUgbWVzc2FnZSBl
+dmVyeSAxMCBtaW51dGVzKS4KICAtIExhc3QgbWVzc2FnZSByZWNlaXZlZDogMjAyNi0wOS0yOSAw
+OToyMCAobGVzcyB0aGFuIGFuIGhvdXIgYWdvKS4gTGFzdCBkYXRhIHNhdmVkOiAyMDI2LTA5LTI5
+IDA5OjIwLgogIC0gVGhlIG91dGFnZSBkZXRlY3RvciBkZWNsYXJlZCB0aGUgYnJlYWtkb3duIGF0
+IDIwMjYtMDktMjkgMTA6MDAgYWZ0ZXIgdGhlIHNpbGVuY2UgYmVjYW1lIHN0YXRpc3RpY2FsbHkg
+aW1wcm9iYWJsZSBmb3IgdGhpcyBzZW5zb3IuCiAgLSBUaGUgd2hvbGUgbmV0d29yayB3YXMgZG93
+biBhdCB0aGUgc2FtZSB0aW1lLgogIC0gQUkgZm9yZWNhc3Q6IGNoYW5jZSBpdCBpcyBzdGlsbCBu
+b3Qgd29ya2luZyB0b21vcnJvdzogMTQlLgogIC0gQUkgZm9yZWNhc3Q6IGNoYW5jZSBpdCBpcyBz
+dGlsbCBub3Qgd29ya2luZyBpbiA3IGRheXM6IDMlLgoKUFJPQkFCTEUgQ0FVU0UgKHZlcnkgbGlr
+ZWx5KQogIFRoZSB3aG9sZSBuZXR3b3JrIHdhcyBkb3duIGF0IHRoZSBzYW1lIHRpbWUuCgpXSEFU
+IFRPIERPCiAgTm8gc2l0ZSB2aXNpdC4gQ2hlY2sgdGhlIG5ldHdvcmsgc2VydmVyIGFuZCBpdHMg
+aW50ZXJuZXQgY29ubmVjdGlvbi4KICBObyBzaXRlIHZpc2l0IG5lZWRlZC4KCkJhdHRlcnk6IFNv
+bGFyIHBvd2VyZWQKCgoKLS0gClNtYXJ0IFNlbnNvciBNb25pdG9yaW5nIEhpbGRlc2hlaW0uIEF1
+dG9tYXRpYyBtZXNzYWdlLCBzZW50IG9ubHkgd2hlbiBhIHNlbnNvciBzdG9wcyB3b3JraW5nIG9y
+IG1heSBzdG9wIHdpdGhpbiAyNCBob3Vycy4K
+
+--===============5250109136716810240==
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+
+<!DOCTYPE html><html><body style=3D"margin:0;background:#f3f5f8;font-family:S=
+egoe UI,Helvetica,Arial,sans-serif;color:#17202b">
+<div style=3D"max-width:640px;margin:0 auto;padding:18px">
+<div style=3D"background:#0f2a4a;color:#fff;border-radius:12px 12px 0 0;paddi=
+ng:14px 18px;font-size:18px;font-weight:700">=F0=9F=93=A1 Smart Sensor Monito=
+ring =C2=B7 Hildesheim</div>
+<div style=3D"background:#fff;border-radius:0 0 12px 12px;padding:18px">
+
+<p style=3D"margin-top:0;font-size:16px;font-weight:700">8 sensors stopped at=
+ the same time (network outage). Probable common cause: The whole network was=
+ down at the same time.</p>
+
+<div style=3D"border:1px solid #e2e7ee;border-left:7px solid #d32f2f;border-r=
+adius:10px;padding:14px 16px;margin:0 0 16px">
+  <div style=3D"font-size:19px;font-weight:800;color:#d32f2f">=E2=9B=94 Senso=
+r stopped working</div>
+  <div style=3D"font-size:16px;margin-top:6px">=F0=9F=8C=AC=EF=B8=8F <b>Wind =
+speed &amp; direction</b> =C2=B7 BARANI DESIGN MeteoWind IoT Pro wind sensor<=
+/div>
+  <div style=3D"color:#5f6c7b;font-size:13px">Sensor ID ac1f09fffe0e18bc =C2=
+=B7 detected 2026-09-29 10:00 (local time)</div>
+
+  <div style=3D"margin-top:12px;font-weight:700">=F0=9F=93=8D Location</div>
+ =20
+  <div>52.14997, 9.97358</div>
+ =20
+  <a href=3D"https://www.google.com/maps/dir/?api=3D1&amp;destination=3D52.14=
+9966,9.973582&amp;travelmode=3Ddriving" style=3D"display:inline-block;margin-=
+top:8px;background:#2e9e5b;color:#fff;text-decoration:none;font-weight:700;pa=
+dding:9px 14px;border-radius:8px">=F0=9F=A7=AD Directions in Google Maps</a>
+ =20
+
+  <div style=3D"margin-top:14px;font-weight:700">=F0=9F=94=8E What was detect=
+ed</div>
+  <ul style=3D"margin:6px 0 0 18px;padding:0"><li style=3D"margin:3px 0">No d=
+ata has arrived for less than an hour (normally one message every 10 minutes)=
+.</li><li style=3D"margin:3px 0">Last message received: 2026-09-29 09:20 (les=
+s than an hour ago). Last data saved: 2026-09-29 09:20.</li><li style=3D"marg=
+in:3px 0">The outage detector declared the breakdown at 2026-09-29 10:00 afte=
+r the silence became statistically improbable for this sensor.</li><li style=
+=3D"margin:3px 0">The whole network was down at the same time.</li><li style=
+=3D"margin:3px 0">AI forecast: chance it is still not working tomorrow: 14%.<=
+/li><li style=3D"margin:3px 0">AI forecast: chance it is still not working in=
+ 7 days: 3%.</li></ul>
+  <div style=3D"margin-top:12px"><b>Probable cause</b> (very likely): The who=
+le network was down at the same time.</div>
+  <div style=3D"margin-top:12px;background:#f1f7ff;border-left:5px solid #256=
+3eb;padding:10px 12px;border-radius:6px;font-weight:600">=F0=9F=91=89 No site=
+ visit. Check the network server and its internet connection.
+    <span style=3D"display:inline-block;margin-left:6px;font-size:12px;paddin=
+g:2px 8px;border-radius:12px;background:#dcfce7;color:#166534">No site visit =
+needed</span></div>
+  <div style=3D"margin-top:10px;font-size:14px">=F0=9F=94=8B Battery: Solar p=
+owered</div>
+</div>
+
+<div style=3D"border:1px solid #e2e7ee;border-left:7px solid #d32f2f;border-r=
+adius:10px;padding:14px 16px;margin:0 0 16px">
+  <div style=3D"font-size:19px;font-weight:800;color:#d32f2f">=E2=9B=94 Senso=
+r stopped working</div>
+  <div style=3D"font-size:16px;margin-top:6px">=F0=9F=8C=AC=EF=B8=8F <b>Wind =
+speed &amp; direction</b> =C2=B7 BARANI DESIGN MeteoWind IoT Pro wind sensor<=
+/div>
+  <div style=3D"color:#5f6c7b;font-size:13px">Sensor ID ac1f09fffe0e18f9 =C2=
+=B7 detected 2026-09-29 10:00 (local time)</div>
+
+  <div style=3D"margin-top:12px;font-weight:700">=F0=9F=93=8D Location</div>
+ =20
+  <div>52.15255, 9.95316</div>
+ =20
+  <a href=3D"https://www.google.com/maps/dir/?api=3D1&amp;destination=3D52.15=
+2546,9.953159&amp;travelmode=3Ddriving" style=3D"display:inline-block;margin-=
+top:8px;background:#2e9e5b;color:#fff;text-decoration:none;font-weight:700;pa=
+dding:9px 14px;border-radius:8px">=F0=9F=A7=AD Directions in Google Maps</a>
+ =20
+
+  <div style=3D"margin-top:14px;font-weight:700">=F0=9F=94=8E What was detect=
+ed</div>
+  <ul style=3D"margin:6px 0 0 18px;padding:0"><li style=3D"margin:3px 0">No d=
+ata has arrived for less than an hour (normally one message every 10 minutes)=
+.</li><li style=3D"margin:3px 0">Last message received: 2026-09-29 09:20 (les=
+s than an hour ago). Last data saved: 2026-09-29 09:20.</li><li style=3D"marg=
+in:3px 0">The outage detector declared the breakdown at 2026-09-29 10:00 afte=
+r the silence became statistically improbable for this sensor.</li><li style=
+=3D"margin:3px 0">The whole network was down at the same time.</li><li style=
+=3D"margin:3px 0">AI forecast: chance it is still not working tomorrow: 14%.<=
+/li><li style=3D"margin:3px 0">AI forecast: chance it is still not working in=
+ 7 days: 3%.</li></ul>
+  <div style=3D"margin-top:12px"><b>Probable cause</b> (very likely): The who=
+le network was down at the same time.</div>
+  <div style=3D"margin-top:12px;background:#f1f7ff;border-left:5px solid #256=
+3eb;padding:10px 12px;border-radius:6px;font-weight:600">=F0=9F=91=89 No site=
+ visit. Check the network server and its internet connection.
+    <span style=3D"display:inline-block;margin-left:6px;font-size:12px;paddin=
+g:2px 8px;border-radius:12px;background:#dcfce7;color:#166534">No site visit =
+needed</span></div>
+  <div style=3D"margin-top:10px;font-size:14px">=F0=9F=94=8B Battery: Solar p=
+owered</div>
+</div>
+
+<div style=3D"border:1px solid #e2e7ee;border-left:7px solid #d32f2f;border-r=
+adius:10px;padding:14px 16px;margin:0 0 16px">
+  <div style=3D"font-size:19px;font-weight:800;color:#d32f2f">=E2=9B=94 Senso=
+r stopped working</div>
+  <div style=3D"font-size:16px;margin-top:6px">=F0=9F=8C=AC=EF=B8=8F <b>Wind =
+speed &amp; direction</b> =C2=B7 BARANI DESIGN MeteoWind IoT Pro wind sensor<=
+/div>
+  <div style=3D"color:#5f6c7b;font-size:13px">Sensor ID ac1f09fffe0e197a =C2=
+=B7 detected 2026-09-29 10:00 (local time)</div>
+
+  <div style=3D"margin-top:12px;font-weight:700">=F0=9F=93=8D Location</div>
+ =20
+  <div>52.15163, 9.92185</div>
+ =20
+  <a href=3D"https://www.google.com/maps/dir/?api=3D1&amp;destination=3D52.15=
+1633,9.921849&amp;travelmode=3Ddriving" style=3D"display:inline-block;margin-=
+top:8px;background:#2e9e5b;color:#fff;text-decoration:none;font-weight:700;pa=
+dding:9px 14px;border-radius:8px">=F0=9F=A7=AD Directions in Google Maps</a>
+ =20
+
+  <div style=3D"margin-top:14px;font-weight:700">=F0=9F=94=8E What was detect=
+ed</div>
+  <ul style=3D"margin:6px 0 0 18px;padding:0"><li style=3D"margin:3px 0">No d=
+ata has arrived for less than an hour (normally one message every 10 minutes)=
+.</li><li style=3D"margin:3px 0">Last message received: 2026-09-29 09:20 (les=
+s than an hour ago). Last data saved: 2026-09-29 09:20.</li><li style=3D"marg=
+in:3px 0">The outage detector declared the breakdown at 2026-09-29 10:00 afte=
+r the silence became statistically improbable for this sensor.</li><li style=
+=3D"margin:3px 0">The whole network was down at the same time.</li><li style=
+=3D"margin:3px 0">AI forecast: chance it is still not working tomorrow: 14%.<=
+/li><li style=3D"margin:3px 0">AI forecast: chance it is still not working in=
+ 7 days: 3%.</li></ul>
+  <div style=3D"margin-top:12px"><b>Probable cause</b> (very likely): The who=
+le network was down at the same time.</div>
+  <div style=3D"margin-top:12px;background:#f1f7ff;border-left:5px solid #256=
+3eb;padding:10px 12px;border-radius:6px;font-weight:600">=F0=9F=91=89 No site=
+ visit. Check the network server and its internet connection.
+    <span style=3D"display:inline-block;margin-left:6px;font-size:12px;paddin=
+g:2px 8px;border-radius:12px;background:#dcfce7;color:#166534">No site visit =
+needed</span></div>
+  <div style=3D"margin-top:10px;font-size:14px">=F0=9F=94=8B Battery: Solar p=
+owered</div>
+</div>
+
+<div style=3D"border:1px solid #e2e7ee;border-left:7px solid #d32f2f;border-r=
+adius:10px;padding:14px 16px;margin:0 0 16px">
+  <div style=3D"font-size:19px;font-weight:800;color:#d32f2f">=E2=9B=94 Senso=
+r stopped working</div>
+  <div style=3D"font-size:16px;margin-top:6px">=F0=9F=8C=A1=EF=B8=8F <b>Weath=
+er (temperature, humidity, air pressure)</b> =C2=B7 BARANI DESIGN MeteoHelix =
+IoT Pro weather station</div>
+  <div style=3D"color:#5f6c7b;font-size:13px">Sensor ID ac1f09fffe0e23ab =C2=
+=B7 detected 2026-09-29 10:00 (local time)</div>
+
+  <div style=3D"margin-top:12px;font-weight:700">=F0=9F=93=8D Location</div>
+ =20
+  <div>52.12594, 9.93657 =C2=B7 near gateway B=C3=B6rdestra=C3=9Fe</div>
+ =20
+  <a href=3D"https://www.google.com/maps/dir/?api=3D1&amp;destination=3D52.12=
+5941,9.936574&amp;travelmode=3Ddriving" style=3D"display:inline-block;margin-=
+top:8px;background:#2e9e5b;color:#fff;text-decoration:none;font-weight:700;pa=
+dding:9px 14px;border-radius:8px">=F0=9F=A7=AD Directions in Google Maps</a>
+ =20
+
+  <div style=3D"margin-top:14px;font-weight:700">=F0=9F=94=8E What was detect=
+ed</div>
+  <ul style=3D"margin:6px 0 0 18px;padding:0"><li style=3D"margin:3px 0">No d=
+ata has arrived for less than an hour (normally one message every 10 minutes)=
+.</li><li style=3D"margin:3px 0">Last message received: 2026-09-29 09:20 (les=
+s than an hour ago). Last data saved: 2026-09-29 09:20.</li><li style=3D"marg=
+in:3px 0">The outage detector declared the breakdown at 2026-09-29 10:00 afte=
+r the silence became statistically improbable for this sensor.</li><li style=
+=3D"margin:3px 0">The whole network was down at the same time.</li><li style=
+=3D"margin:3px 0">AI forecast: chance it is still not working tomorrow: 14%.<=
+/li><li style=3D"margin:3px 0">AI forecast: chance it is still not working in=
+ 7 days: 3%.</li></ul>
+  <div style=3D"margin-top:12px"><b>Probable cause</b> (very likely): The who=
+le network was down at the same time.</div>
+  <div style=3D"margin-top:12px;background:#f1f7ff;border-left:5px solid #256=
+3eb;padding:10px 12px;border-radius:6px;font-weight:600">=F0=9F=91=89 No site=
+ visit. Check the network server and its internet connection.
+    <span style=3D"display:inline-block;margin-left:6px;font-size:12px;paddin=
+g:2px 8px;border-radius:12px;background:#dcfce7;color:#166534">No site visit =
+needed</span></div>
+  <div style=3D"margin-top:10px;font-size:14px">=F0=9F=94=8B Battery: Solar p=
+owered</div>
+</div>
+
+<div style=3D"border:1px solid #e2e7ee;border-left:7px solid #d32f2f;border-r=
+adius:10px;padding:14px 16px;margin:0 0 16px">
+  <div style=3D"font-size:19px;font-weight:800;color:#d32f2f">=E2=9B=94 Senso=
+r stopped working</div>
+  <div style=3D"font-size:16px;margin-top:6px">=F0=9F=8C=A1=EF=B8=8F <b>Weath=
+er (temperature, humidity, air pressure)</b> =C2=B7 BARANI DESIGN MeteoHelix =
+IoT Pro weather station</div>
+  <div style=3D"color:#5f6c7b;font-size:13px">Sensor ID ac1f09fffe0e23dc =C2=
+=B7 detected 2026-09-29 10:00 (local time)</div>
+
+  <div style=3D"margin-top:12px;font-weight:700">=F0=9F=93=8D Location</div>
+ =20
+  <div>52.14997, 9.97358 =C2=B7 near gateway R=C3=B6merring-2</div>
+ =20
+  <a href=3D"https://www.google.com/maps/dir/?api=3D1&amp;destination=3D52.14=
+9966,9.973582&amp;travelmode=3Ddriving" style=3D"display:inline-block;margin-=
+top:8px;background:#2e9e5b;color:#fff;text-decoration:none;font-weight:700;pa=
+dding:9px 14px;border-radius:8px">=F0=9F=A7=AD Directions in Google Maps</a>
+ =20
+
+  <div style=3D"margin-top:14px;font-weight:700">=F0=9F=94=8E What was detect=
+ed</div>
+  <ul style=3D"margin:6px 0 0 18px;padding:0"><li style=3D"margin:3px 0">No d=
+ata has arrived for less than an hour (normally one message every 10 minutes)=
+.</li><li style=3D"margin:3px 0">Last message received: 2026-09-29 09:20 (les=
+s than an hour ago). Last data saved: 2026-09-29 09:20.</li><li style=3D"marg=
+in:3px 0">The outage detector declared the breakdown at 2026-09-29 10:00 afte=
+r the silence became statistically improbable for this sensor.</li><li style=
+=3D"margin:3px 0">The whole network was down at the same time.</li><li style=
+=3D"margin:3px 0">AI forecast: chance it is still not working tomorrow: 14%.<=
+/li><li style=3D"margin:3px 0">AI forecast: chance it is still not working in=
+ 7 days: 3%.</li></ul>
+  <div style=3D"margin-top:12px"><b>Probable cause</b> (very likely): The who=
+le network was down at the same time.</div>
+  <div style=3D"margin-top:12px;background:#f1f7ff;border-left:5px solid #256=
+3eb;padding:10px 12px;border-radius:6px;font-weight:600">=F0=9F=91=89 No site=
+ visit. Check the network server and its internet connection.
+    <span style=3D"display:inline-block;margin-left:6px;font-size:12px;paddin=
+g:2px 8px;border-radius:12px;background:#dcfce7;color:#166534">No site visit =
+needed</span></div>
+  <div style=3D"margin-top:10px;font-size:14px">=F0=9F=94=8B Battery: Solar p=
+owered</div>
+</div>
+
+<div style=3D"border:1px solid #e2e7ee;border-left:7px solid #d32f2f;border-r=
+adius:10px;padding:14px 16px;margin:0 0 16px">
+  <div style=3D"font-size:19px;font-weight:800;color:#d32f2f">=E2=9B=94 Senso=
+r stopped working</div>
+  <div style=3D"font-size:16px;margin-top:6px">=F0=9F=8C=A1=EF=B8=8F <b>Weath=
+er (temperature, humidity, air pressure)</b> =C2=B7 BARANI DESIGN MeteoHelix =
+IoT Pro weather station</div>
+  <div style=3D"color:#5f6c7b;font-size:13px">Sensor ID ac1f09fffe0e23f1 =C2=
+=B7 detected 2026-09-29 10:00 (local time)</div>
+
+  <div style=3D"margin-top:12px;font-weight:700">=F0=9F=93=8D Location</div>
+ =20
+  <div>52.14320, 9.97411 =C2=B7 near gateway Rottsberg/Mozartstr./Rottsberg-2=
+</div>
+ =20
+  <a href=3D"https://www.google.com/maps/dir/?api=3D1&amp;destination=3D52.14=
+3198,9.974107&amp;travelmode=3Ddriving" style=3D"display:inline-block;margin-=
+top:8px;background:#2e9e5b;color:#fff;text-decoration:none;font-weight:700;pa=
+dding:9px 14px;border-radius:8px">=F0=9F=A7=AD Directions in Google Maps</a>
+ =20
+
+  <div style=3D"margin-top:14px;font-weight:700">=F0=9F=94=8E What was detect=
+ed</div>
+  <ul style=3D"margin:6px 0 0 18px;padding:0"><li style=3D"margin:3px 0">No d=
+ata has arrived for less than an hour (normally one message every 10 minutes)=
+.</li><li style=3D"margin:3px 0">Last message received: 2026-09-29 09:20 (les=
+s than an hour ago). Last data saved: 2026-09-29 09:20.</li><li style=3D"marg=
+in:3px 0">The outage detector declared the breakdown at 2026-09-29 10:00 afte=
+r the silence became statistically improbable for this sensor.</li><li style=
+=3D"margin:3px 0">The whole network was down at the same time.</li><li style=
+=3D"margin:3px 0">AI forecast: chance it is still not working tomorrow: 14%.<=
+/li><li style=3D"margin:3px 0">AI forecast: chance it is still not working in=
+ 7 days: 3%.</li></ul>
+  <div style=3D"margin-top:12px"><b>Probable cause</b> (very likely): The who=
+le network was down at the same time.</div>
+  <div style=3D"margin-top:12px;background:#f1f7ff;border-left:5px solid #256=
+3eb;padding:10px 12px;border-radius:6px;font-weight:600">=F0=9F=91=89 No site=
+ visit. Check the network server and its internet connection.
+    <span style=3D"display:inline-block;margin-left:6px;font-size:12px;paddin=
+g:2px 8px;border-radius:12px;background:#dcfce7;color:#166534">No site visit =
+needed</span></div>
+  <div style=3D"margin-top:10px;font-size:14px">=F0=9F=94=8B Battery: Solar p=
+owered</div>
+</div>
+
+<div style=3D"border:1px solid #e2e7ee;border-left:7px solid #d32f2f;border-r=
+adius:10px;padding:14px 16px;margin:0 0 16px">
+  <div style=3D"font-size:19px;font-weight:800;color:#d32f2f">=E2=9B=94 Senso=
+r stopped working</div>
+  <div style=3D"font-size:16px;margin-top:6px">=F0=9F=8C=A1=EF=B8=8F <b>Weath=
+er (temperature, humidity, air pressure)</b> =C2=B7 BARANI DESIGN MeteoHelix =
+IoT Pro weather station</div>
+  <div style=3D"color:#5f6c7b;font-size:13px">Sensor ID ac1f09fffe0e2412 =C2=
+=B7 detected 2026-09-29 10:00 (local time)</div>
+
+  <div style=3D"margin-top:12px;font-weight:700">=F0=9F=93=8D Location</div>
+ =20
+  <div>52.14453, 9.96793 =C2=B7 near gateway Rottsberg/Mozartstr./Rottsberg-2=
+</div>
+ =20
+  <a href=3D"https://www.google.com/maps/dir/?api=3D1&amp;destination=3D52.14=
+4528,9.967935&amp;travelmode=3Ddriving" style=3D"display:inline-block;margin-=
+top:8px;background:#2e9e5b;color:#fff;text-decoration:none;font-weight:700;pa=
+dding:9px 14px;border-radius:8px">=F0=9F=A7=AD Directions in Google Maps</a>
+ =20
+
+  <div style=3D"margin-top:14px;font-weight:700">=F0=9F=94=8E What was detect=
+ed</div>
+  <ul style=3D"margin:6px 0 0 18px;padding:0"><li style=3D"margin:3px 0">No d=
+ata has arrived for less than an hour (normally one message every 10 minutes)=
+.</li><li style=3D"margin:3px 0">Last message received: 2026-09-29 09:10 (les=
+s than an hour ago). Last data saved: 2026-09-29 09:10.</li><li style=3D"marg=
+in:3px 0">The outage detector declared the breakdown at 2026-09-29 10:00 afte=
+r the silence became statistically improbable for this sensor.</li><li style=
+=3D"margin:3px 0">The whole network was down at the same time.</li><li style=
+=3D"margin:3px 0">AI forecast: chance it is still not working tomorrow: 14%.<=
+/li><li style=3D"margin:3px 0">AI forecast: chance it is still not working in=
+ 7 days: 3%.</li></ul>
+  <div style=3D"margin-top:12px"><b>Probable cause</b> (very likely): The who=
+le network was down at the same time.</div>
+  <div style=3D"margin-top:12px;background:#f1f7ff;border-left:5px solid #256=
+3eb;padding:10px 12px;border-radius:6px;font-weight:600">=F0=9F=91=89 No site=
+ visit. Check the network server and its internet connection.
+    <span style=3D"display:inline-block;margin-left:6px;font-size:12px;paddin=
+g:2px 8px;border-radius:12px;background:#dcfce7;color:#166534">No site visit =
+needed</span></div>
+  <div style=3D"margin-top:10px;font-size:14px">=F0=9F=94=8B Battery: Solar p=
+owered</div>
+</div>
+
+<div style=3D"border:1px solid #e2e7ee;border-left:7px solid #d32f2f;border-r=
+adius:10px;padding:14px 16px;margin:0 0 16px">
+  <div style=3D"font-size:19px;font-weight:800;color:#d32f2f">=E2=9B=94 Senso=
+r stopped working</div>
+  <div style=3D"font-size:16px;margin-top:6px">=F0=9F=8C=A1=EF=B8=8F <b>Weath=
+er (temperature, humidity, air pressure)</b> =C2=B7 BARANI DESIGN MeteoHelix =
+IoT Pro weather station</div>
+  <div style=3D"color:#5f6c7b;font-size:13px">Sensor ID ac1f09fffe0e2441 =C2=
+=B7 detected 2026-09-29 10:00 (local time)</div>
+
+  <div style=3D"margin-top:12px;font-weight:700">=F0=9F=93=8D Location</div>
+ =20
+  <div>52.15163, 9.92185 =C2=B7 near gateway Rottsberg/Mozartstr./Rottsberg-2=
+</div>
+ =20
+  <a href=3D"https://www.google.com/maps/dir/?api=3D1&amp;destination=3D52.15=
+1633,9.921849&amp;travelmode=3Ddriving" style=3D"display:inline-block;margin-=
+top:8px;background:#2e9e5b;color:#fff;text-decoration:none;font-weight:700;pa=
+dding:9px 14px;border-radius:8px">=F0=9F=A7=AD Directions in Google Maps</a>
+ =20
+
+  <div style=3D"margin-top:14px;font-weight:700">=F0=9F=94=8E What was detect=
+ed</div>
+  <ul style=3D"margin:6px 0 0 18px;padding:0"><li style=3D"margin:3px 0">No d=
+ata has arrived for less than an hour (normally one message every 10 minutes)=
+.</li><li style=3D"margin:3px 0">Last message received: 2026-09-29 09:20 (les=
+s than an hour ago). Last data saved: 2026-09-29 09:20.</li><li style=3D"marg=
+in:3px 0">The outage detector declared the breakdown at 2026-09-29 10:00 afte=
+r the silence became statistically improbable for this sensor.</li><li style=
+=3D"margin:3px 0">The whole network was down at the same time.</li><li style=
+=3D"margin:3px 0">AI forecast: chance it is still not working tomorrow: 14%.<=
+/li><li style=3D"margin:3px 0">AI forecast: chance it is still not working in=
+ 7 days: 3%.</li></ul>
+  <div style=3D"margin-top:12px"><b>Probable cause</b> (very likely): The who=
+le network was down at the same time.</div>
+  <div style=3D"margin-top:12px;background:#f1f7ff;border-left:5px solid #256=
+3eb;padding:10px 12px;border-radius:6px;font-weight:600">=F0=9F=91=89 No site=
+ visit. Check the network server and its internet connection.
+    <span style=3D"display:inline-block;margin-left:6px;font-size:12px;paddin=
+g:2px 8px;border-radius:12px;background:#dcfce7;color:#166534">No site visit =
+needed</span></div>
+  <div style=3D"margin-top:10px;font-size:14px">=F0=9F=94=8B Battery: Solar p=
+owered</div>
+</div>
+
+
+<p style=3D"color:#8a94a0;font-size:12px;margin-bottom:0">Automatic message f=
+rom Smart Sensor Monitoring Hildesheim. Sent only when a sensor stops working=
+ or may stop within 24 hours.</p>
+</div></div></body></html>
+
+--===============5250109136716810240==--

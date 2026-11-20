@@ -18,7 +18,8 @@ need_rp = pytest.mark.skipif(not (RP / 'sys_device_hour.parquet').exists(), reas
 def cfg(tmp, **kw):
     c = dict(enabled=False, dry_run=True, outbox_dir=str(tmp / 'outbox'), recipients=['admin@example.org'], escalation_recipients=['lead@example.org'],
              cooldown_h=6, min_clear_h={'SENSOR_DOWN': 2, 'BACKEND_FAILURE': 12, 'GATEWAY_DOWN': 2, 'NETWORK_OUTAGE': 1, 'default': 24},
-             risk_hysteresis=0.7, reminder_h={'critical': 24, 'warning': 72}, reminder_max_h=168, escalate_h=48, degraded_min_h=24, warnings_enabled=True)
+             risk_hysteresis=0.7, reminder_h={'critical': 24, 'warning': 72}, reminder_max_h=168, escalate_h=48, degraded_min_h=24, warnings_enabled=True,
+             email_style='classic', baseline_digest=False)          # lifecycle tests: every type e-mailed; the e-mail policy is tested below
     c.update(kw); return c
 
 def row(dev='d1', fam='MeteoHelix', state='normal', **kw):
@@ -268,3 +269,73 @@ def test_feed_status_record_age_and_file_time(tmp_path):
     os.utime(tmp_path / 'bodenfeuchte_raw.csv', (now.timestamp() - 9 * 3600, now.timestamp() - 9 * 3600))   # not rewritten: stale
     f = feed_status(tmp_path, now, 3)
     assert not f['devices']['stale'] and f['soil']['stale'] and not f['weather']['stale']
+
+
+# ------------------------------------------------------------------ e-mail policy: only "stopped working" and "may stop within 24 h"
+POLICY = dict(email_types=['SENSOR_DOWN', 'FAILURE_EXPECTED_24H'], email_kinds=['OPEN'], email_style='simple', baseline_digest=True)
+LOC = {'d1': (52.15, 9.95, None), 'gw:siteA': (52.16, 9.96, None)}
+
+def policy_engine(tmp, **kw):
+    c = cfg(tmp, **dict(POLICY, **kw)); return Engine(c, Store(str(tmp / 'n.sqlite')), Mailer(c), LOC)
+
+def test_startup_sends_one_summary_not_one_per_sensor(tmp_path):
+    e = policy_engine(tmp_path)
+    s = e.step(H(0), S_(*[row(dev=f'd{i}', state='significant_interruption') for i in range(1, 6)]), G0, {}, {})
+    assert kinds(s) == ['SUMMARY'] and s[0]['n_items'] == 5 and 'Monitoring started: 5 sensors not working' in s[0]['subject']
+    assert e.step(H(1), S_(*[row(dev=f'd{i}', state='significant_interruption') for i in range(1, 6)]), G0, {}, {}) == []
+
+def test_only_two_conditions_are_emailed(tmp_path):
+    e = policy_engine(tmp_path)
+    e.step(H(0), S_(row(dev='d0')), G0, {}, {})                                   # start-up (nothing wrong)
+    G = pd.DataFrame([dict(gw_site='siteA', condition='inactive_gateway', mu=20.0, dependents=3, dep_heard_elsewhere=1)])
+    other = S_(row(dev='d0'), row(dev='d2', battery_condition='low'), row(dev='d3', anomaly_kinds='frozen_temperature', anomaly_high=1),
+               row(dev='d4', state='backend_data_unavailable'), row(dev='d5', state='reduced_reporting_mode'))
+    for h in range(1, 40): assert e.step(H(h), other, G, {}, {'siteA': h}) == []   # tracked as incidents, never e-mailed
+    assert e.store.q('select count(*) from incidents')[0][0] >= 4
+    s = e.step(H(40), S_(row(dev='d1', state='significant_interruption')), G0, {}, {})
+    assert kinds(s) == ['OPEN'] and 'Sensor stopped working' in s[0]['subject']
+    assert all(kinds(e.step(H(h), S_(row(dev='d1', state='significant_interruption')), G0, {}, {})) == [] for h in range(41, 120))   # no reminders / escalation
+
+def test_24h_warning_from_ai_and_from_critical_battery(tmp_path):
+    e = policy_engine(tmp_path); thr = {('A_24h', 'MeteoHelix'): 0.3}
+    e.step(H(0), S_(row(dev='d0')), G0, thr, {})
+    s = e.step(H(1), S_(row(dev='d1', p_stop_24h=0.2)), G0, thr, {}); assert s == []          # below the validated threshold
+    s = e.step(H(2), S_(row(dev='d1', p_stop_24h=0.45)), G0, thr, {})
+    assert kinds(s) == ['OPEN'] and 'may stop working within 24 hours' in s[0]['subject']
+    e2 = policy_engine(tmp_path / 'b'); e2.step(H(0), S_(row(dev='d0')), G0, {}, {})
+    s2 = e2.step(H(1), S_(row(dev='d1', family='Bigbelly', battery_condition='critical', battery_value=11.55)), G0, {}, {})
+    assert kinds(s2) == ['OPEN']
+    txt = ''.join(p.read_text() for p in (tmp_path / 'b' / 'outbox').glob('*.eml')).replace('=\n', '')
+    assert 'Battery critical' in txt and '11.55 V' in txt
+
+def test_alert_email_has_location_directions_and_detection(tmp_path):
+    e = policy_engine(tmp_path); e.step(H(0), S_(row(dev='d0')), G0, {}, {})
+    e.step(H(1), S_(row(dev='d1', state='significant_interruption', p_still_down_24h=0.8)), G0, {}, {})
+    import email, email.policy
+    m = email.message_from_bytes(sorted((tmp_path / 'outbox').glob('*OPEN*.eml'))[0].read_bytes(), policy=email.policy.default)
+    txt = m.get_body(preferencelist=('plain',)).get_content(); html = m.get_body(preferencelist=('html',)).get_content()
+    for k in ['SENSOR STOPPED WORKING', 'd1', '52.15000, 9.95000', 'google.com/maps/dir/?api=1&destination=52.150000,9.950000', 'WHAT WAS DETECTED',
+              'No data has arrived', 'Last message received', 'WHAT TO DO', 'still not working tomorrow: 80%']:
+        assert k in txt, k
+    assert 'Directions in Google Maps' in html
+
+def test_alert_email_falls_back_to_gateway_location(tmp_path):
+    e = policy_engine(tmp_path); e.step(H(0), S_(row(dev='d0')), G0, {}, {})
+    e.step(H(1), S_(row(dev='dX', state='significant_interruption')), G0, {}, {})
+    txt = ''.join(p.read_text() for p in (tmp_path / 'outbox').glob('*OPEN*.eml')).replace('=\n', '')
+    assert '52.16000, 9.96000' in txt and 'exact sensor position is not in the data' in txt
+
+def test_backend_latch_corrected():
+    S = pd.DataFrame([dict(device_id='a', family='CloverSoilSensor', hour_end=pd.Timestamp('2026-11-16 22:00'), state='backend_data_unavailable', traffic_light='red',
+                           rx_last_arrival=pd.Timestamp('2026-08-17 01:12'), in_declared_outage=True),
+                      dict(device_id='b', family='Sensoterra', hour_end=pd.Timestamp('2026-11-16 22:00'), state='backend_data_unavailable', traffic_light='red',
+                           rx_last_arrival=pd.Timestamp('2026-11-16 21:30'), in_declared_outage=True)])
+    o = system.correct_backend_latch(S).set_index('device_id').state
+    assert o['a'] == 'significant_interruption' and o['b'] == 'backend_data_unavailable'
+
+def test_recipients_and_real_sending_from_environment(tmp_path, monkeypatch):
+    from hsm.cli import load_cfg
+    p = tmp_path / 'c.yaml'; p.write_text('data: {}\nnotifications: {enabled: false, dry_run: true, recipients: [a@x]}\n')
+    assert load_cfg(p)['notifications']['recipients'] == ['a@x'] and load_cfg(p)['notifications']['dry_run']
+    monkeypatch.setenv('HSM_ALERT_TO', 'me@gmail.com, you@gmail.com'); monkeypatch.setenv('HSM_EMAIL_ENABLED', '1')
+    n = load_cfg(p)['notifications']; assert n['recipients'] == ['me@gmail.com', 'you@gmail.com'] and n['enabled'] and not n['dry_run']

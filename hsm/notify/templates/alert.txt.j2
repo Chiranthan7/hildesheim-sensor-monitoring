@@ -1,0 +1,39 @@
+{{ subject }}
+{% if digest %}
+Monitoring has started. These sensors already had a problem at the start. From now on you get one e-mail per new problem.
+{% endif %}{% if items|length > 1 and items[0].group_note %}
+{{ items[0].group_note }}
+{% endif %}
+{% for it in items %}
+============================================================
+{{ it.title | upper }}
+============================================================
+Sensor:        {{ it.measures }} ({{ it.manufacturer }} {{ it.model }})
+Sensor ID:     {{ it.device }}
+Detected:      {{ it.detected }} (local time)
+{% if it.location %}
+LOCATION
+  Coordinates: {{ it.location.coords }}{% if it.gateway %}   (near gateway {{ it.gateway }}){% endif %}
+{% if it.location.approximate %}  Note: {{ it.location.note }}
+{% endif %}  Directions:  {{ it.location.maps }}
+{% else %}
+LOCATION
+  The position of this sensor is not in the data.{% if it.gateway %} Main gateway: {{ it.gateway }}.{% endif %}
+{% endif %}
+WHAT WAS DETECTED
+{% for d in it.detection %}  - {{ d }}
+{% endfor %}{% if it.cause %}
+PROBABLE CAUSE ({{ it.certainty }})
+  {{ it.cause }}
+{% endif %}
+WHAT TO DO
+  {{ it.todo }}
+  {% if it.visit %}Site visit needed.{% else %}No site visit needed.{% endif %}
+{% if it.battery %}
+Battery: {{ it.battery.text }}{% if it.battery.kind in ('band', 'percent', 'ok') %} ({{ it.battery.label }}){% endif %}
+{% endif %}
+{% endfor %}
+{% if app_url %}Open the monitoring app: {{ app_url }}
+{% endif %}
+-- 
+Smart Sensor Monitoring Hildesheim. Automatic message, sent only when a sensor stops working or may stop within 24 hours.

@@ -20,6 +20,16 @@ def warning_thresholds(fd, budget):
         for t in np.quantile(v[r.selected].dropna(), [0.9, 0.95, 0.97, 0.98, 0.99, 0.995]):
             m = risk.event_metrics(v, r.selected, t, E, int(r.H))
             if m['false_alerts_per_sensor_week'] <= budget: thr[('A_prolonged_7d', r.family)] = float(t); break
+    # e-mail warning "may stop within 24 h" (stricter: false-alert budget and minimum recall, validation only)
+    from .system import EMAIL_BUDGET
+    for r in R[R.task.isin(['A_onset_long', 'A_onset_short']) & (R.H == 24)].itertuples():
+        v = PA[(PA.task == r.task) & (PA.family == r.family) & (PA.role == 'validation')]
+        if not len(v) or v.y.sum() < 5: continue
+        for q in [0.9, 0.95, 0.97, 0.98, 0.99, 0.995, 0.998, 0.999, 0.9995]:
+            t = float(np.quantile(v[r.selected].dropna(), q)); m = risk.event_metrics(v, r.selected, t, E, 24)
+            if m['false_alerts_per_sensor_week'] <= EMAIL_BUDGET['false_per_sensor_week']:
+                if (m['event_recall'] or 0) >= EMAIL_BUDGET['min_recall']: thr[('A_24h', r.family)] = t
+                break
     for r in R[R.task == 'B_developing'].itertuples():
         if np.isfinite(r.threshold): thr[('B_developing', r.family)] = float(r.threshold)
     return thr
@@ -32,10 +42,11 @@ def run(fd, out, start='2026-08-01', cfg=None):
     G = pd.read_parquet(f'{fd}/gold_gw_site_hour.parquet')
     cfg = cfg or dict(enabled=False, dry_run=True, outbox_dir=str(out / 'outbox'), recipients=['admin@example.org'], escalation_recipients=['lead@example.org'],
                       cooldown_h=6, min_clear_h={'SENSOR_DOWN': 2, 'BACKEND_FAILURE': 12, 'GATEWAY_DOWN': 2, 'NETWORK_OUTAGE': 1, 'REDUCED_REPORTING_MODE': 48, 'default': 24}, risk_hysteresis=0.7,
-                      reminder_h={'critical': 24, 'warning': 72}, reminder_max_h=168, flapping_onsets_7d=3, flapping_clear_h=24, early_silence_warning=False, escalate_h=48, degraded_min_h=24, warnings_enabled=True, dashboard_url='')
+                      reminder_h={'critical': 24, 'warning': 72}, reminder_max_h=168, flapping_onsets_7d=3, flapping_clear_h=24, early_silence_warning=False, escalate_h=48, degraded_min_h=24, warnings_enabled=True, dashboard_url='',
+                      email_types=['SENSOR_DOWN', 'FAILURE_EXPECTED_24H'], email_kinds=['OPEN'], email_style='simple', baseline_digest=True)
     assert cfg.get('dry_run', True) or not cfg.get('enabled'), 'replay must never send real e-mail'
     cfg = dict(cfg, enabled=False, dry_run=True)                        # hard guarantee
-    eng = Engine(cfg, Store(str(out / 'notifications.sqlite')), Mailer(cfg))
+    eng = Engine(cfg, Store(str(out / 'notifications.sqlite')), Mailer(cfg), system.device_locations(fd))
     hours = pd.date_range(pd.Timestamp(start), S.hour_end.max(), freq='h')
     Sd = {h: g for h, g in S[S.hour_end >= pd.Timestamp(start)].groupby('hour_end')}
     Gd = {h: g for h, g in G.groupby('hour_end')}
@@ -76,6 +87,8 @@ def evaluate(fd, out, S, I, N, start='2026-08-01'):
               & (pd.to_datetime(D.closed_at).fillna(pd.Timestamp('2262-01-01')) >= e.declared_at)]
         first = pd.to_datetime(d.opened_at).min() if len(d) else pd.NaT
         ongoing_at_check = (pd.isna(e.recovered_at)) or (e.recovered_at > e.declared_at.ceil('h'))
+        d = d[d.notified_open == 1] if 'notified_open' in d else d         # an e-mail actually went out (or the start-up summary listed it)
+        first = pd.to_datetime(d.opened_at).min() if len(d) else pd.NaT
         cov.append(dict(device_id=e.device_id, family=e.family, onset=e.onset, declared_at=e.declared_at, covered=len(d) > 0, ongoing_at_hourly_check=ongoing_at_check,
                         delay_from_onset_h=(first - e.onset).total_seconds() / 3600 if len(d) else np.nan, risk_before=np.nan))
     C = pd.DataFrame(cov); C.to_parquet(Path(out) / 'outage_coverage.parquet', index=False)
@@ -83,6 +96,10 @@ def evaluate(fd, out, S, I, N, start='2026-08-01'):
     oc = C[C.ongoing_at_hourly_check]; res['outages_ge6h_ongoing_at_an_hourly_check'] = len(oc)
     res['outages_ge6h_ongoing_notified_share'] = float(oc.covered.mean()) if len(oc) else np.nan
     res['median_notification_delay_from_onset_h'] = float(C.delay_from_onset_h.median()) if len(C) else np.nan
+    Ec = E.set_index(['device_id', 'onset']).cause_hint
+    srv = oc.apply(lambda r: str(Ec.get((r.device_id, r.onset), '')).startswith('data not stored'), axis=1) if len(oc) else pd.Series(dtype=bool)
+    res['outages_sensor_stopped_ongoing'] = int((~srv).sum()); res['outages_sensor_stopped_emailed_share'] = float(oc[~srv].covered.mean()) if (~srv).any() else np.nan
+    res['outages_server_side_not_emailed'] = int((srv & ~oc.covered).sum()) if len(oc) else 0
     # premature recoveries: a recovery followed by the same incident type for the same entity within 24 h
     R = I[I.closed_at.notna()]
     pre = 0
@@ -102,6 +119,11 @@ def evaluate(fd, out, S, I, N, start='2026-08-01'):
     res['risk_warnings'] = int(len(W)); res['risk_warning_precision_7d'] = float(np.mean(hit)) if len(W) else np.nan
     pre_w = [((W.entity == p.device_id) & (pd.to_datetime(W.opened_at) < p.onset) & (pd.to_datetime(W.opened_at) >= p.onset - pd.Timedelta('7D'))).any() for p in P7.itertuples()]
     res['prolonged_outages'] = int(len(P7)); res['prolonged_outages_warned_before_share'] = float(np.mean(pre_w)) if len(P7) else np.nan
+    # e-mail warnings "may stop within 24 h": followed by an outage onset within 24 h?
+    W24 = I[(I.type == 'FAILURE_EXPECTED_24H') & (I.notified_open == 1)]; Eall = risk.events(pd.read_parquet(f'{fd}/gold_silences.parquet'))
+    hit24 = [((Eall.device_id == w.entity) & (Eall.onset > pd.Timestamp(w.opened_at)) & (Eall.onset <= pd.Timestamp(w.opened_at) + pd.Timedelta('24h'))).any() for w in W24.itertuples()]
+    res['warnings_24h_emailed'] = int(len(W24)); res['warnings_24h_followed_by_outage_within_24h'] = float(np.mean(hit24)) if len(W24) else np.nan
+    res['emails_total'] = int(len(N)); res['emails_by_type'] = I[I.notified_open == 1].type.value_counts().to_dict()
     json.dump(res, open(Path(out) / 'replay_evaluation.json', 'w'), indent=1, default=str)
     return res
 

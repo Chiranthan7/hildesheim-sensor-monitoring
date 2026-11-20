@@ -146,6 +146,7 @@ PREDICTION_QUALITY = {   # from the held-out test months (docs/SYSTEM.md); shown
     'Sensoterra': 'Tested on Oct-Nov data: good for long breakdowns (catches about half, ~6 days ahead); weak for the next 24 h.',
     'MeteoHelix': 'Tested on Oct-Nov data: good for the next 24 h; too few long breakdowns to test the 7-day forecast.',
     'MeteoWind': 'Tested on Oct-Nov data: good for the next 24 h; too few long breakdowns to test the 7-day forecast.',
+    'CloverSoilSensor': 'Checked on Aug-Sep data (caught about 30 % of breakdowns a day ahead); these sensors stopped afterwards, so it could not be confirmed later.',
 }
 DEFAULT_QUALITY = 'Too few past breakdowns of this sensor type to test the forecast. Treat it as a rough guide.'
 

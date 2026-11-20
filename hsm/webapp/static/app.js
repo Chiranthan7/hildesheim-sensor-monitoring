@@ -196,6 +196,12 @@ $('#playBtn').onclick = () => {
   $('#playBtn').textContent = '⏸';
   S.playing = setInterval(() => { const sl = $('#timeSlider'); let v = +sl.value + 12; if (v >= S.hours.length) { v = S.hours.length - 1; stopPlay(); } sl.value = v; loadState(S.hours[v]); }, 1500);
 };
+$('#testMailBtn').onclick = async () => {
+  $('#testMailMsg').textContent = 'Sending…';
+  try { const r = await fetch('/api/admin/test-emails', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({token: $('#adminCode').value})});
+        const j = await r.json(); $('#testMailMsg').textContent = (j.ok ? '✅ ' : '⚠️ ') + j.message; }
+  catch (e) { $('#testMailMsg').textContent = '⚠️ ' + e; }
+};
 $('#checkBtn').onclick = async () => { const r = await api('/api/check', {method: 'POST'}); alertBox(r.message); };
 function alertBox(msg) { $('#modalBody').innerHTML = `<p>${esc(msg)}</p>`; $('#modal').classList.remove('hidden'); }
 

@@ -17,6 +17,8 @@ Or double-click `start_app.bat` (Windows) or `start_app.sh` (macOS / Linux). To 
 
 The `appdata/` folder is produced by `python -m hsm.cli prepare --foundation foundation --replay replay --out appdata`. It is already included in the delivery, so the app runs straight away. The map background needs an internet connection (OpenStreetMap / Esri tiles); everything else runs offline.
 
+**E-mail alerts** (only "sensor stopped working" and "may stop within 24 hours", with location and Google Maps directions): see [`docs/EMAIL_ALERTS.md`](docs/EMAIL_ALERTS.md) for turning on real e-mails with Gmail or from the online app.
+
 **Live operation.** Run `python -m hsm.cli app --data appdata --live-config config/hsm.yaml --models models --host 0.0.0.0`. Every poll interval the app re-reads the exports, runs all models, sends the e-mails (dry-run unless enabled) and refreshes the map. A "Check now" button starts a cycle at once.
 
 ## Quickstart (full pipeline)
