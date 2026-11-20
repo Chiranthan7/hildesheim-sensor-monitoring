@@ -11,7 +11,7 @@ MEASURES = {   # family -> (what it measures, icon, measurement labels for the t
     'MeteoHelix': ('Weather (temperature, humidity, air pressure)', '🌡️', ('Air temperature (°C)', 'Humidity (%)')),
     'MeteoWind': ('Wind speed & direction', '🌬️', ('Wind speed (m/s)', 'Gusts (m/s)')),
     'OttSensor': ('Water / hydrology station', '🌊', (None, None)),
-    'Bigbelly': ('Waste bin (fill level)', '🗑️', (None, None)),
+    'Bigbelly': ('Smart waste bin', '🗑️', (None, None)),
     'Adeunis': ('Temperature', '🌡️', (None, None)),
 }
 LIGHT = {'green': ('OK', 'Working normally'), 'yellow': ('Attention', 'Needs attention soon'), 'red': ('Action needed', 'Needs action now'),
