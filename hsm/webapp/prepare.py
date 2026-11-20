@@ -42,14 +42,9 @@ def prepare(fd, rp, out, eval_dir=None):
         elif S[c].dtype == object or str(S[c].dtype).startswith(('string', 'str')): S[c] = S[c].astype('category')
     S.to_parquet(out / 'snapshots.parquet', index=False, row_group_size=50_000)
     # ---- devices: family, manufacturer, measured quantity, GPS position from the data (never invented) ----
-    loc = []
-    so = rd('silver_soil', ['device_id', 'sensor_lat', 'sensor_lon']); wx = rd('silver_weather', ['device_id', 'sensor_lat', 'sensor_lon'])
-    for x in (so, wx):
-        if x is not None: loc.append(x.dropna().groupby('device_id').median())
-    dl = rd('silver_devices', ['device_id', 'loc_role', 'loc_lat', 'loc_lon'])
-    if dl is not None:
-        loc.append(dl[dl.loc_role == 'device_position'].groupby('device_id')[['loc_lat', 'loc_lon']].median().rename(columns={'loc_lat': 'sensor_lat', 'loc_lon': 'sensor_lon'}))
-    L = pd.concat(loc); L = L[~L.index.duplicated()].rename(columns={'sensor_lat': 'lat', 'sensor_lon': 'lon'})
+    POS = system.device_positions(fd)                                  # where each device stood, with the date it got there
+    POS.to_parquet(out / 'positions.parquet', index=False)
+    L = POS.sort_values('t_start').groupby('device_id').tail(1).set_index('device_id')[['lat', 'lon']]     # latest position
     D = S.groupby('device_id').family.first().to_frame().join(L)
     D['manufacturer'] = D.family.map(lambda f: system.MANUFACTURER.get(f, ('', ''))[0]); D['model'] = D.family.map(lambda f: system.MANUFACTURER.get(f, ('', ''))[1])
     D['interval_min'] = D.family.map(NOMINAL_MIN); D['battery_note'] = D.family.map(lambda f: BATTERY_OBSERVABILITY.get(f, {}).get('note', ''))

@@ -239,8 +239,13 @@ class Engine:
         return self.dispatch(now, ev)
 
     # ---------------------------------------------------------------- plain-language alert e-mails (location, directions, detection)
-    def _loc(self, dev, gw):
+    def _loc(self, dev, gw, now=None):
         L = self.locations.get(dev)
+        if isinstance(L, list) and L:                                  # position history: where the device stood at the alert time
+            cur = L[0]
+            for x in L:
+                if now is None or x[0] <= pd.Timestamp(now): cur = x
+            return dict(lat=cur[1], lon=cur[2], approximate=False, note=None)
         if L: return dict(lat=L[0], lon=L[1], approximate=False, note=None)
         g = self.locations.get(f'gw:{gw}') if isinstance(gw, str) else None
         if g: return dict(lat=g[0], lon=g[1], approximate=True, note=f'The exact sensor position is not in the data. This is the location of gateway "{gw}", which receives this sensor best.')
@@ -255,7 +260,7 @@ class Engine:
         if r is None: return it
         rd = r._asdict(); rd['_interval'] = NOMINAL_MIN.get(fam, 60)
         st = plain.status(rd, now, fam)
-        loc = self._loc(c['entity'], getattr(r, 'primary_gateway', None))
+        loc = self._loc(c['entity'], getattr(r, 'primary_gateway', None), now)
         if loc:
             loc['maps'] = f"https://www.google.com/maps/dir/?api=1&destination={loc['lat']:.6f},{loc['lon']:.6f}&travelmode=driving"
             loc['coords'] = f"{loc['lat']:.5f}, {loc['lon']:.5f}"

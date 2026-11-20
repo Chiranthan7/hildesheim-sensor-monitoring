@@ -69,6 +69,8 @@ class Store:
             self.OFF = rd('offsets'); self.BA = rd('battery_assessment'); self.GH = rd('gateway_hour'); self.GC = rd('gateways'); self.GE = rd('gateway_events')
             self.I = rd('incidents'); self.N = rd('notifications'); self.M = rd('emails'); self.DEMO = rd('demonstrations')
             self.ev = json.load(open(self.dir / 'evaluation.json')) if (self.dir / 'evaluation.json').exists() else {}
+            P = rd('positions')
+            self.pos = {str(d): (g.t_start.values, g.lat.values, g.lon.values) for d, g in P.sort_values('t_start').groupby('device_id')} if len(P) else {}
             self.meta = json.load(open(self.dir / 'meta.json')); self.mtime = os.path.getmtime(self.dir / 'meta.json')
             self.hours = np.array(sorted(S.hour_end.unique())); self._cache = {}
             # battery readings per device, to show the last known value of sensors that stopped sending
@@ -105,12 +107,22 @@ def last_battery(st, dev, t):
     i = np.searchsorted(b[0], np.datetime64(t), 'right') - 1
     return None if i < 0 else (b[1][i], float(b[2][i]), local(pd.Timestamp(b[0][i])))
 
+def position_at(store, dev, t):
+    """(lat, lon, moves) where the device stood at time t; moves = list of earlier positions with dates"""
+    p = store.pos.get(str(dev)) if store is not None else None
+    if p is None: return None
+    i = max(np.searchsorted(p[0], np.datetime64(t), 'right') - 1, 0)
+    moves = [dict(since=local(pd.Timestamp(p[0][k])), lat=float(p[1][k]), lon=float(p[2][k])) for k in range(len(p[0]))]
+    return float(p[1][i]), float(p[2][i]), moves, i
+
 def sensor_card(r, D, t, store=None):
     fam = r['family']; d = D.loc[r['device_id']] if r['device_id'] in D.index else {}
     meas, icon, _ = plain.MEASURES.get(fam, (fam, '📟', (None, None)))
     r = dict(r); r['_interval'] = NOMINAL_MIN.get(fam, 60)
     st = plain.status(r, t, fam); light = r.get('overall_light') or 'grey'
     lat, lon = _j(d.get('lat')) if len(d) else None, _j(d.get('lon')) if len(d) else None
+    pa = position_at(store, r['device_id'], t)
+    if pa: lat, lon = round(pa[0], 6), round(pa[1], 6)              # position at the selected time (devices can be moved)
     return dict(id=r['device_id'], family=fam, manufacturer=_j(d.get('manufacturer')) if len(d) else '', model=_j(d.get('model')) if len(d) else '',
                 measures=meas, icon=icon, light=light, light_text=plain.LIGHT.get(light, ('', ''))[0], lat=lat, lon=lon,
                 status=st['title'], status_text=st['text'], cause=st['cause'], todo=st['todo'], visit=st['visit'],
@@ -211,8 +223,11 @@ def create_app(data_dir, live=None):
         if not isinstance(gw, str) and fam in ('Bigbelly', 'OttSensor'): card['gateway'] = 'mobile network (no LoRa gateway)'
         gwr = st.GC[st.GC.gw_site == gw] if isinstance(gw, str) else st.GC.iloc[0:0]
         dest = (card['lat'], card['lon']) if card['lat'] is not None else ((_j(gwr.lat.iat[0]), _j(gwr.lon.iat[0])) if len(gwr) else (None, None))
+        pa = position_at(st, dev, t); moved = None
+        if pa and len(pa[2]) > 1:
+            moved = dict(current_since=pa[2][pa[3]]['since'], history=pa[2])
         if stt['state'] == 'normal' and stt['cause']: stt['text'] = 'It sends its data as expected, but: ' + stt['cause'][0].lower() + stt['cause'][1:]
-        return jsonify(card=card, status=stt, predictions=pr, series=series, outages=outages, anomalies=anomalies, offsets=offs, battery_detail=bat,
+        return jsonify(card=card, status=stt, predictions=pr, moved=moved, series=series, outages=outages, anomalies=anomalies, offsets=offs, battery_detail=bat,
                        emails=mails, interval=plain.interval_text(NOMINAL_MIN.get(fam, 60)),
                        directions=dict(lat=dest[0], lon=dest[1], approximate=card['lat'] is None,
                                        label='Sensor position' if card['lat'] is not None else f'Area of gateway {gw} (exact sensor position not in the data)'),

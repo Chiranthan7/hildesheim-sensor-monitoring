@@ -128,6 +128,8 @@ async function openSensor(id, fly) {
     <div class="banner ${c.light}"><div class="b1">${esc(c.light_text)}: ${esc(s.title)}</div><div>${esc(s.text)}</div></div>
     <div class="actions">${dir}${c.lat != null ? `<button class="btn ghost" id="flyBtn">📍 Show on map</button>` : ''}</div>
     ${d.directions.approximate && d.directions.lat != null ? `<p class="mute" style="font-size:13px">${esc(d.directions.label)}</p>` : ''}
+    ${d.moved ? `<div class="sec"><h3>🚚 This sensor has been moved</h3><p style="margin:4px 0">It is at its current place since <b>${esc(d.moved.current_since.slice(0, 10))}</b>. The map and the directions always use the position at the selected time.</p>
+      <table><tr><th>Since</th><th>Position</th><th></th></tr>${d.moved.history.map(h => `<tr><td>${esc(h.since.slice(0, 10))}</td><td>${h.lat.toFixed(5)}, ${h.lon.toFixed(5)}</td><td><a target="_blank" rel="noopener" href="https://www.google.com/maps?q=${h.lat},${h.lon}">map</a></td></tr>`).join('')}</table></div>` : ''}
     ${s.cause ? `<div class="sec"><h3>🔎 What is the problem?</h3><div>${esc(s.cause)} <span class="mute">(${esc(s.cause_certainty)})</span></div>
       <div class="todo">👉 ${esc(s.todo)}</div><div style="margin-top:8px">${s.visit ? '<span class="badge visit">Site visit needed</span>' : '<span class="badge novisit">No site visit needed</span>'}</div></div>` : ''}
     <div class="sec"><h3>🔋 Battery</h3>${batteryHTML(c.battery, true)}<p class="mute" style="font-size:13px">${esc(c.battery.note)}</p>

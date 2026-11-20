@@ -36,19 +36,39 @@ def correct_backend_latch(S):
         S.loc[stale, 'traffic_light'] = np.where(S.loc[stale, 'state'] == 'significant_interruption', 'red', 'yellow')
     return S
 
-def device_locations(fd):
-    """GPS position per device as reported in the data (never estimated) and gateway site coordinates"""
+def device_positions(fd, min_move_m=50):
+    """position history per device from the data (never estimated): daily median positions, consecutive days closer than
+    min_move_m merged. Returns a DataFrame device_id, t_start, lat, lon (one row per place the device has stood)."""
     rd = lambda n, c: pd.read_parquet(f'{fd}/{n}.parquet', columns=c)
     parts = []
     for n in ['silver_soil', 'silver_weather']:
-        try: parts.append(rd(n, ['device_id', 'sensor_lat', 'sensor_lon']).dropna().groupby('device_id').median())
+        try: parts.append(rd(n, ['device_id', 't', 'sensor_lat', 'sensor_lon']).dropna().rename(columns={'sensor_lat': 'lat', 'sensor_lon': 'lon'}))
         except Exception: pass
     try:
-        d = rd('silver_devices', ['device_id', 'loc_role', 'loc_lat', 'loc_lon'])
-        parts.append(d[d.loc_role == 'device_position'].groupby('device_id')[['loc_lat', 'loc_lon']].median().rename(columns={'loc_lat': 'sensor_lat', 'loc_lon': 'sensor_lon'}))
+        d = rd('silver_devices', ['device_id', 't', 'loc_role', 'loc_lat', 'loc_lon'])
+        parts.append(d[d.loc_role == 'device_position'].drop(columns='loc_role').rename(columns={'loc_lat': 'lat', 'loc_lon': 'lon'}).dropna())
     except Exception: pass
-    L = pd.concat(parts); L = L[~L.index.duplicated()]
-    out = {k: (float(v.sensor_lat), float(v.sensor_lon), None) for k, v in L.iterrows()}
+    P = pd.concat(parts); P['day'] = P.t.dt.floor('D')
+    Dd = P.groupby(['device_id', 'day']).agg(lat=('lat', 'median'), lon=('lon', 'median'), t=('t', 'min')).reset_index().sort_values(['device_id', 'day'])
+    out = []
+    for dev, g in Dd.groupby('device_id'):
+        cur = None
+        for r in g.itertuples():
+            if cur is not None:
+                dm = 6371000 * np.hypot(np.radians(r.lat - cur[1]), np.radians(r.lon - cur[2]) * np.cos(np.radians(cur[1])))
+                if dm < min_move_m: continue
+            cur = (r.t, r.lat, r.lon); out.append(dict(device_id=dev, t_start=r.t, lat=float(r.lat), lon=float(r.lon)))
+    P = pd.DataFrame(out)
+    if not len(P): return P
+    # positions held for < 2 days while being moved are transit readings, not places (the last position is always kept)
+    nxt = P.groupby('device_id').t_start.shift(-1)
+    keep = nxt.isna() | ((nxt - P.t_start) >= pd.Timedelta('2D'))
+    return P[keep].reset_index(drop=True)
+
+def device_locations(fd):
+    """for the e-mail engine: {device: [(t_start, lat, lon), ...]} (position at the alert time is used) and gateway coordinates"""
+    P = device_positions(fd)
+    out = {dev: [(pd.Timestamp(r.t_start), r.lat, r.lon) for r in g.itertuples()] for dev, g in P.groupby('device_id')}
     try:
         G = pd.read_parquet(f'{fd}/gold_gw_current.parquet')
         out.update({f'gw:{r.gw_site}': (float(r.lat), float(r.lon), None) for r in G.itertuples() if pd.notna(r.lat)})
