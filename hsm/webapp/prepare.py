@@ -34,7 +34,13 @@ def prepare(fd, rp, out, eval_dir=None):
     S = S[[c for c in SNAP_COLS if c in S.columns]].copy()
     for c in SNAP_COLS:
         if c not in S.columns: S[c] = np.nan
-    S.to_parquet(out / 'snapshots.parquet', index=False)
+    # stored compact and pre-sorted so that the web app loads it without copies (fits 512 MB hosting plans)
+    S = S.sort_values(['hour_end', 'device_id']).reset_index(drop=True)
+    for c in S.columns:
+        if S[c].dtype == 'float64': S[c] = S[c].astype('float32')
+        elif S[c].dtype == bool: pass
+        elif S[c].dtype == object or str(S[c].dtype).startswith(('string', 'str')): S[c] = S[c].astype('category')
+    S.to_parquet(out / 'snapshots.parquet', index=False, row_group_size=50_000)
     # ---- devices: family, manufacturer, measured quantity, GPS position from the data (never invented) ----
     loc = []
     so = rd('silver_soil', ['device_id', 'sensor_lat', 'sensor_lon']); wx = rd('silver_weather', ['device_id', 'sensor_lat', 'sensor_lon'])

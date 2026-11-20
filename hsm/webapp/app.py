@@ -47,6 +47,14 @@ def recs(df):
     return [{k: _j(v) for k, v in r.items()} for r in df.to_dict('records')]
 
 
+def compact(df):
+    """memory-lean copy (fits small hosting plans): repeated texts -> categories, floats -> float32; values unchanged for display"""
+    for c in df.columns:
+        if df[c].dtype == 'float64': df[c] = df[c].astype('float32')
+        elif df[c].dtype == object or str(df[c].dtype).startswith(('string', 'str')):
+            if df[c].nunique(dropna=True) < 0.2 * len(df): df[c] = df[c].astype('category')
+    return df
+
 class Store:
     """all prepared tables in memory; reloads when appdata/meta.json changes (live mode)"""
     def __init__(self, data_dir):
@@ -54,7 +62,8 @@ class Store:
 
     def load(self):
         rd = lambda n: pd.read_parquet(self.dir / f'{n}.parquet') if (self.dir / f'{n}.parquet').exists() else pd.DataFrame()
-        S = rd('snapshots').sort_values(['hour_end', 'device_id'])
+        S = rd('snapshots')                                             # prepared compact (categories, float32) and pre-sorted
+        if S.dtypes.eq('float64').any(): S = compact(S).sort_values(['hour_end', 'device_id']).reset_index(drop=True)   # older appdata
         with self.lock:
             self.S = S; self.D = rd('devices').set_index('device_id'); self.Y = rd('daily'); self.E = rd('outages'); self.A = rd('anomalies')
             self.OFF = rd('offsets'); self.BA = rd('battery_assessment'); self.GH = rd('gateway_hour'); self.GC = rd('gateways'); self.GE = rd('gateway_events')
@@ -76,8 +85,12 @@ class Store:
     def current(self, t):
         """latest complete hour of each device at time t, with priority score"""
         if t in self._cache: return self._cache[t]
-        S = self.S[(self.S.hour_end <= t) & (self.S.hour_end > t - pd.Timedelta(days=60))]
-        cur = S.groupby('device_id').tail(1).copy()
+        h = self.S.hour_end.values                                     # sorted: slice instead of a full boolean copy
+        S = self.S.iloc[np.searchsorted(h, np.datetime64(t - pd.Timedelta(days=60)), 'right'):np.searchsorted(h, np.datetime64(t), 'right')]
+        cur = S.groupby('device_id', observed=True).tail(1).copy()
+        for c in cur.columns:
+            if isinstance(cur[c].dtype, pd.CategoricalDtype): cur[c] = cur[c].astype(object)
+            elif cur[c].dtype == 'float32': cur[c] = cur[c].astype('float64')
         cur = system.priority(cur)
         if len(self._cache) > 64: self._cache.clear()
         self._cache[t] = cur; return cur
@@ -330,7 +343,7 @@ def main(argv=None):
     app = create_app(a.data, live)
     print(f'Open http://{"localhost" if a.host in ("127.0.0.1", "0.0.0.0") else a.host}:{a.port} in your browser')
     try:
-        from waitress import serve; serve(app, host=a.host, port=a.port, threads=8)
+        from waitress import serve; serve(app, host=a.host, port=a.port, threads=4)
     except ImportError:
         app.run(host=a.host, port=a.port, threaded=True)
 
