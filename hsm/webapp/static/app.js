@@ -12,10 +12,16 @@ const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {m
 const sat = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {maxZoom: 19, attribution: 'Imagery © Esri'});
 L.control.layers({'Street map': osm, 'Satellite': sat}).addTo(map);
 const RANK = {red: 3, yellow: 2, grey: 1, green: 0};
-const sensorLayer = L.markerClusterGroup({disableClusteringAtZoom: 16, maxClusterRadius: 45, spiderfyOnMaxZoom: true, showCoverageOnHover: false,
-  iconCreateFunction: cl => { const ms = cl.getAllChildMarkers(); const worst = ms.reduce((w, m) => RANK[m.options.light] > RANK[w] ? m.options.light : w, 'green');
+const sensorLayer = L.markerClusterGroup({disableClusteringAtZoom: 18, maxClusterRadius: 40, spiderfyOnMaxZoom: true, showCoverageOnHover: false,
+  iconCreateFunction: cl => {
+    const ms = cl.getAllChildMarkers(); const worst = ms.reduce((w, m) => RANK[m.options.light] > RANK[w] ? m.options.light : w, 'green');
+    const kinds = {}; ms.forEach(m => kinds[m.options.kind] = (kinds[m.options.kind] || 0) + 1);
+    const ks = Object.entries(kinds).sort((a, b) => b[1] - a[1]);
     const nr = ms.filter(m => m.options.light === 'red').length;
-    return L.divIcon({className: '', iconSize: [52, 52], html: `<div class="cluster ${worst}"><b>${ms.length}</b>${nr ? `<small>${nr} need action</small>` : ''}</div>`}); }}).addTo(map);
+    const icons = ks.slice(0, 3).map(([k, n]) => `<span>${k}${n > 1 ? '×' + n : ''}</span>`).join('') + (ks.length > 3 ? '<span>…</span>' : '');
+    return L.divIcon({className: '', iconSize: [76, 60], iconAnchor: [38, 30],
+      html: `<div class="cluster ${worst}" title="${ms.length} sensors${nr ? ', ' + nr + ' need action' : ''}. Click to zoom in."><b>${ms.length}</b><div class="kinds">${icons}</div></div>`});
+  }}).addTo(map);
 const gwLayer = L.layerGroup().addTo(map);
 const legend = L.control({position: 'bottomleft'});
 legend.onAdd = () => { const d = L.DomUtil.create('div', 'legend'); d.innerHTML = '<span class="dot red"></span> Action needed<br><span class="dot yellow"></span> Attention soon<br><span class="dot green"></span> Working fine<br><span class="dot grey"></span> No information<br>📡 Gateway'; return d; };
@@ -44,7 +50,7 @@ function drawMap() {
   sensorLayer.clearLayers(); gwLayer.clearLayers(); S.markers = {};
   for (const c of S.state.sensors) {
     if (c.lat == null || !visible(c)) continue;
-    const m = L.marker([c.lat, c.lon], {icon: markerIcon(c), light: c.light, riseOnHover: true, zIndexOffset: c.light === 'red' ? 1000 : c.light === 'yellow' ? 500 : 0});
+    const m = L.marker([c.lat, c.lon], {icon: markerIcon(c), light: c.light, kind: c.icon, riseOnHover: true, zIndexOffset: c.light === 'red' ? 1000 : c.light === 'yellow' ? 500 : 0});
     m.bindTooltip(`<b>${c.icon} ${esc(c.measures)}</b><br>${esc(c.status)}<br><span style="color:#666">${esc(c.id)}</span>`, {direction: 'top', offset: [0, -24]});
     m.on('click', () => openSensor(c.id)); m.addTo(sensorLayer); S.markers[c.id] = m;
   }
@@ -226,7 +232,7 @@ function render(fit) {
   drawTiles(); drawMap(); drawList(); drawFirst(); drawGateways(); drawChipCounts();
   if (fit) {                                                  // zoom to the sensors that match the filter
     const pts = S.state.sensors.filter(c => c.lat != null && visible(c)).map(c => [c.lat, c.lon]);
-    if (pts.length === 1) map.flyTo(pts[0], 15, {duration: .6}); else if (pts.length) map.flyToBounds(pts, {padding: [40, 40], duration: .6});
+    if (pts.length === 1) map.flyTo(pts[0], 17, {duration: .6}); else if (pts.length) map.flyToBounds(pts, {padding: [50, 50], maxZoom: 17, duration: .6});
   }
 }
 async function loadState(t) {
