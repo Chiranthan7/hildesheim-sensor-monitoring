@@ -1,0 +1,40 @@
+# Hildesheim Smart Sensor Monitoring - deployment configuration (copy to config/hsm.yaml)
+# Secrets are NEVER stored here: SMTP credentials are read from the environment variables named below.
+data:
+  raw_dir: /path/to/exports            # folder with devices_raw.csv, bodenfeuchte_raw.csv, weather_raw.csv, *Gateway_Standorte.csv
+  foundation_dir: ./foundation
+  poll_minutes: 30                      # live mode: pause between cycles (a full cycle takes ~12 min on 2 vCPU for 3.5 months of history)
+  feed_stale_h: 3                       # an export stream without new records for 3 h and not rewritten is treated as a stale feed
+  replay_dir: ./replay                  # historical replay (its evaluation is shown in the dashboard)
+  eval_foundation_dir: ./foundation_hist # foundation with the historical evaluation tables (analyse run)
+  live_dir: ./live_state
+  dashboard_out: ./dashboard.html
+  app_data_dir: ./appdata               # the web app reads this folder; refreshed after every live cycle
+notifications:
+  enabled: false                        # real e-mails only when enabled AND dry_run is false
+  dry_run: true                         # dry run writes .eml files to outbox_dir instead of sending
+  outbox_dir: ./outbox
+  store: ./state/notifications.sqlite
+  recipients: [admin@example.org]
+  escalation_recipients: [maintenance-lead@example.org]
+  dashboard_url: ""                     # e.g. https://monitoring.example.org/dashboard.html
+  smtp:
+    host_env: HSM_SMTP_HOST
+    port_env: HSM_SMTP_PORT             # default 587
+    username_env: HSM_SMTP_USER
+    password_env: HSM_SMTP_PASSWORD
+    from_env: HSM_SMTP_FROM
+    starttls: true
+    timeout_s: 20
+    max_attempts: 4                     # retries with exponential backoff (2, 4, 8 s)
+  cooldown_h: 6                         # a condition that re-appears within 6 h of recovery reopens the incident silently (flap suppression)
+  min_clear_h: {SENSOR_DOWN: 2, BACKEND_FAILURE: 12, GATEWAY_DOWN: 2, NETWORK_OUTAGE: 1, REDUCED_REPORTING_MODE: 48, default: 24}
+  risk_hysteresis: 0.7                  # a risk warning clears only when the risk falls below 0.7 x its threshold
+  reminder_h: {critical: 24, warning: 72}   # back-off: x2 after every reminder, capped at reminder_max_h
+  reminder_max_h: 168
+  flapping_onsets_7d: 3                 # sensors with >= 3 outage onsets in 7 days must stay recovered 24 h before a recovery e-mail
+  flapping_clear_h: 24
+  early_silence_warning: false          # optional early warning of a developing silence (earlier, but ~1.4 false alarms / sensor-week for Sensoterra)
+  escalate_h: 48                        # unacknowledged critical incidents escalate after 48 h
+  degraded_min_h: 24                    # degraded communication must persist 24 h before a warning
+  warnings_enabled: true

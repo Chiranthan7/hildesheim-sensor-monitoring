@@ -1,0 +1,46 @@
+{
+ "emails_by_kind": {
+  "REMINDER": 1164,
+  "RECOVERY": 976,
+  "OPEN": 927,
+  "ESCALATION": 177
+ },
+ "incidents_by_type": {
+  "SENSOR_DOWN": 440,
+  "MEASUREMENT_DEGRADATION": 260,
+  "DEGRADED_COMMUNICATION": 195,
+  "BACKEND_FAILURE": 40,
+  "SEVERE_MALFUNCTION": 33,
+  "RISK_ELEVATED": 32,
+  "GATEWAY_DOWN": 12,
+  "REDUCED_REPORTING_MODE": 6,
+  "NETWORK_OUTAGE": 1,
+  "BATTERY_LOW": 1
+ },
+ "grouped_emails": 18,
+ "duplicate_email_rate": 0.0,
+ "max_emails_per_incident": 19,
+ "outages_ge6h": 406,
+ "outages_ge6h_notified_share": 0.9630541871921182,
+ "outages_ge6h_ongoing_at_an_hourly_check": 389,
+ "outages_ge6h_ongoing_notified_share": 1.0,
+ "median_notification_delay_from_onset_h": 9.560749618055555,
+ "recoveries": 895,
+ "premature_recovery_rate_24h": 0.10837988826815642,
+ "premature_recovery_rate_by_type": {
+  "BACKEND_FAILURE": 0.444,
+  "DEGRADED_COMMUNICATION": 0.168,
+  "GATEWAY_DOWN": 0.0,
+  "MEASUREMENT_DEGRADATION": 0.0,
+  "NETWORK_OUTAGE": 0.0,
+  "REDUCED_REPORTING_MODE": 0.0,
+  "RISK_ELEVATED": 0.156,
+  "SENSOR_DOWN": 0.137,
+  "SEVERE_MALFUNCTION": 0.0
+ },
+ "emails_per_device_week": 1.334084021600239,
+ "risk_warnings": 32,
+ "risk_warning_precision_7d": 0.6875,
+ "prolonged_outages": 160,
+ "prolonged_outages_warned_before_share": 0.14375
+}

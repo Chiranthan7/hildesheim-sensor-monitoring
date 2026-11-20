@@ -1,0 +1,166 @@
+{
+ "schedule": {
+  "2026-08-01": {
+   "MeteoHelix|1": "eb_markov",
+   "CloverSoilSensor|1": "eb_markov",
+   "MeteoWind|1": "eb_markov",
+   "MeteoHelix|6": "eb_markov",
+   "Sensoterra|6": "eb_markov",
+   "CloverSoilSensor|6": "eb_markov",
+   "MeteoWind|6": "eb_markov",
+   "Dragino-SE0X-LB|6": "eb_markov",
+   "MeteoHelix|24": "eb_markov",
+   "Sensoterra|24": "eb_markov",
+   "Bigbelly|24": "eb_markov",
+   "CloverSoilSensor|24": "eb_markov",
+   "Agvolution|24": "eb_markov",
+   "MeteoWind|24": "eb_markov",
+   "OttSensor|24": "eb_markov",
+   "Dragino-SE0X-LB|24": "eb_markov",
+   "Bigbelly|72": "eb_markov",
+   "Agvolution|72": "eb_markov"
+  },
+  "2026-09-01": {
+   "MeteoHelix|1": "hmm2",
+   "CloverSoilSensor|1": "gbm_global",
+   "MeteoWind|1": "hmm2",
+   "MeteoHelix|6": "hmm2",
+   "Sensoterra|6": "gbm_global",
+   "CloverSoilSensor|6": "gbm_shared",
+   "MeteoWind|6": "hmm2",
+   "Dragino-SE0X-LB|6": "gbm_shared",
+   "MeteoHelix|24": "persistence",
+   "Sensoterra|24": "gbm_shared",
+   "Bigbelly|24": "markov",
+   "CloverSoilSensor|24": "persistence",
+   "Agvolution|24": "gbm_shared",
+   "MeteoWind|24": "hmm2",
+   "OttSensor|24": "hmm2",
+   "Dragino-SE0X-LB|24": "gbm_shared",
+   "Bigbelly|72": "family_rate",
+   "Agvolution|72": "bernoulli"
+  },
+  "2026-10-01": {
+   "MeteoHelix|1": "hmm2",
+   "CloverSoilSensor|1": "gbm_global",
+   "MeteoWind|1": "hmm2",
+   "MeteoHelix|6": "hmm2",
+   "Sensoterra|6": "gbm_shared",
+   "CloverSoilSensor|6": "gbm_shared",
+   "MeteoWind|6": "gbm_shared",
+   "Dragino-SE0X-LB|6": "gbm_shared",
+   "MeteoHelix|24": "persistence",
+   "Sensoterra|24": "gbm_shared",
+   "Bigbelly|24": "markov",
+   "CloverSoilSensor|24": "persistence",
+   "Agvolution|24": "gbm_shared",
+   "MeteoWind|24": "persistence",
+   "OttSensor|24": "hmm2",
+   "Dragino-SE0X-LB|24": "gbm_shared",
+   "Bigbelly|72": "family_rate",
+   "Agvolution|72": "eb_markov"
+  },
+  "2026-11-01": {
+   "MeteoHelix|1": "hmm2",
+   "CloverSoilSensor|1": "gbm_global",
+   "MeteoWind|1": "hmm2",
+   "MeteoHelix|6": "hmm2",
+   "Sensoterra|6": "gbm_shared",
+   "CloverSoilSensor|6": "gbm_shared",
+   "MeteoWind|6": "gbm_shared",
+   "Dragino-SE0X-LB|6": "gbm_shared",
+   "MeteoHelix|24": "persistence",
+   "Sensoterra|24": "gbm_shared",
+   "Bigbelly|24": "markov",
+   "CloverSoilSensor|24": "persistence",
+   "Agvolution|24": "gbm_shared",
+   "MeteoWind|24": "persistence",
+   "OttSensor|24": "hmm2",
+   "Dragino-SE0X-LB|24": "gbm_shared",
+   "Bigbelly|72": "family_rate",
+   "Agvolution|72": "eb_markov"
+  }
+ },
+ "choice": {
+  "MeteoHelix|1": {
+   "candidate": "hmm2",
+   "basis": "validation"
+  },
+  "CloverSoilSensor|1": {
+   "candidate": "gbm_global",
+   "basis": "validation"
+  },
+  "MeteoWind|1": {
+   "candidate": "hmm2",
+   "basis": "validation"
+  },
+  "MeteoHelix|6": {
+   "candidate": "hmm2",
+   "basis": "validation"
+  },
+  "Sensoterra|6": {
+   "candidate": "gbm_shared",
+   "basis": "validation"
+  },
+  "CloverSoilSensor|6": {
+   "candidate": "gbm_shared",
+   "basis": "validation"
+  },
+  "MeteoWind|6": {
+   "candidate": "gbm_shared",
+   "basis": "validation"
+  },
+  "Dragino-SE0X-LB|6": {
+   "candidate": "gbm_shared",
+   "basis": "universal_fallback"
+  },
+  "MeteoHelix|24": {
+   "candidate": "persistence",
+   "basis": "validation"
+  },
+  "Sensoterra|24": {
+   "candidate": "gbm_shared",
+   "basis": "validation"
+  },
+  "Bigbelly|24": {
+   "candidate": "markov",
+   "basis": "validation"
+  },
+  "CloverSoilSensor|24": {
+   "candidate": "persistence",
+   "basis": "validation"
+  },
+  "Agvolution|24": {
+   "candidate": "gbm_shared",
+   "basis": "validation"
+  },
+  "MeteoWind|24": {
+   "candidate": "persistence",
+   "basis": "validation"
+  },
+  "OttSensor|24": {
+   "candidate": "hmm2",
+   "basis": "validation"
+  },
+  "Dragino-SE0X-LB|24": {
+   "candidate": "gbm_shared",
+   "basis": "universal_fallback"
+  },
+  "Bigbelly|72": {
+   "candidate": "family_rate",
+   "basis": "validation"
+  },
+  "Agvolution|72": {
+   "candidate": "eb_markov",
+   "basis": "validation"
+  }
+ },
+ "universal_choice": {
+  "1": "hmm2",
+  "6": "gbm_shared",
+  "24": "gbm_shared",
+  "72": "eb_markov"
+ },
+ "m1_code_sha256": "92656352103f431926aa41fa3c14c9f908327e9f7343aec63ab8e68d418b77f2",
+ "runtime_s": 376.2
+}

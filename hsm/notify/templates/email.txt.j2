@@ -1,0 +1,26 @@
+[{{ severity|upper }}] {{ headline }}
+
+Detected: {{ now }}
+{% if group_reason %}Common cause: {{ group_reason }}
+Affected devices ({{ items|length }}):
+{% for it in items %}  - {{ it.entity }} ({{ it.manufacturer }} {{ it.model }}){% if it.unavailable_h %}, unavailable {{ "%.1f"|format(it.unavailable_h) }} h{% endif %}
+{% endfor %}{% endif %}
+{% for it in items %}
+------------------------------------------------------------
+{{ it.entity_kind|capitalize }}: {{ it.entity }}
+Manufacturer / model: {{ it.manufacturer }} / {{ it.model }}   Type: {{ it.family }}
+Alert: {{ it.type }} ({{ it.severity }})   Incident #{{ it.incident_id }}   Status: {{ it.kind }}
+Current condition: {{ it.condition }}
+Last communication (received): {{ it.last_rx or 'n/a' }}
+Last stored measurement: {{ it.last_stored or 'n/a' }}
+Expected reporting interval: {{ it.interval or 'n/a' }}
+Current unavailability: {{ it.unavailable_txt or 'n/a' }}   Estimated missing reports: {{ it.missing or 'n/a' }}
+Future risk: {{ it.risk or 'n/a' }}
+Battery: {{ it.battery or 'n/a' }}
+Gateway: {{ it.gateway or 'n/a' }}
+Probable cause: {{ it.cause or 'n/a' }} (confidence: {{ it.confidence or 'n/a' }})
+Evidence: {{ it.evidence or 'n/a' }}
+Recommended action: {{ it.action or 'n/a' }}
+{% endfor %}
+{% if dashboard_url %}Dashboard: {{ dashboard_url }}{% endif %}
+Acknowledge: hsm ack <incident id>

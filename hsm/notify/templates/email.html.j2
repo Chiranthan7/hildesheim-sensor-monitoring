@@ -1,0 +1,13 @@
+<html><body style="font-family:Arial,sans-serif;font-size:14px;color:#222">
+<h2 style="color:{{ '#b00020' if severity=='critical' else ('#9a6700' if severity=='warning' else '#1a7f37') }}">[{{ severity|upper }}] {{ headline }}</h2>
+<p>Detected {{ now }}{% if group_reason %}. Common cause: <b>{{ group_reason }}</b> ({{ items|length }} devices){% endif %}</p>
+{% for it in items %}
+<table style="border-collapse:collapse;margin-bottom:14px" cellpadding="4">
+<tr><th colspan="2" style="text-align:left;background:#f2f2f2">{{ it.entity_kind|capitalize }} {{ it.entity }} &middot; {{ it.manufacturer }} {{ it.model }} &middot; incident #{{ it.incident_id }} ({{ it.kind }})</th></tr>
+{% for k, v in [('Alert', it.type ~ ' (' ~ it.severity ~ ')'), ('Condition', it.condition), ('Last communication', it.last_rx), ('Last stored measurement', it.last_stored),
+ ('Expected interval', it.interval), ('Unavailable', it.unavailable_txt), ('Estimated missing reports', it.missing), ('Future risk', it.risk), ('Battery', it.battery),
+ ('Gateway', it.gateway), ('Probable cause', (it.cause or '') ~ ' (confidence ' ~ (it.confidence or 'n/a') ~ ')'), ('Evidence', it.evidence), ('Recommended action', it.action)] %}
+<tr><td style="color:#555">{{ k }}</td><td>{{ v or 'n/a' }}</td></tr>{% endfor %}
+</table>{% endfor %}
+{% if dashboard_url %}<p><a href="{{ dashboard_url }}">Open dashboard</a></p>{% endif %}
+</body></html>

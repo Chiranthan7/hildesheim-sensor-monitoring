@@ -1,0 +1,82 @@
+From: hsm-monitor@localhost
+To: admin@example.org
+Subject: [HSM WARNING] Open: battery low - 500300550
+Message-ID: <85aa66c5-a367-499b-abf5-258ae431ad49@hsm>
+MIME-Version: 1.0
+Content-Type: multipart/alternative;
+ boundary="===============4966308831089610179=="
+
+--===============4966308831089610179==
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+[WARNING] Open: battery low - 500300550
+
+Detected: 2026-10-15 00:00:00
+
+
+------------------------------------------------------------
+Sensor: 500300550
+Manufacturer / model: Bigbelly / smart waste station (12 V solar)   Type: Big=
+belly
+Alert: BATTERY_LOW (warning)   Incident #783   Status: OPEN
+Current condition: normal (green)
+Last communication (received): 2026-10-14 20:00:52.703353
+Last stored measurement: 2026-10-14 20:00:52.703353
+Expected reporting interval: 360 min
+Current unavailability: n/a   Estimated missing reports: 1.5 expected next 72=
+ h
+Future risk: prolonged interruption within 7 d: 0%; interruption onset (long =
+horizon): 0%
+Battery: low
+Gateway: n/a
+Probable cause: low battery charge (measured) (confidence: medium)
+Evidence: resting-voltage proxy in the low / critical band of the lead-acid r=
+eference
+Recommended action: check charging (solar panel, controller) and plan battery=
+ replacement; voltage is below the lead-acid ~50 % reference
+
+
+Acknowledge: hsm ack <incident id>
+
+--===============4966308831089610179==
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+
+<html><body style=3D"font-family:Arial,sans-serif;font-size:14px;color:#222">
+<h2 style=3D"color:#9a6700">[WARNING] Open: battery low - 500300550</h2>
+<p>Detected 2026-10-15 00:00:00</p>
+
+<table style=3D"border-collapse:collapse;margin-bottom:14px" cellpadding=3D"4=
+">
+<tr><th colspan=3D"2" style=3D"text-align:left;background:#f2f2f2">Sensor 500=
+300550 &middot; Bigbelly smart waste station (12 V solar) &middot; incident #=
+783 (OPEN)</th></tr>
+
+<tr><td style=3D"color:#555">Alert</td><td>BATTERY_LOW (warning)</td></tr>
+<tr><td style=3D"color:#555">Condition</td><td>normal (green)</td></tr>
+<tr><td style=3D"color:#555">Last communication</td><td>2026-10-14 20:00:52.7=
+03353</td></tr>
+<tr><td style=3D"color:#555">Last stored measurement</td><td>2026-10-14 20:00=
+:52.703353</td></tr>
+<tr><td style=3D"color:#555">Expected interval</td><td>360 min</td></tr>
+<tr><td style=3D"color:#555">Unavailable</td><td>n/a</td></tr>
+<tr><td style=3D"color:#555">Estimated missing reports</td><td>1.5 expected n=
+ext 72 h</td></tr>
+<tr><td style=3D"color:#555">Future risk</td><td>prolonged interruption withi=
+n 7 d: 0%; interruption onset (long horizon): 0%</td></tr>
+<tr><td style=3D"color:#555">Battery</td><td>low</td></tr>
+<tr><td style=3D"color:#555">Gateway</td><td>n/a</td></tr>
+<tr><td style=3D"color:#555">Probable cause</td><td>low battery charge (measu=
+red) (confidence medium)</td></tr>
+<tr><td style=3D"color:#555">Evidence</td><td>resting-voltage proxy in the lo=
+w / critical band of the lead-acid reference</td></tr>
+<tr><td style=3D"color:#555">Recommended action</td><td>check charging (solar=
+ panel, controller) and plan battery replacement; voltage is below the lead-a=
+cid ~50 % reference</td></tr>
+</table>
+
+</body></html>
+
+--===============4966308831089610179==--

@@ -1,0 +1,8 @@
+# Render blueprint: one free Docker web service, redeployed automatically on every push to main
+services:
+  - type: web
+    name: hildesheim-sensor-monitoring
+    runtime: docker
+    plan: free
+    autoDeploy: true
+    healthCheckPath: /api/meta

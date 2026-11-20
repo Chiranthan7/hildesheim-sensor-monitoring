@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Hildesheim Smart Sensor Monitoring</title>
+<style>
+:root{--bg:#f6f7f9;--card:#fff;--ink:#1c2430;--mute:#5d6b7a;--line:#e3e7ec;--green:#1f8a4c;--yellow:#c98a00;--red:#c62828;--grey:#8a94a0;--accent:#2557a7}
+*{box-sizing:border-box}body{margin:0;font:14px/1.45 -apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:var(--ink);background:var(--bg)}
+header{background:#14213d;color:#fff;padding:14px 22px;display:flex;align-items:baseline;gap:18px;flex-wrap:wrap}
+header h1{font-size:18px;margin:0;font-weight:600}header .asof{color:#c9d3e3;font-size:13px}
+nav{display:flex;gap:4px;padding:0 18px;background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5;flex-wrap:wrap}
+nav button{border:0;background:none;padding:12px 14px;font-size:14px;color:var(--mute);cursor:pointer;border-bottom:3px solid transparent}
+nav button.on{color:var(--ink);border-bottom-color:var(--accent);font-weight:600}
+main{padding:18px 22px;max-width:1500px;margin:auto}.view{display:none}.view.on{display:block}
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-bottom:16px}
+.tile{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:12px 14px}.tile .n{font-size:26px;font-weight:650}.tile .l{color:var(--mute);font-size:12px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:14px 16px;margin-bottom:14px}.card h3{margin:0 0 10px;font-size:15px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}@media(max-width:1000px){.grid2{grid-template-columns:1fr}}
+table{border-collapse:collapse;width:100%;font-size:13px}th,td{text-align:left;padding:6px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--mute);font-weight:600;font-size:12px;position:sticky;top:44px;background:#fff}tr.click{cursor:pointer}tr.click:hover{background:#f0f4fa}
+.dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:middle}
+.green{background:var(--green)}.yellow{background:var(--yellow)}.red{background:var(--red)}.grey{background:var(--grey)}
+.pill{display:inline-block;padding:1px 8px;border-radius:10px;font-size:12px;background:#eef1f5;color:#334}
+.pill.critical{background:#fde7e7;color:var(--red)}.pill.warning{background:#fff4d6;color:#8a5a00}.pill.recovery{background:#e3f4ea;color:var(--green)}
+.mute{color:var(--mute)}.small{font-size:12px}.kv{display:grid;grid-template-columns:220px 1fr;gap:4px 12px}.kv div:nth-child(odd){color:var(--mute)}
+select,input{padding:6px 8px;border:1px solid var(--line);border-radius:6px;font-size:13px}.filters{display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+svg text{font-size:11px;fill:#5d6b7a}.legend{font-size:12px;color:var(--mute)}.legend span{margin-right:12px}
+.notice{background:#fff8e1;border:1px solid #f1d58a;padding:8px 12px;border-radius:6px;font-size:13px;margin-bottom:10px}
+</style></head><body>
+<header><h1>Hildesheim Smart Sensor Monitoring</h1><span class="asof" id="asof"></span><span class="asof">Predictive maintenance · LoRaWAN sensors and gateways</span></header>
+<nav id="nav"></nav><main id="main"></main>
+<script>
+const D=/*__DATA__*/null;
+const $=s=>document.querySelector(s), fmt=(v,d=1)=>v==null?'–':(typeof v==='number'?v.toFixed(d):v), pct=v=>v==null?'–':(100*v).toFixed(0)+'%';
+const esc=s=>s==null?'':String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const light=l=>`<span class="dot ${l||'grey'}"></span>`;
+const views={overview:'Fleet overview',priority:'Diese Sensoren jetzt prüfen',sensors:'Sensors',gateways:'Gateways',notifications:'Notifications',performance:'Model performance'};
+$('#asof').textContent='Status as of '+D.as_of+' (replay of historical exports; every value uses only information available at that time)';
+$('#nav').innerHTML=Object.entries(views).map(([k,v])=>`<button data-v="${k}">${v}</button>`).join('');
+$('#main').innerHTML=Object.keys(views).map(k=>`<section class="view" id="v_${k}"></section>`).join('')+'<section class="view" id="v_detail"></section>';
+document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>show(b.dataset.v));
+function show(v){document.querySelectorAll('.view').forEach(x=>x.classList.remove('on'));$('#v_'+v).classList.add('on');document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',b.dataset.v===v));window.scrollTo(0,0)}
+// ---------- charts
+function chart(series,{h=170,ymin=null,ymax=null,yfmt=v=>v.toFixed(1),thr=[]}={}){
+  const W=640,H=h,P={l:44,r:10,t:10,b:22};const pts=series.flatMap(s=>s.pts.filter(p=>p[1]!=null));if(!pts.length)return '<div class="mute small">no data</div>';
+  const xs=pts.map(p=>+new Date(p[0])),ys=pts.map(p=>p[1]);let x0=Math.min(...xs),x1=Math.max(...xs);if(x1===x0)x1=x0+864e5;
+  let y0=ymin??Math.min(...ys,...thr.map(t=>t.v)),y1=ymax??Math.max(...ys,...thr.map(t=>t.v));if(y1===y0){y1+=1;y0-=1}
+  const X=t=>P.l+(+new Date(t)-x0)/(x1-x0)*(W-P.l-P.r),Y=v=>H-P.b-(v-y0)/(y1-y0)*(H-P.t-P.b);
+  let g=`<svg viewBox="0 0 ${W} ${H}" width="100%" preserveAspectRatio="none">`;
+  for(let i=0;i<=4;i++){const v=y0+(y1-y0)*i/4;g+=`<line x1="${P.l}" x2="${W-P.r}" y1="${Y(v)}" y2="${Y(v)}" stroke="#eef0f3"/><text x="2" y="${Y(v)+4}">${yfmt(v)}</text>`}
+  for(let i=0;i<=4;i++){const t=x0+(x1-x0)*i/4;g+=`<text x="${X(t)-24}" y="${H-5}">${new Date(t).toISOString().slice(5,10)}</text>`}
+  thr.forEach(t=>g+=`<line x1="${P.l}" x2="${W-P.r}" y1="${Y(t.v)}" y2="${Y(t.v)}" stroke="${t.c||'#c62828'}" stroke-dasharray="4 3"/><text x="${W-120}" y="${Y(t.v)-3}" style="fill:${t.c||'#c62828'}">${t.l}</text>`);
+  series.forEach(s=>{let d='',pen=false;s.pts.forEach(p=>{if(p[1]==null){pen=false;return}d+=(pen?'L':'M')+X(p[0]).toFixed(1)+','+Y(p[1]).toFixed(1);pen=true});
+    g+=`<path d="${d}" fill="none" stroke="${s.c}" stroke-width="1.6"/>`});
+  return g+'</svg><div class="legend">'+series.map(s=>`<span><span class="dot" style="background:${s.c}"></span>${s.n}</span>`).join('')+'</div>'}
+// ---------- overview
+const S=D.sensors, G=D.gateways;
+function counts(){const c={total:S.length,green:0,yellow:0,red:0,grey:0};S.forEach(s=>c[s.overall_light||'grey']++);return c}
+function overview(){
+  const c=counts(),off=S.filter(s=>['significant_interruption','backend_data_unavailable'].includes(s.state)).length;
+  const risk=S.filter(s=>s.elevated_risk||(s.state==='degraded')).length, bat=S.filter(s=>['low','critical'].includes(s.battery_condition)).length;
+  const an=S.filter(s=>s.anomaly_kinds).length, gwb=S.filter(s=>['gateway unavailability','network / platform failure','backend storage failure'].includes(s.probable_cause)).length;
+  const gbad=G.filter(g=>['inactive_gateway','inactive_unexplained','network_or_platform'].includes(g.condition)).length;
+  const t=[['Devices',c.total],['Healthy (green)',c.green],['Degraded / warning (yellow)',c.yellow],['Critical (red)',c.red],['Offline / no data stored',off],['Elevated future risk',risk],
+           ['Battery low / critical',bat],['Measurement anomalies',an],['Gateway / network / backend affected',gwb],['Insufficient information (grey)',c.grey],['Gateways down',gbad+' / '+G.length]];
+  let h='<div class="tiles">'+t.map(([l,n])=>`<div class="tile"><div class="n">${n}</div><div class="l">${l}</div></div>`).join('')+'</div>';
+  const fam={};S.forEach(s=>{fam[s.family]=fam[s.family]||{green:0,yellow:0,red:0,grey:0};fam[s.family][s.overall_light||'grey']++});
+  h+='<div class="grid2"><div class="card"><h3>Traffic light per family</h3><table><tr><th>Family</th><th>Green</th><th>Yellow</th><th>Red</th><th>Grey</th><th>Battery</th></tr>'+
+   Object.entries(fam).map(([f,v])=>`<tr><td>${f}</td><td>${v.green}</td><td>${v.yellow}</td><td>${v.red}</td><td>${v.grey}</td><td class="small mute">${D.battery_not_measurable.includes(f)?'not measurable from the available data':'measured'}</td></tr>`).join('')+'</table>'+
+   '<p class="small mute">Green = operating acceptably · Yellow = degrading, abnormal or elevated risk · Red = significant current problem · Grey = insufficient information. Degraded means below the family\'s own normal-operation threshold <i>and</i> is judged on absolute service availability, so a chronically unreliable device is not shown as healthy.</p></div>';
+  h+='<div class="card"><h3>Map (sensors coloured by status, gateways as squares)</h3>'+map()+'</div></div>';
+  h+='<div class="card"><h3>Gateways</h3>'+gwTable(G)+'</div>';
+  h+='<div class="card"><h3>Open incidents</h3><table><tr><th>#</th><th>Type</th><th>Entity</th><th>Severity</th><th>Since</th><th>E-mails</th></tr>'+D.open_incidents.slice(0,60).map(i=>`<tr><td>${i.id}</td><td>${i.type}</td><td>${i.entity}</td><td><span class="pill ${i.severity}">${i.severity}</span></td><td>${i.opened_at}</td><td>${i.n_notifications}</td></tr>`).join('')+'</table></div>';
+  $('#v_overview').innerHTML=h}
+function map(){const pts=S.filter(s=>s.sensor_lat),gw=G.filter(g=>g.lat);const all=[...pts.map(s=>[s.sensor_lat,s.sensor_lon]),...gw.map(g=>[g.lat,g.lon])];if(!all.length)return'';
+  const la=all.map(p=>p[0]),lo=all.map(p=>p[1]),a0=Math.min(...la),a1=Math.max(...la),o0=Math.min(...lo),o1=Math.max(...lo),W=600,H=360;
+  const X=v=>20+(v-o0)/(o1-o0||1)*(W-40),Y=v=>H-20-(v-a0)/(a1-a0||1)*(H-40);const col={green:'#1f8a4c',yellow:'#c98a00',red:'#c62828',grey:'#8a94a0'};
+  let g=`<svg viewBox="0 0 ${W} ${H}" width="100%"><rect width="${W}" height="${H}" fill="#f8fafc"/>`;
+  gw.forEach(x=>{const bad=['inactive_gateway','inactive_unexplained','network_or_platform'].includes(x.condition);g+=`<rect x="${X(x.lon)-6}" y="${Y(x.lat)-6}" width="12" height="12" fill="${bad?'#c62828':'#2557a7'}"><title>${esc(x.gw_site)}: ${x.condition}</title></rect>`});
+  pts.forEach(s=>g+=`<circle cx="${X(s.sensor_lon)}" cy="${Y(s.sensor_lat)}" r="4.5" fill="${col[s.overall_light||'grey']}" opacity=".85" style="cursor:pointer" onclick="detail('${s.device_id}')"><title>${s.device_id} (${s.family}): ${s.state}</title></circle>`);
+  return g+'</svg><div class="small mute">Positions from packet metadata (approximate). Click a sensor for details.</div>'}
+function gwTable(gs){return '<table><tr><th>Gateway site</th><th>Official</th><th>Condition</th><th>Last activity</th><th>Active hours 28 d</th><th>Sensors / h</th><th>Dependent sensors</th><th>SNR median 28 d</th><th>Interruption rate / week (90% CI)</th><th>Probable cause</th></tr>'+
+  gs.map(g=>`<tr class="click" onclick="gwDetail('${esc(g.gw_site)}')"><td>${esc(g.gw_site)}</td><td>${g.official?'yes':'no (unlisted)'}</td><td>${light({active:'green',low_traffic:'grey',insufficient_history:'grey',reduced_activity:'yellow'}[g.condition]||'red')}${g.condition}</td><td>${g.last_activity||'–'}</td><td>${pct(g.active_hour_share_28d)}</td><td>${fmt(g.devices_per_hour_28d)}</td><td>${g.dependents.length}</td><td>${fmt(g.snr_median_28d)}</td><td>${fmt(g.rate_per_week,2)} (${fmt(g.rate_lo90,2)}–${fmt(g.rate_hi90,2)})</td><td class="small">${esc(g.probable_cause)}</td></tr>`).join('')+'</table>'}
+// ---------- priority
+function priority(){const top=S.filter(s=>s.priority_score>=20).slice(0,40);
+  let h='<div class="notice">Ranked by current severity, duration of unavailability, expected data loss, future risk, battery and measurement problems (operational importance per family is configurable). Severity, risk and diagnostic confidence are shown separately: an outage stays high priority even when its cause is uncertain.</div>';
+  if(D.gateway_priority.length) h+='<div class="card"><h3>Gateways to check</h3>'+gwTable(D.gateway_priority)+'</div>';
+  h+='<div class="card"><h3>Sensors to check now</h3><table><tr><th>#</th><th>Status</th><th>Device</th><th>Family</th><th>Why it is listed</th><th>Probable cause (confidence)</th><th>Recommended action</th><th>Score</th></tr>'+
+   top.map((s,i)=>`<tr class="click" onclick="detail('${s.device_id}')"><td>${i+1}</td><td>${light(s.overall_light)}${s.state.replace(/_/g,' ')}</td><td>${s.device_id}</td><td>${s.family}</td><td class="small">${esc(s.why)}</td><td class="small">${esc(s.probable_cause||'–')} (${s.cause_confidence||'–'})</td><td class="small">${esc(s.recommended_action)}</td><td>${fmt(s.priority_score,0)}</td></tr>`).join('')+'</table></div>';
+  $('#v_priority').innerHTML=h}
+// ---------- sensors
+function sensors(){const fams=[...new Set(S.map(s=>s.family))].sort();
+  $('#v_sensors').innerHTML=`<div class="filters"><select id="ff"><option value="">All families</option>${fams.map(f=>`<option>${f}</option>`).join('')}</select><select id="fs"><option value="">All states</option>${[...new Set(S.map(s=>s.state))].map(f=>`<option>${f}</option>`).join('')}</select><input id="fq" placeholder="search device id"></div><div class="card" id="stab"></div>`;
+  const draw=()=>{const f=$('#ff').value,st=$('#fs').value,q=$('#fq').value.toLowerCase();const r=S.filter(s=>(!f||s.family===f)&&(!st||s.state===st)&&(!q||s.device_id.includes(q)));
+    $('#stab').innerHTML='<table><tr><th>Status</th><th>Device</th><th>Family</th><th>Last received</th><th>Last stored</th><th>Service 24 h</th><th>Reception 24 h</th><th>Forecast</th><th>Prolonged risk 7 d</th><th>Battery</th><th>Anomalies</th><th>Gateway</th></tr>'+
+    r.map(s=>`<tr class="click" onclick="detail('${s.device_id}')"><td>${light(s.overall_light)}${s.state.replace(/_/g,' ')}</td><td>${s.device_id}</td><td>${s.family}</td><td>${s.rx_last_arrival||'–'}</td><td>${s.svc_last_arrival||'–'}</td><td>${pct(s.avail_svc_24h)}</td><td>${pct(s.avail_rx_24h)}</td><td>${pct(s.forecast_avail)}</td><td>${pct(s.risk_prolonged_7d)}</td><td>${s.battery_condition}</td><td class="small">${esc(s.anomaly_kinds||'')}</td><td class="small">${esc(s.primary_gateway||'–')}</td></tr>`).join('')+'</table>'};
+  ['#ff','#fs','#fq'].forEach(x=>$(x).oninput=draw);draw()}
+function detail(id){const s=S.find(x=>x.device_id===id);if(!s)return;const ba=s.battery_assessment||{};
+  const kv=(rows)=>'<div class="kv">'+rows.map(([k,v])=>`<div>${k}</div><div>${v??'–'}</div>`).join('')+'</div>';
+  let h=`<p><a href="#" onclick="show('sensors');return false">← sensors</a></p><h2>${light(s.overall_light)}${s.device_id} <span class="mute small">${s.manufacturer} · ${s.model}</span></h2>`;
+  h+='<div class="grid2"><div class="card"><h3>Current status</h3>'+kv([['Overall status',`${light(s.overall_light)}${s.overall_light} (communication: ${s.traffic_light})${s.elevated_risk?' · elevated future risk':''}`],['Communication state',s.state.replace(/_/g,' ')+(s.reasons?` <span class="small mute">(${esc(s.reasons)})</span>`:'')],['Deployment',s.deployment],['Last successful communication',s.rx_last_arrival+` (${fmt(s.hours_since_rx)} h ago)`],
+   ['Last stored measurement',s.svc_last_arrival+` (${fmt(s.hours_since_stored)} h ago)`],['Expected interval',s.interval_min+' min'],['Current reporting mode',(s.rx_mode_min||'–')+' min'+(s.svc_mode_meaning?` · ${s.svc_mode_meaning}`:'')],
+   ['Unavailable for',s.unavailable_h?fmt(s.unavailable_h)+' h':'–'],['Availability 24 h (service / reception / valid / mode)',[pct(s.avail_svc_24h),pct(s.avail_rx_24h),pct(s.avail_valid_24h),pct(s.avail_mode_24h)].join(' / ')],
+   ['Availability 28 d',pct(s.avail_svc_672h)],['Primary gateway',`${esc(s.primary_gateway||'–')} (${s.gateway_condition||'–'}), share ${pct(s.primary_share_168h)}, sites seen 28 d: ${s.n_sites_672h??'–'}`],
+   ['Alternative gateways (28 d)',(s.alternatives||[]).map(a=>`${esc(a.gw_site)} ${pct(a.share)}`).join(', ')||'–'],['Radio (SNR mean 7 d, share beyond SF12 reference 24 h)',`${fmt(s.snr_mean_168h)} dB, ${pct(s.beyond_ref_share_24h)}`]])+'</div>';
+  h+='<div class="card"><h3>Prediction and diagnosis</h3>'+kv([['Forecast availability next '+(s.primary_H||24)+' h',`${pct(s.forecast_avail)} (${s.forecast_model||'–'}) vs family threshold ${pct(s.tau)}`],['Expected missing reports',fmt(s.expected_missing_primary)],
+   ['P(degraded link state)',pct(s.hmm_p_bad)],['P(interruption onset) '+(s.risk_short_H||'')+' h / '+(s.risk_long_H||'')+' h',`${pct(s.risk_short)} / ${pct(s.risk_long)}`],['P(prolonged ≥ 24 h interruption) 7 d / 14 d',`${pct(s.risk_prolonged_7d)} / ${pct(s.risk_prolonged_14d)}`],
+   ['P(current silence becomes an outage)',pct(s.p_silence_becomes_outage)],['P(still unavailable in 24 h / 7 d)',`${pct(s.p_still_down_24h)} / ${pct(s.p_still_down_7d)}`],
+   ['Probable cause',`<b>${esc(s.probable_cause||'none')}</b> (confidence ${s.cause_confidence||'–'})`],['Evidence',esc(s.cause_evidence)],['Alternative causes',esc(s.alternative_causes)||'–'],['Recommended action',esc(s.recommended_action)],
+   ['Battery',`${s.battery_condition}${s.battery_value!=null?' · '+fmt(s.battery_value,2):''}<br><span class="small mute">${esc(s.battery_note)}</span>`+(ba.forecast_14d?`<br>14-day forecast ${fmt(ba.forecast_14d,2)} V (80%: ${fmt(ba.forecast_14d_lo80,2)}–${fmt(ba.forecast_14d_hi80,2)}); P(below 12.0 V within 30 d) ${pct(ba.p_below_warning_30d)}; P(below 11.7 V) ${pct(ba.p_below_critical_30d)}; trend ${fmt(ba.slope_mV_per_week,0)} mV/week`:'')+(ba.slope_pct_per_week!=null?`<br>level trend ${fmt(ba.slope_pct_per_week,2)} %/week (90%: ${fmt(ba.slope_lo90,2)}–${fmt(ba.slope_hi90,2)})`:'')]])+
+   '<p class="small mute">Probabilities come from the family-specific model selected on validation data; confidence of a cause is an evidence-strength class, not a probability.</p></div></div>';
+  const P=s.history.map(r=>r.period);h+='<div class="grid2"><div class="card"><h3>Data availability per day</h3>'+chart([{n:'service',c:'#2557a7',pts:s.history.map(r=>[r.period,r.service_availability])},{n:'reception',c:'#8a94a0',pts:s.history.map(r=>[r.period,r.reception_availability])},{n:'valid data',c:'#1f8a4c',pts:s.history.map(r=>[r.period,r.valid_data_availability])}],{ymin:0,ymax:1,yfmt:v=>(100*v).toFixed(0)+'%'})+
+   '<div class="small mute">Missing reports per day: '+s.history.slice(-14).map(r=>r.missed_reports).join(' · ')+' (last 14 days)</div></div>';
+  h+='<div class="card"><h3>Risk history (daily maximum)</h3>'+chart([{n:'P(prolonged interruption within 7 d)',c:'#c62828',pts:s.risk_history.map(r=>[r.day,r.risk7])},{n:'P(still unavailable in 24 h)',c:'#c98a00',pts:s.risk_history.map(r=>[r.day,r.still])}],{ymin:0,ymax:1,yfmt:v=>(100*v).toFixed(0)+'%'})+'</div></div>';
+  h+='<div class="grid2"><div class="card"><h3>Radio (daily median of best reception)</h3>'+(s.radio.length?chart([{n:'SNR dB',c:'#2557a7',pts:s.radio.map(r=>[r.day,r.snr])}],{thr:[{v:-20,l:'SF12 reference -20 dB'}]})+chart([{n:'RSSI dBm',c:'#5d6b7a',pts:s.radio.map(r=>[r.day,r.rssi])}],{h:130,thr:[{v:-137,l:'SF12 ref -137 dBm'}]}):'<div class="mute small">no radio metadata for this family</div>')+'</div>';
+  h+='<div class="card"><h3>Battery</h3>'+(s.battery.length?chart([{n:'daily minimum (resting proxy)',c:'#c62828',pts:s.battery.map(r=>[r.day,r.v_min])},{n:'daily median / level',c:'#2557a7',pts:s.battery.map(r=>[r.day,r.v_med])},{n:'daily maximum (charging)',c:'#8a94a0',pts:s.battery.map(r=>[r.day,r.v_max])}],
+    {yfmt:v=>v.toFixed(2),thr:['OttSensor','Bigbelly'].includes(s.family)?[{v:12.0,l:'12.0 V (~50 %)',c:'#c98a00'},{v:11.7,l:'11.7 V (~25 %)'}]:[]}):'<div class="mute small">Battery condition is not measurable from the available data for this device family.</div>')+'</div></div>';
+  h+='<div class="grid2"><div class="card"><h3>Measurements (daily mean)</h3>'+(s.measurements.length?chart([{n:s.family==='MeteoWind'?'wind m/s':(s.family==='MeteoHelix'?'temperature °C':(s.family==='CloverSoilSensor'?'GWC (clean)':'moisture %')),c:'#2557a7',pts:s.measurements.map(r=>[r.day,r.m1])},{n:s.family==='MeteoWind'?'gust m/s':(s.family==='MeteoHelix'?'humidity %':'soil temperature °C'),c:'#c98a00',pts:s.measurements.map(r=>[r.day,r.m2])}]):'<div class="mute small">no measurement series</div>')+'</div>';
+  h+='<div class="card"><h3>Detected anomalies</h3>'+((s.anomalies.length||s.offsets.length)?'<table><tr><th>Kind</th><th>Severity</th><th>First</th><th>Last</th><th>Days</th><th>Probable cause / action</th></tr>'+s.anomalies.map(a=>`<tr><td>${a.kind}${a.variable?' ('+a.variable+')':''}</td><td>${a.severity}</td><td>${a.first}</td><td>${a.last}</td><td>${a.days}</td><td class="small">${esc(a.probable_cause)}<br><i>${esc(a.action)}</i></td></tr>`).join('')+s.offsets.map(o=>`<tr><td>static offset (${o.variable})</td><td>medium</td><td colspan="2">${fmt(o.offset_28d,2)} vs neighbours (28 d)</td><td></td><td class="small">${esc(o.interpretation)}</td></tr>`).join('')+'</table>':'<div class="mute small">none</div>')+'</div></div>';
+  h+='<div class="grid2"><div class="card"><h3>Historical interruptions (declared outages)</h3><table><tr><th>Onset</th><th>Declared</th><th>Recovered</th><th>Scope</th><th>Cause hint</th></tr>'+s.outages.slice().reverse().map(o=>`<tr><td>${o.onset}</td><td>${o.declared_at}</td><td>${o.recovered_at||'ongoing'}</td><td>${o.scope_at_declaration}</td><td class="small">${esc(o.cause_hint)}</td></tr>`).join('')+'</table></div>';
+  h+='<div class="card"><h3>Notification history</h3><table><tr><th>#</th><th>Type</th><th>Severity</th><th>Opened</th><th>Closed</th><th>E-mails</th></tr>'+s.incidents.slice().reverse().map(i=>`<tr><td>${i.id}</td><td>${i.type}</td><td><span class="pill ${i.severity}">${i.severity}</span></td><td>${i.opened_at}</td><td>${i.closed_at||'open'}</td><td>${i.n_notifications}</td></tr>`).join('')+'</table></div></div>';
+  $('#v_detail').innerHTML=h;show('detail')}
+function gwDetail(id){const g=G.find(x=>x.gw_site===id);if(!g)return;
+  let h=`<p><a href="#" onclick="show('gateways');return false">← gateways</a></p><h2>${esc(g.gw_site)} <span class="small mute">${g.official?'official gateway':'unlisted receiving site (inferred from packet locations)'} · ${fmt(g.lat,4)}, ${fmt(g.lon,4)}</span></h2>`;
+  h+='<div class="grid2"><div class="card"><h3>Condition</h3><div class="kv">'+[['Current condition',g.condition],['Last observed activity',g.last_activity],['Records last hour / expected',`${g.records_last_hour} / ${fmt(g.expected_per_hour)}`],['Active hours (28 d)',pct(g.active_hour_share_28d)],['Sensors per hour (28 d)',fmt(g.devices_per_hour_28d)],
+    ['SNR / RSSI median (28 d)',`${fmt(g.snr_median_28d)} dB / ${fmt(g.rssi_median_28d)} dBm`],['Interruption rate / week (90% CI)',`${fmt(g.rate_per_week,2)} (${fmt(g.rate_lo90,2)}–${fmt(g.rate_hi90,2)})`],['P(interruption) 24 h / 7 d (base rate)',`${pct(g.p_interruption_24h)} / ${pct(g.p_interruption_7d)}`],
+    ['Probable cause',esc(g.probable_cause)],['Recommended action',esc(g.recommended_action)]].map(([k,v])=>`<div>${k}</div><div>${v??'–'}</div>`).join('')+'</div><p class="small mute">Gateways are observed indirectly through sensor receptions; inactivity does not prove hardware failure. No statistically significant warning signal precedes historical gateway interruptions, so future risk is the empirical interruption rate, not a prediction.</p></div>';
+  h+='<div class="card"><h3>Sensors depending on this gateway</h3>'+(g.dependents.length?g.dependents.map(d=>`<a href="#" onclick="detail('${d}');return false">${d}</a>`).join(', '):'none')+'</div></div>';
+  h+='<div class="card"><h3>Daily receptions</h3>'+chart([{n:'records per day',c:'#2557a7',pts:g.history.map(r=>[r.day,r.records])}],{yfmt:v=>v.toFixed(0)})+chart([{n:'max sensors per hour',c:'#1f8a4c',pts:g.history.map(r=>[r.day,r.devices])}],{h:120,yfmt:v=>v.toFixed(0)})+'</div>';
+  const ev=D.gateway_events.filter(e=>e.gw_site===id);h+='<div class="card"><h3>Interruptions</h3><table><tr><th>Start</th><th>End</th><th>Hours</th><th>Kind</th><th>Dependents</th><th>Re-routed</th></tr>'+ev.slice().reverse().map(e=>`<tr><td>${e.start}</td><td>${e.end}</td><td>${e.hours}</td><td>${e.kind}</td><td>${e.dependents}</td><td>${e.dependents_rerouted}</td></tr>`).join('')+'</table></div>';
+  $('#v_detail').innerHTML=h;show('detail')}
+function gateways(){$('#v_gateways').innerHTML='<div class="card"><h3>Gateway sites</h3>'+gwTable(G)+'</div><div class="card"><h3>Interruption events</h3><table><tr><th>Site</th><th>Start</th><th>End</th><th>Hours</th><th>Kind</th><th>Dependents</th><th>Re-routed</th></tr>'+D.gateway_events.slice().reverse().map(e=>`<tr><td>${esc(e.gw_site)}</td><td>${e.start}</td><td>${e.end}</td><td>${e.hours}</td><td>${e.kind}</td><td>${e.dependents}</td><td>${e.dependents_rerouted}</td></tr>`).join('')+'</table></div>'}
+function notifications(){const r=D.evaluation.replay;
+  $('#v_notifications').innerHTML=`<div class="tiles">${[['E-mails (replay)',Object.values(r.emails_by_kind).reduce((a,b)=>a+b,0)],['Grouped e-mails',r.grouped_emails],['Duplicate rate',pct(r.duplicate_email_rate)],['Outages ≥ 6 h notified (ongoing at a check)',pct(r.outages_ge6h_ongoing_notified_share)],['Premature recoveries',pct(r.premature_recovery_rate_24h)],['E-mails / device / week',fmt(r.emails_per_device_week,2)]].map(([l,n])=>`<div class="tile"><div class="n">${n}</div><div class="l">${l}</div></div>`).join('')}</div>`+
+  '<div class="card"><h3>Recent notifications (dry run)</h3><table><tr><th>Time</th><th>Kind</th><th>Subject</th><th>Delivery</th></tr>'+D.notifications.map(n=>`<tr><td>${n.sent_at}</td><td><span class="pill ${n.kind==='RECOVERY'?'recovery':(n.subject.includes('CRITICAL')?'critical':'warning')}">${n.kind}</span></td><td>${esc(n.subject)}</td><td>${n.status}</td></tr>`).join('')+'</table></div>'}
+function tbl(rows,cols){if(!rows||!rows.length)return'<div class="mute small">no data</div>';cols=cols||Object.keys(rows[0]);return '<table><tr>'+cols.map(c=>`<th>${c}</th>`).join('')+'</tr>'+rows.map(r=>'<tr>'+cols.map(c=>`<td>${typeof r[c]==='number'?(Math.abs(r[c])<1000?r[c].toFixed(3):r[c].toFixed(0)):esc(r[c])}</td>`).join('')+'</tr>').join('')+'</table>'}
+function performance(){const e=D.evaluation;
+  $('#v_performance').innerHTML='<div class="notice">All figures are from causal walk-forward evaluation on held-out data (test: 1 Oct – 17 Nov 2026), with model choices made on earlier validation data only. Families without test events are listed as not evaluable.</div>'+
+  '<div class="card"><h3>Availability forecasting (Module 1): selected family model vs global and universal choices, test RMSE</h3>'+tbl(e.m1,['family','H','selected','selected_level','selection_basis','n_test','rmse_selected','rmse_gbm_global','rmse_universal'])+'</div>'+
+  '<div class="card"><h3>Interruption risk (test)</h3>'+tbl(e.risk,['task','family','H','selected','n_test','positives_test','auc','pr_auc','base_rate','brier','ece','precision','recall','event_recall','median_lead_h','false_alerts_per_sensor_week'])+'</div>'+
+  '<div class="grid2"><div class="card"><h3>Measurement anomaly detectors (synthetic fault injection, held-out data)</h3>'+tbl(e.anomaly,['variable','fault','detector','detection_rate','median_delay_h','false_alarms_per_station_week'])+'</div>'+
+  '<div class="card"><h3>Battery resting-voltage forecasts (backtest MAE in V, 80 % interval coverage)</h3>'+tbl(e.battery,['family','k','method','role','mae','coverage80','n'])+'<h3 style="margin-top:14px">Gateway warning-signal test</h3>'+tbl(e.gw_warning)+'</div></div>'}
+overview();priority();sensors();gateways();notifications();performance();show('overview');
+</script></body></html>

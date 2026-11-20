@@ -1,0 +1,84 @@
+From: hsm-monitor@localhost
+To: admin@example.org
+Subject: [HSM CRITICAL] Open: severe malfunction - 0080000004082961
+Message-ID: <24d447a8-a18d-4b83-8cc0-72c9598892e4@hsm>
+MIME-Version: 1.0
+Content-Type: multipart/alternative;
+ boundary="===============0419123994564359907=="
+
+--===============0419123994564359907==
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+[CRITICAL] Open: severe malfunction - 0080000004082961
+
+Detected: 2026-09-08 00:00:00
+
+
+------------------------------------------------------------
+Sensor: 0080000004082961
+Manufacturer / model: Sensoterra / LoRaWAN soil moisture probe   Type: Sensot=
+erra
+Alert: SEVERE_MALFUNCTION (critical)   Incident #464   Status: OPEN
+Current condition: degraded (yellow); forecast_below_family_threshold;invalid=
+_data_share_high
+Last communication (received): 2026-09-07 23:45:54.065000
+Last stored measurement: 2026-09-07 23:45:54.065000
+Expected reporting interval: 60 min
+Current unavailability: n/a   Estimated missing reports: 18.9 expected next 2=
+4 h
+Future risk: prolonged interruption within 7 d: 58%; interruption onset (long=
+ horizon): 37%
+Battery: not_measurable
+Gateway: R=C3=B6merring (active)
+Probable cause: measurement-channel failure (confidence: medium)
+Evidence: missing / invalid / frozen measurement channel
+Recommended action: inspect the probe / channel wiring; replace probe if the =
+fault persists
+
+
+Acknowledge: hsm ack <incident id>
+
+--===============0419123994564359907==
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+
+<html><body style=3D"font-family:Arial,sans-serif;font-size:14px;color:#222">
+<h2 style=3D"color:#b00020">[CRITICAL] Open: severe malfunction - 00800000040=
+82961</h2>
+<p>Detected 2026-09-08 00:00:00</p>
+
+<table style=3D"border-collapse:collapse;margin-bottom:14px" cellpadding=3D"4=
+">
+<tr><th colspan=3D"2" style=3D"text-align:left;background:#f2f2f2">Sensor 008=
+0000004082961 &middot; Sensoterra LoRaWAN soil moisture probe &middot; incide=
+nt #464 (OPEN)</th></tr>
+
+<tr><td style=3D"color:#555">Alert</td><td>SEVERE_MALFUNCTION (critical)</td>=
+</tr>
+<tr><td style=3D"color:#555">Condition</td><td>degraded (yellow); forecast_be=
+low_family_threshold;invalid_data_share_high</td></tr>
+<tr><td style=3D"color:#555">Last communication</td><td>2026-09-07 23:45:54.0=
+65000</td></tr>
+<tr><td style=3D"color:#555">Last stored measurement</td><td>2026-09-07 23:45=
+:54.065000</td></tr>
+<tr><td style=3D"color:#555">Expected interval</td><td>60 min</td></tr>
+<tr><td style=3D"color:#555">Unavailable</td><td>n/a</td></tr>
+<tr><td style=3D"color:#555">Estimated missing reports</td><td>18.9 expected =
+next 24 h</td></tr>
+<tr><td style=3D"color:#555">Future risk</td><td>prolonged interruption withi=
+n 7 d: 58%; interruption onset (long horizon): 37%</td></tr>
+<tr><td style=3D"color:#555">Battery</td><td>not_measurable</td></tr>
+<tr><td style=3D"color:#555">Gateway</td><td>R=C3=B6merring (active)</td></tr>
+<tr><td style=3D"color:#555">Probable cause</td><td>measurement-channel failu=
+re (confidence medium)</td></tr>
+<tr><td style=3D"color:#555">Evidence</td><td>missing / invalid / frozen meas=
+urement channel</td></tr>
+<tr><td style=3D"color:#555">Recommended action</td><td>inspect the probe / c=
+hannel wiring; replace probe if the fault persists</td></tr>
+</table>
+
+</body></html>
+
+--===============0419123994564359907==--

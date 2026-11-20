@@ -1,0 +1,81 @@
+From: hsm-monitor@localhost
+To: admin@example.org
+Subject: [HSM CRITICAL] Open: backend failure - a84041b9706025c6
+Message-ID: <bf715a39-bec1-4cbe-8b9d-2848124c2ffa@hsm>
+MIME-Version: 1.0
+Content-Type: multipart/alternative;
+ boundary="===============5713199131305094051=="
+
+--===============5713199131305094051==
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+[CRITICAL] Open: backend failure - a84041b9706025c6
+
+Detected: 2026-09-29 12:00:00
+
+
+------------------------------------------------------------
+Sensor: a84041b9706025c6
+Manufacturer / model: Dragino / SE0X-LB soil moisture & EC sensor   Type: Dra=
+gino-SE0X-LB
+Alert: BACKEND_FAILURE (critical)   Incident #666   Status: OPEN
+Current condition: backend data unavailable (red)
+Last communication (received): 2026-09-29 11:44:53.931000
+Last stored measurement: n/a
+Expected reporting interval: 20 min
+Current unavailability: nan h   Estimated missing reports: nan so far
+Future risk: n/a
+Battery: no_recent_reading
+Gateway: n/a
+Probable cause: backend storage failure (confidence: high)
+Evidence: uplinks received after the last stored measurement (sensor and radi=
+o working, data path failing)
+Recommended action: fix the ingestion pipeline (database insert errors); no f=
+ield visit; stored values can be re-ingested
+
+
+Acknowledge: hsm ack <incident id>
+
+--===============5713199131305094051==
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+
+<html><body style=3D"font-family:Arial,sans-serif;font-size:14px;color:#222">
+<h2 style=3D"color:#b00020">[CRITICAL] Open: backend failure - a84041b9706025=
+c6</h2>
+<p>Detected 2026-09-29 12:00:00</p>
+
+<table style=3D"border-collapse:collapse;margin-bottom:14px" cellpadding=3D"4=
+">
+<tr><th colspan=3D"2" style=3D"text-align:left;background:#f2f2f2">Sensor a84=
+041b9706025c6 &middot; Dragino SE0X-LB soil moisture &amp; EC sensor &middot;=
+ incident #666 (OPEN)</th></tr>
+
+<tr><td style=3D"color:#555">Alert</td><td>BACKEND_FAILURE (critical)</td></t=
+r>
+<tr><td style=3D"color:#555">Condition</td><td>backend data unavailable (red)=
+</td></tr>
+<tr><td style=3D"color:#555">Last communication</td><td>2026-09-29 11:44:53.9=
+31000</td></tr>
+<tr><td style=3D"color:#555">Last stored measurement</td><td>n/a</td></tr>
+<tr><td style=3D"color:#555">Expected interval</td><td>20 min</td></tr>
+<tr><td style=3D"color:#555">Unavailable</td><td>nan h</td></tr>
+<tr><td style=3D"color:#555">Estimated missing reports</td><td>nan so far</td=
+></tr>
+<tr><td style=3D"color:#555">Future risk</td><td>n/a</td></tr>
+<tr><td style=3D"color:#555">Battery</td><td>no_recent_reading</td></tr>
+<tr><td style=3D"color:#555">Gateway</td><td>n/a</td></tr>
+<tr><td style=3D"color:#555">Probable cause</td><td>backend storage failure (=
+confidence high)</td></tr>
+<tr><td style=3D"color:#555">Evidence</td><td>uplinks received after the last=
+ stored measurement (sensor and radio working, data path failing)</td></tr>
+<tr><td style=3D"color:#555">Recommended action</td><td>fix the ingestion pip=
+eline (database insert errors); no field visit; stored values can be re-inges=
+ted</td></tr>
+</table>
+
+</body></html>
+
+--===============5713199131305094051==--

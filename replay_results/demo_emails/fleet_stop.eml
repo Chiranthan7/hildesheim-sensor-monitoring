@@ -1,0 +1,81 @@
+From: hsm-monitor@localhost
+To: admin@example.org
+Subject: [HSM CRITICAL] Open: sensor down - 647fda000001c646
+Message-ID: <fcc1968b-2f0c-4a2a-aec1-4d1425391b5b@hsm>
+MIME-Version: 1.0
+Content-Type: multipart/alternative;
+ boundary="===============6243182395287283059=="
+
+--===============6243182395287283059==
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+[CRITICAL] Open: sensor down - 647fda000001c646
+
+Detected: 2026-08-17 19:00:00
+
+
+------------------------------------------------------------
+Sensor: 647fda000001c646
+Manufacturer / model: TEKTELIC / CLOVER agriculture sensor   Type: CloverSoil=
+Sensor
+Alert: SENSOR_DOWN (critical)   Incident #290   Status: OPEN
+Current condition: significant interruption (red); family_wide_problem
+Last communication (received): 2026-08-17 12:20:48.742000
+Last stored measurement: 2026-08-17 12:20:48.742000
+Expected reporting interval: 15 min
+Current unavailability: 6.7 h   Estimated missing reports: 27 so far
+Future risk: still unavailable in 24 h: 48%; still unavailable in 7 d: 9%
+Battery: no_recent_reading
+Gateway: R=C3=B6merring (active)
+Probable cause: fleet-wide stop (possible remote deactivation or platform cha=
+nge) (confidence: medium)
+Evidence: improbably many devices of the family stopped together
+Recommended action: confirm with the operator whether devices were deactivate=
+d or re-provisioned
+
+
+Acknowledge: hsm ack <incident id>
+
+--===============6243182395287283059==
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+
+<html><body style=3D"font-family:Arial,sans-serif;font-size:14px;color:#222">
+<h2 style=3D"color:#b00020">[CRITICAL] Open: sensor down - 647fda000001c646</=
+h2>
+<p>Detected 2026-08-17 19:00:00</p>
+
+<table style=3D"border-collapse:collapse;margin-bottom:14px" cellpadding=3D"4=
+">
+<tr><th colspan=3D"2" style=3D"text-align:left;background:#f2f2f2">Sensor 647=
+fda000001c646 &middot; TEKTELIC CLOVER agriculture sensor &middot; incident #=
+290 (OPEN)</th></tr>
+
+<tr><td style=3D"color:#555">Alert</td><td>SENSOR_DOWN (critical)</td></tr>
+<tr><td style=3D"color:#555">Condition</td><td>significant interruption (red)=
+; family_wide_problem</td></tr>
+<tr><td style=3D"color:#555">Last communication</td><td>2026-08-17 12:20:48.7=
+42000</td></tr>
+<tr><td style=3D"color:#555">Last stored measurement</td><td>2026-08-17 12:20=
+:48.742000</td></tr>
+<tr><td style=3D"color:#555">Expected interval</td><td>15 min</td></tr>
+<tr><td style=3D"color:#555">Unavailable</td><td>6.7 h</td></tr>
+<tr><td style=3D"color:#555">Estimated missing reports</td><td>27 so far</td>=
+</tr>
+<tr><td style=3D"color:#555">Future risk</td><td>still unavailable in 24 h: 4=
+8%; still unavailable in 7 d: 9%</td></tr>
+<tr><td style=3D"color:#555">Battery</td><td>no_recent_reading</td></tr>
+<tr><td style=3D"color:#555">Gateway</td><td>R=C3=B6merring (active)</td></tr>
+<tr><td style=3D"color:#555">Probable cause</td><td>fleet-wide stop (possible=
+ remote deactivation or platform change) (confidence medium)</td></tr>
+<tr><td style=3D"color:#555">Evidence</td><td>improbably many devices of the =
+family stopped together</td></tr>
+<tr><td style=3D"color:#555">Recommended action</td><td>confirm with the oper=
+ator whether devices were deactivated or re-provisioned</td></tr>
+</table>
+
+</body></html>
+
+--===============6243182395287283059==--

@@ -1,0 +1,87 @@
+From: hsm-monitor@localhost
+To: admin@example.org
+Subject: [HSM WARNING] Open: reduced reporting mode - 008000000407afe1
+Message-ID: <75b3c9bc-b31d-48fe-941b-5aff68371edd@hsm>
+MIME-Version: 1.0
+Content-Type: multipart/alternative;
+ boundary="===============2553156345604949434=="
+
+--===============2553156345604949434==
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+[WARNING] Open: reduced reporting mode - 008000000407afe1
+
+Detected: 2026-10-22 19:00:00
+
+
+------------------------------------------------------------
+Sensor: 008000000407afe1
+Manufacturer / model: Sensoterra / LoRaWAN soil moisture probe   Type: Sensot=
+erra
+Alert: REDUCED_REPORTING_MODE (warning)   Incident #830   Status: OPEN
+Current condition: reduced reporting mode (yellow); forecast_below_family_thr=
+eshold;measurement_zero_majority
+Last communication (received): 2026-10-22 18:32:23.396000
+Last stored measurement: 2026-10-22 18:32:23.396000
+Expected reporting interval: 60 min (current mode 1440 min)
+Current unavailability: n/a   Estimated missing reports: 20.2 expected next 2=
+4 h
+Future risk: prolonged interruption within 7 d: 18%; interruption onset (long=
+ horizon): 23%
+Battery: not_measurable
+Gateway: R=C3=B6merring (active)
+Probable cause: poor installation / soil contact (confidence: medium)
+Evidence: reduced daily reporting mode or majority of moisture readings =3D 0=
+ (manufacturer-documented contact / dry-soil signature)
+Recommended action: re-seat the probe (manufacturer: poor pin contact or too-=
+dry soil)
+
+
+Acknowledge: hsm ack <incident id>
+
+--===============2553156345604949434==
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+
+<html><body style=3D"font-family:Arial,sans-serif;font-size:14px;color:#222">
+<h2 style=3D"color:#9a6700">[WARNING] Open: reduced reporting mode - 00800000=
+0407afe1</h2>
+<p>Detected 2026-10-22 19:00:00</p>
+
+<table style=3D"border-collapse:collapse;margin-bottom:14px" cellpadding=3D"4=
+">
+<tr><th colspan=3D"2" style=3D"text-align:left;background:#f2f2f2">Sensor 008=
+000000407afe1 &middot; Sensoterra LoRaWAN soil moisture probe &middot; incide=
+nt #830 (OPEN)</th></tr>
+
+<tr><td style=3D"color:#555">Alert</td><td>REDUCED_REPORTING_MODE (warning)</=
+td></tr>
+<tr><td style=3D"color:#555">Condition</td><td>reduced reporting mode (yellow=
+); forecast_below_family_threshold;measurement_zero_majority</td></tr>
+<tr><td style=3D"color:#555">Last communication</td><td>2026-10-22 18:32:23.3=
+96000</td></tr>
+<tr><td style=3D"color:#555">Last stored measurement</td><td>2026-10-22 18:32=
+:23.396000</td></tr>
+<tr><td style=3D"color:#555">Expected interval</td><td>60 min (current mode 1=
+440 min)</td></tr>
+<tr><td style=3D"color:#555">Unavailable</td><td>n/a</td></tr>
+<tr><td style=3D"color:#555">Estimated missing reports</td><td>20.2 expected =
+next 24 h</td></tr>
+<tr><td style=3D"color:#555">Future risk</td><td>prolonged interruption withi=
+n 7 d: 18%; interruption onset (long horizon): 23%</td></tr>
+<tr><td style=3D"color:#555">Battery</td><td>not_measurable</td></tr>
+<tr><td style=3D"color:#555">Gateway</td><td>R=C3=B6merring (active)</td></tr>
+<tr><td style=3D"color:#555">Probable cause</td><td>poor installation / soil =
+contact (confidence medium)</td></tr>
+<tr><td style=3D"color:#555">Evidence</td><td>reduced daily reporting mode or=
+ majority of moisture readings =3D 0 (manufacturer-documented contact / dry-s=
+oil signature)</td></tr>
+<tr><td style=3D"color:#555">Recommended action</td><td>re-seat the probe (ma=
+nufacturer: poor pin contact or too-dry soil)</td></tr>
+</table>
+
+</body></html>
+
+--===============2553156345604949434==--
