@@ -57,11 +57,28 @@ function drawMap() {
 function itemHTML(c) {
   return `<div class="item" data-id="${esc(c.id)}"><span class="dot ${c.light}"></span><span class="ic">${c.icon}</span><div style="flex:1;min-width:0"><div class="nm">${esc(c.measures)}</div><div class="st">${esc(c.status)} · ${esc(c.id)}</div></div>${batteryHTML(c.battery)}</div>`;
 }
+function drawChipCounts() {
+  if (!S.groups) return;
+  $$('#typeChips .chip').forEach(c => {
+    const g = S.groups[+c.dataset.g]; const all = S.state.sensors.filter(x => g.families.includes(x.family));
+    const noGps = all.filter(x => x.lat == null).length;
+    c.querySelector('.cnt').textContent = all.length; c.title = noGps ? `${noGps} of ${all.length} have no GPS position in the data (listed under "Sensors without GPS position")` : `${all.length} sensors`;
+  });
+}
 function drawList() {
-  const L_ = S.state.sensors.filter(visible).sort((a, b) => (b.priority || 0) - (a.priority || 0));
-  $('#sensorList').innerHTML = L_.map(itemHTML).join('') || '<p class="mute">No sensors match.</p>';
-  $('#listCount').textContent = `${L_.length} sensors`;
+  const L_ = S.state.sensors.filter(c => c.lat != null && visible(c)).sort((a, b) => (b.priority || 0) - (a.priority || 0));
+  const U0 = S.state.unlocated.filter(visible).length;
+  $('#sensorList').innerHTML = L_.map(itemHTML).join('') || `<p class="mute">${U0 ? 'None of these sensors has a GPS position. See the list below.' : 'No sensors match.'}</p>`;
+  $('#listCount').textContent = `${L_.length} sensors on the map`;
   const U = S.state.unlocated.filter(visible); $('#unlocN').textContent = U.length; $('#unlocList').innerHTML = U.map(itemHTML).join('');
+  if (S.types.size || S.q) $('.unloc').open = U.length > 0;
+  // note on the map when some or all of the selected sensors have no position in the data
+  const note = $('#mapNote');
+  if (U.length && (S.types.size || S.q || S.light !== 'all')) {
+    note.innerHTML = L_.length ? `📍 ${U.length} of the selected sensors have <b>no GPS position in the data</b>. They are listed on the left under "Sensors without GPS position".`
+                               : `📍 The selected sensors have <b>no GPS position in the data</b>, so they cannot be shown on the map. They are listed on the left; their Directions button leads to the area of the gateway that receives them.`;
+    note.classList.remove('hidden');
+  } else note.classList.add('hidden');
   $$('#sensorList .item, #unlocList .item').forEach(e => e.onclick = () => openSensor(e.dataset.id, true));
 }
 function drawTiles() {
@@ -182,8 +199,8 @@ function showTab(t) {
   if (t === 'alerts') loadAlerts(); if (t === 'quality') loadQuality();
 }
 $$('.tab').forEach(b => b.onclick = () => showTab(b.dataset.tab));
-$$('.tile').forEach(t => t.onclick = () => { if (t.dataset.tab) return showTab(t.dataset.tab); S.light = t.dataset.filter; showTab('map'); render(); });
-$('#search').oninput = e => { S.q = e.target.value.trim(); render(); };
+$$('.tile').forEach(t => t.onclick = () => { if (t.dataset.tab) return showTab(t.dataset.tab); S.light = t.dataset.filter; showTab('map'); render(true); });
+let qT = null; $('#search').oninput = e => { S.q = e.target.value.trim(); clearTimeout(qT); qT = setTimeout(() => render(true), 300); };
 
 // ---------------------------------------------------------------- time
 function fmt(t) { return new Date(t.replace(' ', 'T') + 'Z').toLocaleString('en-GB', {day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Berlin'}); }
@@ -205,7 +222,13 @@ $('#testMailBtn').onclick = async () => {
 $('#checkBtn').onclick = async () => { const r = await api('/api/check', {method: 'POST'}); alertBox(r.message); };
 function alertBox(msg) { $('#modalBody').innerHTML = `<p>${esc(msg)}</p>`; $('#modal').classList.remove('hidden'); }
 
-function render() { drawTiles(); drawMap(); drawList(); drawFirst(); drawGateways(); }
+function render(fit) {
+  drawTiles(); drawMap(); drawList(); drawFirst(); drawGateways(); drawChipCounts();
+  if (fit) {                                                  // zoom to the sensors that match the filter
+    const pts = S.state.sensors.filter(c => c.lat != null && visible(c)).map(c => [c.lat, c.lon]);
+    if (pts.length === 1) map.flyTo(pts[0], 15, {duration: .6}); else if (pts.length) map.flyToBounds(pts, {padding: [40, 40], duration: .6});
+  }
+}
 async function loadState(t) {
   S.asOf = t; $('#timeLabel').textContent = fmt(t);
   S.state = await api(`/api/state?as_of=${encodeURIComponent(t)}`); render();
@@ -217,8 +240,14 @@ async function init() {
   const a = new Date(S.meta.first.replace(' ', 'T') + 'Z'), b = new Date(S.meta.last.replace(' ', 'T') + 'Z');
   for (let x = a; x <= b; x = new Date(x.getTime() + 3600e3)) S.hours.push(x.toISOString().slice(0, 16).replace('T', ' '));
   const sl = $('#timeSlider'); sl.max = S.hours.length - 1; sl.value = S.hours.length - 1;
-  $('#typeChips').innerHTML = S.meta.types.map(t => `<span class="chip" data-f="${esc(t.family)}">${t.icon} ${esc(t.measures.split(' (')[0])}</span>`).join('');
-  $$('#typeChips .chip').forEach(c => c.onclick = () => { c.classList.toggle('on'); S.types.has(c.dataset.f) ? S.types.delete(c.dataset.f) : S.types.add(c.dataset.f); render(); });
+  const groups = {};
+  for (const t of S.meta.types) { const k = t.measures.split(' (')[0]; (groups[k] = groups[k] || {label: k, icon: t.icon, families: []}).families.push(t.family); }
+  S.groups = Object.values(groups);
+  $('#typeChips').innerHTML = S.groups.map((g, i) => `<span class="chip" data-g="${i}">${g.icon} ${esc(g.label)} <b class="cnt"></b></span>`).join('');
+  $$('#typeChips .chip').forEach(c => c.onclick = () => {
+    const g = S.groups[+c.dataset.g], on = !c.classList.contains('on'); c.classList.toggle('on', on);
+    g.families.forEach(f => on ? S.types.add(f) : S.types.delete(f)); render(true);
+  });
   $('#helpTypes').innerHTML = S.meta.types.map(t => `<p>${t.icon} ${esc(t.measures)} <span class="mute">(${esc(t.family)})</span></p>`).join('');
   if (S.meta.live) { $('#liveBadge').classList.remove('hidden'); $('#checkBtn').classList.remove('hidden'); setInterval(async () => { const m = await fetch('/api/meta').then(r => r.json()); if (m.last !== S.meta.last) { S.meta = m; location.reload(); } }, 60000); }
   await loadState(S.hours[S.hours.length - 1]);

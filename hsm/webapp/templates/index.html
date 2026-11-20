@@ -47,9 +47,10 @@
       <div class="chips" id="typeChips"></div>
       <div class="listhead"><span id="listCount"></span><span class="mute">sorted by urgency</span></div>
       <div id="sensorList" class="list"></div>
-      <details class="unloc"><summary>Sensors without GPS position (<span id="unlocN">0</span>)</summary><div id="unlocList" class="list"></div></details>
+      <details class="unloc"><summary>📍 Sensors without GPS position (<span id="unlocN">0</span>)</summary>
+        <p class="mute" style="font-size:12px;margin:2px 0 6px">The data does not contain their position, only the gateway that receives them.</p><div id="unlocList" class="list"></div></details>
     </aside>
-    <div id="map"></div>
+    <div style="flex:1;position:relative;display:flex"><div id="map"></div><div id="mapNote" class="mapnote hidden"></div></div>
   </section>
 
   <section id="view-first" class="view pad">
