@@ -102,3 +102,6 @@ tr.click{cursor:pointer}tr.click:hover{background:#f2f6fd}.tablewrap{max-height:
 .cluster{width:52px;height:52px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;border:4px solid #ffffffcc;box-shadow:0 2px 8px #0005;line-height:1.05;text-align:center}
 .cluster b{font-size:17px}.cluster small{font-size:8px;font-weight:700}
 .cluster.red{background:var(--red)}.cluster.yellow{background:var(--yellow)}.cluster.green{background:var(--green)}.cluster.grey{background:var(--grey)}
+
+.bat.power{padding:0 5px;font-size:11px}.powerbig{font-size:46px;width:120px;text-align:center}
+.stale{opacity:.55;filter:grayscale(.6)}.stale .batbody{animation:none}

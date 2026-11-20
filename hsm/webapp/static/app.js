@@ -22,7 +22,11 @@ legend.onAdd = () => { const d = L.DomUtil.create('div', 'legend'); d.innerHTML 
 legend.addTo(map);
 
 function batteryHTML(b, big) {
-  const lv = 'lv-' + (b.level || 'unknown');
+  if (b.kind === 'solar' || b.kind === 'sealed') {
+    return big ? `<div class="bigbat"><div class="powerbig">${b.label}</div><div><div class="val" style="font-size:22px">${esc(b.text)}</div><div class="lab">battery not reported</div></div></div>`
+               : `<div class="bat power" title="${esc(b.note)}"><span>${b.label}</span></div>`;
+  }
+  const lv = 'lv-' + (b.level || 'unknown') + (b.stale ? ' stale' : '');
   if (big) return `<div class="bigbat ${lv}"><div class="batbody"><div class="batfill" style="--w:${b.fill}%"></div></div><div><div class="val">${esc(b.label)}</div><div class="lab">${esc(b.text)}</div></div></div>`;
   return `<div class="bat ${lv}"><div class="batbody"><div class="batfill" style="--w:${b.fill}%"></div></div><span>${esc(b.label)}</span></div>`;
 }

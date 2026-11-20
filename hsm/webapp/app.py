@@ -71,6 +71,9 @@ class Store:
             self.ev = json.load(open(self.dir / 'evaluation.json')) if (self.dir / 'evaluation.json').exists() else {}
             self.meta = json.load(open(self.dir / 'meta.json')); self.mtime = os.path.getmtime(self.dir / 'meta.json')
             self.hours = np.array(sorted(S.hour_end.unique())); self._cache = {}
+            # battery readings per device, to show the last known value of sensors that stopped sending
+            Bv = S.loc[S.battery_value.notna() & ~S.battery_condition.astype(str).isin(['no_recent_reading', 'not_measurable']), ['device_id', 'hour_end', 'battery_condition', 'battery_value']]
+            self.bat = {str(d): (g.hour_end.values, g.battery_condition.astype(str).values, g.battery_value.values) for d, g in Bv.groupby('device_id', observed=True)}
 
     def maybe_reload(self):
         try:
@@ -96,7 +99,13 @@ class Store:
         self._cache[t] = cur; return cur
 
 
-def sensor_card(r, D, t):
+def last_battery(st, dev, t):
+    b = st.bat.get(str(dev))
+    if b is None: return None
+    i = np.searchsorted(b[0], np.datetime64(t), 'right') - 1
+    return None if i < 0 else (b[1][i], float(b[2][i]), local(pd.Timestamp(b[0][i])))
+
+def sensor_card(r, D, t, store=None):
     fam = r['family']; d = D.loc[r['device_id']] if r['device_id'] in D.index else {}
     meas, icon, _ = plain.MEASURES.get(fam, (fam, '📟', (None, None)))
     r = dict(r); r['_interval'] = NOMINAL_MIN.get(fam, 60)
@@ -105,7 +114,7 @@ def sensor_card(r, D, t):
     return dict(id=r['device_id'], family=fam, manufacturer=_j(d.get('manufacturer')) if len(d) else '', model=_j(d.get('model')) if len(d) else '',
                 measures=meas, icon=icon, light=light, light_text=plain.LIGHT.get(light, ('', ''))[0], lat=lat, lon=lon,
                 status=st['title'], status_text=st['text'], cause=st['cause'], todo=st['todo'], visit=st['visit'],
-                battery=plain.battery(r, fam), last_heard=plain.ago(r.get('rx_last_arrival'), t), last_saved=plain.ago(r.get('svc_last_arrival'), t),
+                battery=plain.battery(r, fam, last_battery(store, r['device_id'], t) if store is not None and r.get('battery_condition') == 'no_recent_reading' else None), last_heard=plain.ago(r.get('rx_last_arrival'), t), last_saved=plain.ago(r.get('svc_last_arrival'), t),
                 priority=_j(r.get('priority_score')), why=r.get('why') or '', gateway=r.get('primary_gateway'),
                 problems=plain.anomaly_text(r.get('anomaly_kinds')), risk7=_j(r.get('risk_prolonged_7d')))
 
@@ -131,7 +140,7 @@ def create_app(data_dir, live=None):
     @app.get('/api/state')
     def state():
         t = st.as_of(request.args.get('as_of')); cur = st.current(t)
-        cards = [sensor_card(r, st.D, t) for r in cur.to_dict('records')]
+        cards = [sensor_card(r, st.D, t, st) for r in cur.to_dict('records')]
         G = gateways_at(t)
         counts = {k: sum(c['light'] == k for c in cards) for k in ['red', 'yellow', 'green', 'grey']}
         I = st.I; opened = pd.to_datetime(I.opened_at); closed = pd.to_datetime(I.closed_at)
@@ -159,7 +168,7 @@ def create_app(data_dir, live=None):
         t = st.as_of(request.args.get('as_of')); cur = st.current(t)
         row = cur[cur.device_id == dev]
         if not len(row): abort(404)
-        r = row.iloc[0].to_dict(); fam = r['family']; card = sensor_card(r, st.D, t)
+        r = row.iloc[0].to_dict(); fam = r['family']; card = sensor_card(r, st.D, t, st)
         r['_interval'] = NOMINAL_MIN.get(fam, 60)
         stt = plain.status(r, t, fam); pr = plain.predictions(r, fam)
         labels = plain.MEASURES.get(fam, (fam, '', (None, None)))[2]
@@ -226,7 +235,7 @@ def create_app(data_dir, live=None):
             rate_txt = ((f"It was off {n} time{'s' if n != 1 else ''} since monitoring began. " if n is not None else '') +
                         f"Based on that history, the chance of an interruption in the next 7 days is about {rate.p_interruption_7d.iat[0]:.0%}. "
                         "Gateway breakdowns could not be predicted from warning signs in the data, so this is the historical frequency, not a forecast.")
-        return jsonify(gateway=G[0], sensors=[sensor_card(r, st.D, t) for r in deps.to_dict('records')], daily=dict(day=[_j(x) for x in daily.index], records=[int(x) for x in daily.values]),
+        return jsonify(gateway=G[0], sensors=[sensor_card(r, st.D, t, st) for r in deps.to_dict('records')], daily=dict(day=[_j(x) for x in daily.index], records=[int(x) for x in daily.values]),
                        events=[dict(start=_j(e.start), end=_j(e.end), duration=plain.hours_text(e.hours),
                                     what={'network_or_platform': 'whole network down', 'inactive_gateway': 'gateway off (sensors switched to others)',
                                           'inactive_unexplained': 'gateway and its sensors off'}.get(e.kind, e.kind)) for e in ev.itertuples()], history_rate=rate_txt)

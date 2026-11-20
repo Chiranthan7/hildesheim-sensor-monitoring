@@ -43,7 +43,8 @@ def test_battery_never_invented(client):
     S = strict(client.get('/api/state'))['sensors']
     for c in S:
         b = c['battery']
-        if c['family'] in ('Sensoterra', 'MeteoHelix', 'MeteoWind'): assert b['kind'] == 'unknown' and b['label'] == '?'
+        if c['family'] in ('Sensoterra', 'MeteoHelix', 'MeteoWind'): assert b['kind'] in ('solar', 'sealed') and b['fill'] == 0   # no telemetry: power source only
+        if b.get('stale'): assert b['text'].startswith('Last known (')                                                        # old reading always dated
         if b['kind'] == 'band': assert b['label'].endswith('V') and '%' not in b['label']      # lead-acid: voltage + band, never a percentage
         if b['kind'] == 'percent': assert c['family'] == 'CloverSoilSensor'                  # only the sensor's own reported level
 

@@ -98,25 +98,43 @@ def anomaly_text(kinds):
         else: out.append(ANOMALY.get(k, k.replace('_', ' ')))
     return list(dict.fromkeys(out))
 
-def battery(row, fam):
+POWER = {   # power source per family (manufacturer documentation, docs/MANUFACTURER_SPECS.md)
+    'Sensoterra': ('sealed', '🔒', 'Sealed lithium battery (not replaceable). This sensor does not report its battery.'),
+    'MeteoHelix': ('solar', '☀️', 'Solar powered. This station does not report its battery.'),
+    'MeteoWind': ('solar', '☀️', 'Solar powered. This sensor does not report its battery.'),
+}
+
+def _band(c, v, fam, stale=None):
+    fill = {'good': 90, 'fair': 60, 'low': 30, 'critical': 10}[c]
+    return dict(kind='band', fill=fill, level=c, label=f'{v:.1f} V' if v else c, text={'good': 'Good', 'fair': 'Fair', 'low': 'Low', 'critical': 'Critical'}[c],
+                note='12 V battery with solar panel. Shown as a band (good / fair / low / critical) from the measured voltage; '
+                     'the voltage cannot be turned into an exact percentage for this battery.')
+
+def battery(row, fam, last=None):
     """battery widget: fill level only where the measurement supports it. Lead-acid: condition band (no %),
-    CLOVER: manufacturer's own %, lithium: OK / problem, no telemetry: unknown."""
+    CLOVER: manufacturer's own %, lithium: OK / problem, no telemetry: power source. `last`: the last known reading
+    (condition, value, time) when the sensor has stopped sending - shown with its date, greyed."""
     c = row.get('battery_condition'); v = _f(row.get('battery_value'))
-    if c in ('good', 'fair', 'low', 'critical') and fam in ('Bigbelly', 'OttSensor'):
-        fill = {'good': 90, 'fair': 60, 'low': 30, 'critical': 10}[c]
-        return dict(kind='band', fill=fill, level=c, label=f'{v:.1f} V' if v else c, text={'good': 'Good', 'fair': 'Fair', 'low': 'Low', 'critical': 'Critical'}[c],
-                    note='12 V battery. Shown as a band (good / fair / low / critical) from the measured voltage; the voltage cannot be turned into an exact percentage.')
+    if c == 'no_recent_reading' and last is not None:
+        lc, lv, lt = last; r = battery(dict(battery_condition=lc, battery_value=lv), fam)
+        r.update(stale=True, since=lt, text=f"Last known ({lt[:10]})",
+                 note=f"The sensor has stopped sending, so this is its last battery reading from {lt[:10]}. " + r['note'])
+        return r
+    if c in ('good', 'fair', 'low', 'critical') and fam in ('Bigbelly', 'OttSensor'): return _band(c, v, fam)
     if fam == 'CloverSoilSensor' and v is not None:
         return dict(kind='percent', fill=int(round(v)), level='good' if v >= 50 else 'low', label=f'{v:.0f} %', text='Good' if v >= 50 else 'Low',
-                    note="Battery level as reported by the sensor itself (manufacturer's estimate).")
+                    note="Lithium battery (about 11 years). Level as reported by the sensor itself (manufacturer's estimate).")
     if c == 'nominal_plateau':
         return dict(kind='ok', fill=100, level='good', label=f'{v:.2f} V' if v else 'OK', text='OK',
                     note='Lithium battery: its voltage stays flat until it is almost empty, so only "OK" or "problem" can be shown, not a level.')
     if c == 'voltage_step_change':
         return dict(kind='ok', fill=40, level='low', label=f'{v:.2f} V' if v else '!', text='Check',
                     note='Lithium battery: a sudden voltage change was detected. Check the battery.')
+    if fam in POWER:
+        kind, ic, note = POWER[fam]
+        return dict(kind=kind, fill=0, level='none', label=ic, text='Solar powered' if kind == 'solar' else 'Sealed battery', note=note)
     if c == 'no_recent_reading':
-        return dict(kind='unknown', fill=0, level='unknown', label='?', text='No recent reading', note='This sensor normally reports its battery, but no recent value arrived.')
+        return dict(kind='unknown', fill=0, level='unknown', label='?', text='No reading yet', note='This sensor reports its battery, but no reading has arrived yet.')
     return dict(kind='unknown', fill=0, level='unknown', label='?', text='Not reported', note='This sensor does not report its battery in the data.')
 
 def level(p, lo=0.10, hi=0.40):
