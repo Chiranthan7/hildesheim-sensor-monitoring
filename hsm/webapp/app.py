@@ -287,7 +287,7 @@ def create_app(data_dir, live=None):
         except Exception as e: return jsonify(ok=False, message=f'{type(e).__name__}: {e}'), 500
         ok = all(x['status'] in ('sent', 'dry_run') for x in r['sent']) and r['sent']
         msg = (f"{len(r['sent'])} test e-mail(s) " + ('sent to ' + ', '.join(r['recipients']) if r['real_email'] else 'written to the outbox (real sending is off: set HSM_EMAIL_ENABLED=1)')
-               if ok else 'Sending failed: ' + '; '.join(str(x.get('status')) for x in r['sent']))
+               if ok else 'Sending failed: ' + ' | '.join(str(x.get('error') or x.get('status')) for x in r['sent'])[:600])
         return jsonify(ok=bool(ok), message=msg, detail=r)
 
     @app.get('/api/live')

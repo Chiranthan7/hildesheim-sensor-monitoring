@@ -52,7 +52,7 @@ class Mailer:
         for a in range(1, self.max_attempts + 1):
             try:
                 req = urllib.request.Request('https://api.resend.com/emails', data=body, method='POST',
-                                             headers={'Authorization': f'Bearer {self.resend_key}', 'Content-Type': 'application/json', 'User-Agent': 'hsm-monitor'})
+                                             headers={'Authorization': f'Bearer {self.resend_key}', 'Content-Type': 'application/json', 'User-Agent': 'hsm-sensor-monitoring/1.0 (python)', 'Accept': 'application/json'})
                 with urllib.request.urlopen(req, timeout=self.timeout) as r:
                     if 200 <= r.status < 300: return dict(status='sent', attempts=a, path=None, error=None)
                     err = f'HTTP {r.status}'

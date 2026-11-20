@@ -300,7 +300,8 @@ class Engine:
         for iid in ids:
             self.store.x("update incidents set last_notified_at=?, n_notifications=n_notifications+1, notified_open=CASE WHEN ?='OPEN' OR ?='SUMMARY' THEN 1 ELSE notified_open END where id=?",
                          str(now), kind, kind, iid)
-        return dict(kind=kind, subject=subject, n_items=len(items), status=res['status'])
+        if res['status'] == 'failed': print(f"[mail] sending failed: {res['error']}", flush=True)
+        return dict(kind=kind, subject=subject, n_items=len(items), status=res['status'], error=res.get('error'))
 
     def dispatch_simple(self, now, events):
         groups = {}
