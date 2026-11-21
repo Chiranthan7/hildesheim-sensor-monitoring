@@ -9,15 +9,15 @@ const gmaps = (lat, lon) => `https://www.google.com/maps/dir/?api=1&destination=
 
 // ---------------------------------------------------------------- map
 const map = L.map('map', {zoomControl: true}).setView([52.152, 9.95], 13);
-// base maps: TopPlusOpen (BKG, official German map service, WMS) as default; OpenStreetMap and satellite as alternatives
+// base maps: TopPlusOpen Light Grey (BKG, official German map service, WMS) as default, other TopPlusOpen variants; OpenStreetMap and satellite as alternatives
 const BKG_WMS = 'https://sgx.geodatenzentrum.de/wms_topplus_open';
 const BKG_ATTR = 'Kartendarstellung: © <a href="https://www.bkg.bund.de" target="_blank" rel="noopener">BKG</a> (2026) <a href="https://www.govdata.de/dl-de/by-2-0" target="_blank" rel="noopener">dl-de/by-2-0</a>, <a href="https://sgx.geodatenzentrum.de/web_public/gdz/datenquellen/datenquellen_topplusopen.html" target="_blank" rel="noopener">Datenquellen</a>';
 const bkg = layer => L.tileLayer.wms(BKG_WMS, {layers: layer, format: 'image/png', transparent: false, version: '1.3.0', maxZoom: 19, attribution: BKG_ATTR});
 function baseLayers(m) {             // adds the default base map to map m and a switcher; returns the layers
-  const b = {'TopPlusOpen': bkg('web'), 'TopPlusOpen Light': bkg('web_light'), 'TopPlusOpen Grey': bkg('web_grau'),
+  const b = {'Light grey (TopPlusOpen)': bkg('web_light_grau'), 'Light (TopPlusOpen)': bkg('web_light'), 'Colour (TopPlusOpen)': bkg('web'), 'Grey (TopPlusOpen)': bkg('web_grau'),
     'OpenStreetMap': L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom: 19, attribution: '© OpenStreetMap contributors'}),
     'Satellite': L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {maxZoom: 19, attribution: 'Imagery © Esri'})};
-  b['TopPlusOpen'].addTo(m); L.control.layers(b).addTo(m); return b;
+  b['Light grey (TopPlusOpen)'].addTo(m); L.control.layers(b).addTo(m); return b;     // default: light grey, so the coloured markers stand out
 }
 baseLayers(map);
 const RANK = {red: 3, yellow: 2, grey: 1, green: 0};
