@@ -14,6 +14,8 @@ MEASURES = {   # family -> (what it measures, icon, measurement labels for the t
     'Bigbelly': ('Smart waste bin', '🗑️', (None, None)),
     'Adeunis': ('Temperature', '🌡️', (None, None)),
 }
+ICON_KEY = {'Sensoterra': 'soil', 'CloverSoilSensor': 'soil', 'Dragino-SE0X-LB': 'soil_salt', 'Agvolution': 'soil_temp', 'MeteoHelix': 'weather',
+            'MeteoWind': 'wind', 'OttSensor': 'water', 'Bigbelly': 'bin', 'Adeunis': 'temperature'}     # static/icons/<key>.svg
 LIGHT = {'green': ('OK', 'Working normally'), 'yellow': ('Attention', 'Needs attention soon'), 'red': ('Action needed', 'Needs action now'),
          'grey': ('No information', 'No information available')}
 STATUS = {

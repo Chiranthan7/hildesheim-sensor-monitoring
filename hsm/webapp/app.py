@@ -124,7 +124,7 @@ def sensor_card(r, D, t, store=None):
     pa = position_at(store, r['device_id'], t)
     if pa: lat, lon = round(pa[0], 6), round(pa[1], 6)              # position at the selected time (devices can be moved)
     return dict(id=r['device_id'], family=fam, manufacturer=_j(d.get('manufacturer')) if len(d) else '', model=_j(d.get('model')) if len(d) else '',
-                measures=meas, icon=icon, light=light, light_text=plain.LIGHT.get(light, ('', ''))[0], lat=lat, lon=lon,
+                measures=meas, icon=icon, icon_key=plain.ICON_KEY.get(fam, 'soil'), light=light, light_text=plain.LIGHT.get(light, ('', ''))[0], lat=lat, lon=lon,
                 status=st['title'], status_text=st['text'], cause=st['cause'], todo=st['todo'], visit=st['visit'],
                 battery=plain.battery(r, fam, last_battery(store, r['device_id'], t) if store is not None and r.get('battery_condition') == 'no_recent_reading' else None), last_heard=plain.ago(r.get('rx_last_arrival'), t), last_saved=plain.ago(r.get('svc_last_arrival'), t),
                 priority=_j(r.get('priority_score')), why=r.get('why') or '', gateway=r.get('primary_gateway'),
@@ -146,7 +146,7 @@ def create_app(data_dir, live=None):
     def meta():
         fams = sorted(st.D.family.unique())
         return jsonify(meta=st.meta, first=pd.Timestamp(st.hours[0]).strftime('%Y-%m-%d %H:%M'), last=pd.Timestamp(st.hours[-1]).strftime('%Y-%m-%d %H:%M'),   # UTC (slider)
-                       types=[dict(family=f, measures=plain.MEASURES.get(f, (f, '📟'))[0], icon=plain.MEASURES.get(f, (f, '📟'))[1]) for f in fams],
+                       types=[dict(family=f, measures=plain.MEASURES.get(f, (f, '📟'))[0], icon=plain.MEASURES.get(f, (f, '📟'))[1], icon_key=plain.ICON_KEY.get(f, 'soil')) for f in fams],
                        live=bool(live), live_status=live.status if live else None)
 
     @app.get('/api/state')

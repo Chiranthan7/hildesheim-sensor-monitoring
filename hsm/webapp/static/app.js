@@ -4,6 +4,7 @@ const esc = s => (s ?? '').toString().replace(/[&<>"']/g, c => ({'&':'&amp;','<'
 const api = async (u, opt) => { $('#loading').classList.remove('hidden'); try { const r = await fetch(u, opt); if (!r.ok) throw new Error(r.status); return await r.json(); } finally { $('#loading').classList.add('hidden'); } };
 const S = {meta: null, state: null, asOf: null, hours: [], light: 'all', types: new Set(), q: '', markers: {}, gwMarkers: {}, chart: null, openId: null, openKind: null, playing: null};
 const COLORS = {red: '#d32f2f', yellow: '#f2a900', green: '#2e9e5b', grey: '#9aa4b0'};
+const ico = (key, px = 24, cls = '') => `<img class="ico ${cls}" src="/static/icons/${key}.svg" width="${px}" height="${px}" alt="">`;
 const gmaps = (lat, lon) => `https://www.google.com/maps/dir/?api=1&destination=${lat},${lon}&travelmode=driving`;
 
 // ---------------------------------------------------------------- map
@@ -18,19 +19,20 @@ const sensorLayer = L.markerClusterGroup({disableClusteringAtZoom: 18, maxCluste
     const kinds = {}; ms.forEach(m => kinds[m.options.kind] = (kinds[m.options.kind] || 0) + 1);
     const ks = Object.entries(kinds).sort((a, b) => b[1] - a[1]);
     const nr = ms.filter(m => m.options.light === 'red').length;
-    const icons = ks.slice(0, 3).map(([k, n]) => `<span>${k}${n > 1 ? '×' + n : ''}</span>`).join('') + (ks.length > 3 ? '<span>…</span>' : '');
+    const icons = ks.slice(0, 3).map(([k, n]) => `<span>${ico(k, 15)}${n > 1 ? '×' + n : ''}</span>`).join('') + (ks.length > 3 ? '<span>…</span>' : '');
     return L.divIcon({className: '', iconSize: [76, 60], iconAnchor: [38, 30],
       html: `<div class="cluster ${worst}" title="${ms.length} sensors${nr ? ', ' + nr + ' need action' : ''}. Click to zoom in."><b>${ms.length}</b><div class="kinds">${icons}</div></div>`});
   }}).addTo(map);
 const gwLayer = L.layerGroup().addTo(map);
 const legend = L.control({position: 'bottomleft'});
-legend.onAdd = () => { const d = L.DomUtil.create('div', 'legend'); d.innerHTML = '<span class="dot red"></span> Action needed<br><span class="dot yellow"></span> Attention soon<br><span class="dot green"></span> Working fine<br><span class="dot grey"></span> No information<br>📡 Gateway'; return d; };
+legend.onAdd = () => { const d = L.DomUtil.create('div', 'legend'); d.innerHTML = '<span class="dot red"></span> Action needed<br><span class="dot yellow"></span> Attention soon<br><span class="dot green"></span> Working fine<br><span class="dot grey"></span> No information<br>' + ico('gateway', 16) + ' Gateway'; return d; };
 legend.addTo(map);
 
 function batteryHTML(b, big) {
   if (b.kind === 'solar' || b.kind === 'sealed') {
-    return big ? `<div class="bigbat"><div class="powerbig">${b.label}</div><div><div class="val" style="font-size:22px">${esc(b.text)}</div><div class="lab">battery not reported</div></div></div>`
-               : `<div class="bat power" title="${esc(b.note)}"><span>${b.label}</span></div>`;
+    const k = b.kind === 'solar' ? 'sun' : 'lock';
+    return big ? `<div class="bigbat"><div class="powerbig">${ico(k, 56)}</div><div><div class="val" style="font-size:22px">${esc(b.text)}</div><div class="lab">battery not reported</div></div></div>`
+               : `<div class="bat power" title="${esc(b.note)}">${ico(k, 13)}</div>`;
   }
   const lv = 'lv-' + (b.level || 'unknown') + (b.stale ? ' stale' : '');
   if (big) return `<div class="bigbat ${lv}"><div class="batbody"><div class="batfill" style="--w:${b.fill}%"></div></div><div><div class="val">${esc(b.label)}</div><div class="lab">${esc(b.text)}</div></div></div>`;
@@ -38,7 +40,7 @@ function batteryHTML(b, big) {
 }
 function markerIcon(c) {
   return L.divIcon({className: '', iconSize: [44, 58], iconAnchor: [22, 29], popupAnchor: [0, -26],
-    html: `<div class="mk ${c.light}"><div class="pulse"></div><div class="bub">${c.icon}</div>${batteryHTML(c.battery)}</div>`});
+    html: `<div class="mk ${c.light}"><div class="pulse"></div><div class="bub">${ico(c.icon_key, 28)}</div>${batteryHTML(c.battery)}</div>`});
 }
 function visible(c) {
   if (S.light !== 'all' && c.light !== S.light) return false;
@@ -50,18 +52,18 @@ function drawMap() {
   sensorLayer.clearLayers(); gwLayer.clearLayers(); S.markers = {};
   for (const c of S.state.sensors) {
     if (c.lat == null || !visible(c)) continue;
-    const m = L.marker([c.lat, c.lon], {icon: markerIcon(c), light: c.light, kind: c.icon, riseOnHover: true, zIndexOffset: c.light === 'red' ? 1000 : c.light === 'yellow' ? 500 : 0});
-    m.bindTooltip(`<b>${c.icon} ${esc(c.measures)}</b><br>${esc(c.status)}<br><span style="color:#666">${esc(c.id)}</span>`, {direction: 'top', offset: [0, -24]});
+    const m = L.marker([c.lat, c.lon], {icon: markerIcon(c), light: c.light, kind: c.icon_key, riseOnHover: true, zIndexOffset: c.light === 'red' ? 1000 : c.light === 'yellow' ? 500 : 0});
+    m.bindTooltip(`<b>${ico(c.icon_key, 18)} ${esc(c.measures)}</b><br>${esc(c.status)}<br><span style="color:#666">${esc(c.id)}</span>`, {direction: 'top', offset: [0, -24]});
     m.on('click', () => openSensor(c.id)); m.addTo(sensorLayer); S.markers[c.id] = m;
   }
   for (const g of S.state.gateways) {
     if (g.lat == null) continue;
-    const m = L.marker([g.lat, g.lon], {icon: L.divIcon({className: '', iconSize: [34, 34], iconAnchor: [17, 17], html: `<div class="gwmk ${g.light}">📡</div>`})});
-    m.bindTooltip(`<b>📡 ${esc(g.name)}</b><br>${esc(g.status)}`, {direction: 'top'}); m.on('click', () => openGateway(g.id)); m.addTo(gwLayer);
+    const m = L.marker([g.lat, g.lon], {icon: L.divIcon({className: '', iconSize: [34, 34], iconAnchor: [17, 17], html: `<div class="gwmk ${g.light}">${ico('gateway', 24)}</div>`})});
+    m.bindTooltip(`<b>${ico('gateway', 18)} ${esc(g.name)}</b><br>${esc(g.status)}`, {direction: 'top'}); m.on('click', () => openGateway(g.id)); m.addTo(gwLayer);
   }
 }
 function itemHTML(c) {
-  return `<div class="item" data-id="${esc(c.id)}"><span class="dot ${c.light}"></span><span class="ic">${c.icon}</span><div style="flex:1;min-width:0"><div class="nm">${esc(c.measures)}</div><div class="st">${esc(c.status)} · ${esc(c.id)}</div></div>${batteryHTML(c.battery)}</div>`;
+  return `<div class="item" data-id="${esc(c.id)}"><span class="dot ${c.light}"></span><span class="ic">${ico(c.icon_key, 30)}</span><div style="flex:1;min-width:0"><div class="nm">${esc(c.measures)}</div><div class="st">${esc(c.status)} · ${esc(c.id)}</div></div>${batteryHTML(c.battery)}</div>`;
 }
 function drawChipCounts() {
   if (!S.groups) return;
@@ -95,7 +97,7 @@ function drawTiles() {
 function drawFirst() {
   const P = S.state.priority;
   $('#firstList').innerHTML = P.map((c, i) => `<div class="card fcard ${c.light}">
-      <div class="top1"><span class="rank">${i + 1}</span><span style="font-size:28px">${c.icon}</span><div style="flex:1"><b>${esc(c.measures)}</b><div class="mute" style="font-size:13px">${esc(c.manufacturer)} · ${esc(c.id)}</div></div>${batteryHTML(c.battery)}</div>
+      <div class="top1"><span class="rank">${i + 1}</span>${ico(c.icon_key, 40)}<div style="flex:1"><b>${esc(c.measures)}</b><div class="mute" style="font-size:13px">${esc(c.manufacturer)} · ${esc(c.id)}</div></div>${batteryHTML(c.battery)}</div>
       <div><b>${esc(c.status)}</b>${c.cause ? ' – ' + esc(c.cause) : ''}</div>
       <div class="todo">👉 ${esc(c.todo)}</div>
       <div>${c.visit ? '<span class="badge visit">Site visit needed</span>' : '<span class="badge novisit">No site visit needed</span>'} <span class="mute" style="font-size:13px">Last heard ${esc(c.last_heard)}</span></div>
@@ -103,7 +105,7 @@ function drawFirst() {
   $$('#firstList [data-open]').forEach(b => b.onclick = () => openSensor(b.dataset.open, true));
 }
 function drawGateways() {
-  $('#gwList').innerHTML = S.state.gateways.map(g => `<div class="card fcard ${g.light}"><div class="top1"><span style="font-size:28px">📡</span><div style="flex:1"><b>${esc(g.name)}</b><div class="mute" style="font-size:13px">${g.official ? 'official gateway' : 'not in the official list'}</div></div></div>
+  $('#gwList').innerHTML = S.state.gateways.map(g => `<div class="card fcard ${g.light}"><div class="top1">${ico('gateway', 40)}<div style="flex:1"><b>${esc(g.name)}</b><div class="mute" style="font-size:13px">${g.official ? 'official gateway' : 'not in the official list'}</div></div></div>
       <div><b>${esc(g.status)}</b></div><div class="mute">Last message received ${esc(g.last_heard)}</div>
       <div class="actions"><button class="btn small" data-gw="${esc(g.id)}">Details</button>${g.lat != null ? `<a class="btn small green" target="_blank" rel="noopener" href="${gmaps(g.lat, g.lon)}">🧭 Directions</a>` : ''}</div></div>`).join('');
   $$('#gwList [data-gw]').forEach(b => b.onclick = () => openGateway(b.dataset.gw));
@@ -124,7 +126,7 @@ async function openSensor(id, fly) {
   const ser = d.series; const ctabs = [['delivered', 'Data received'], ['meas', 'Measurements'], ['battery', 'Battery'], ['risk7', 'Breakdown risk']]
     .filter(([k]) => k === 'delivered' || (k === 'meas' && ser.m1_label && ser.m1.some(x => x != null)) || (k === 'battery' && (ser.battery_v.some(x => x != null) || ser.battery_pct.some(x => x != null))) || (k === 'risk7' && ser.risk7.some(x => x != null)));
   openDrawer(`
-    <div class="dhead"><span class="ic">${c.icon}</span><div><div class="t1">${esc(c.measures)}</div><div class="t2">${esc(c.manufacturer)} · ${esc(c.model)}<br>ID ${esc(c.id)}</div></div></div>
+    <div class="dhead">${ico(c.icon_key, 56)}<div><div class="t1">${esc(c.measures)}</div><div class="t2">${esc(c.manufacturer)} · ${esc(c.model)}<br>ID ${esc(c.id)}</div></div></div>
     <div class="banner ${c.light}"><div class="b1">${esc(c.light_text)}: ${esc(s.title)}</div><div>${esc(s.text)}</div></div>
     <div class="actions">${dir}${c.lat != null ? `<button class="btn ghost" id="flyBtn">📍 Show on map</button>` : ''}</div>
     ${d.directions.approximate && d.directions.lat != null ? `<p class="mute" style="font-size:13px">${esc(d.directions.label)}</p>` : ''}
@@ -167,7 +169,7 @@ function drawChart(ser, kind) {
 async function openGateway(id) {
   S.openId = id; S.openKind = 'gateway';
   const d = await api(`/api/gateway/${encodeURIComponent(id)}?as_of=${encodeURIComponent(S.asOf)}`); const g = d.gateway;
-  openDrawer(`<div class="dhead"><span class="ic">📡</span><div><div class="t1">${esc(g.name)}</div><div class="t2">Gateway (receiver) · ${g.official ? 'official' : 'not in the official list'}</div></div></div>
+  openDrawer(`<div class="dhead">${ico('gateway', 56)}<div><div class="t1">${esc(g.name)}</div><div class="t2">Gateway (receiver) · ${g.official ? 'official' : 'not in the official list'}</div></div></div>
     <div class="banner ${g.light}"><div class="b1">${esc(g.status)}</div><div>Last message received ${esc(g.last_heard)}</div></div>
     <div class="actions">${g.lat != null ? `<a class="btn green" target="_blank" rel="noopener" href="${gmaps(g.lat, g.lon)}">🧭 Directions</a>` : ''}</div>
     ${g.light === 'red' ? `<div class="sec"><div class="todo">👉 Check the gateway's power supply and internet connection.</div></div>` : ''}
@@ -275,14 +277,14 @@ async function init() {
   S.dayKeys = Object.keys(S.days).sort(); $('#dayPick').min = S.dayKeys[0]; $('#dayPick').max = S.dayKeys.at(-1);
   S.day = S.dayKeys.at(-1); $('#dayPick').value = S.day; $('#hourSlider').max = dayHours().length - 1; $('#hourSlider').value = dayHours().length - 1; drawTicks();
   const groups = {};
-  for (const t of S.meta.types) { const k = t.measures.split(' (')[0]; (groups[k] = groups[k] || {label: k, icon: t.icon, families: []}).families.push(t.family); }
+  for (const t of S.meta.types) { const k = t.measures.split(' (')[0]; (groups[k] = groups[k] || {label: k, icon: t.icon_key, families: []}).families.push(t.family); }
   S.groups = Object.values(groups);
-  $('#typeChips').innerHTML = S.groups.map((g, i) => `<span class="chip" data-g="${i}">${g.icon} ${esc(g.label)} <b class="cnt"></b></span>`).join('');
+  $('#typeChips').innerHTML = S.groups.map((g, i) => `<span class="chip" data-g="${i}">${ico(g.icon, 18)} ${esc(g.label)} <b class="cnt"></b></span>`).join('');
   $$('#typeChips .chip').forEach(c => c.onclick = () => {
     const g = S.groups[+c.dataset.g], on = !c.classList.contains('on'); c.classList.toggle('on', on);
     g.families.forEach(f => on ? S.types.add(f) : S.types.delete(f)); render(true);
   });
-  $('#helpTypes').innerHTML = S.meta.types.map(t => `<p>${t.icon} ${esc(t.measures)} <span class="mute">(${esc(t.family)})</span></p>`).join('');
+  $('#helpTypes').innerHTML = S.meta.types.map(t => `<p>${ico(t.icon_key, 26)} ${esc(t.measures)} <span class="mute">(${esc(t.family)})</span></p>`).join('') + `<p>${ico('gateway', 26)} Gateway (receiver)</p>`;
   if (S.meta.live) { $('#liveBadge').classList.remove('hidden'); $('#checkBtn').classList.remove('hidden'); setInterval(async () => { const m = await fetch('/api/meta').then(r => r.json()); if (m.last !== S.meta.last) { S.meta = m; location.reload(); } }, 60000); }
   await loadState(S.hours[S.hours.length - 1]);
   const pts = S.state.sensors.filter(c => c.lat != null).map(c => [c.lat, c.lon]); if (pts.length) map.fitBounds(pts, {padding: [30, 30]});

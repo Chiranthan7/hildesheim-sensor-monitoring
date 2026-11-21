@@ -10,7 +10,7 @@
 </head>
 <body>
 <header class="top">
-  <div class="brand"><span class="logo">📡</span><div><h1>Smart Sensor Monitoring</h1><div class="sub">Hildesheim sensor network</div></div></div>
+  <div class="brand"><img class="logo" src="{{ url_for('static', filename='icons/gateway.svg') }}" width="38" height="38" alt="" style="background:#fff;border-radius:10px;padding:3px"><div><h1>Smart Sensor Monitoring</h1><div class="sub">Hildesheim sensor network</div></div></div>
   <div class="timebox">
     <label class="datebox" title="Choose a day"><span class="cal" id="calBtn">📅</span><input type="date" id="dayPick"></label>
     <button id="playBtn" class="iconbtn" title="Play this day hour by hour">▶</button>
@@ -90,7 +90,7 @@
         <p><span class="dot red"></span> <b>Action needed</b>: the sensor is not delivering data, or has a serious fault or a critical battery.</p>
         <p><span class="dot yellow"></span> <b>Attention soon</b>: data is getting lost, the battery is low, measurements look unusual, or a breakdown is likely soon.</p>
         <p><span class="dot green"></span> <b>Working fine.</b></p><p><span class="dot grey"></span> <b>No information</b> at this moment.</p></div>
-      <div class="card"><h3>Symbols</h3><div id="helpTypes"></div><p>📡 Gateway (receiver)</p></div>
+      <div class="card"><h3>Symbols</h3><div id="helpTypes"></div><p class="mute" style="font-size:13px">On the map the ring around a symbol shows its condition: red, yellow or green.</p></div>
       <div class="card"><h3>Battery</h3>
         <p>The small battery under each sensor shows the battery condition and the measured value.</p>
         <p><b>12 V batteries</b> (waste bins, water stations): shown as a band (good, fair, low or critical) with the voltage, because voltage cannot be turned into an exact percentage.</p>
