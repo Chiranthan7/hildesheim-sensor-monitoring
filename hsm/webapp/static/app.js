@@ -141,13 +141,14 @@ async function openSensor(id, fly) {
       <table><tr><th>Since</th><th>Position</th><th></th></tr>${d.moved.history.map(h => `<tr><td>${esc(h.since.slice(0, 10))}</td><td>${h.lat.toFixed(5)}, ${h.lon.toFixed(5)}</td><td><a target="_blank" rel="noopener" href="https://www.google.com/maps?q=${h.lat},${h.lon}">map</a></td></tr>`).join('')}</table></div>` : ''}
     <div class="sec"><h3>🔋 Battery</h3>${batteryHTML(c.battery, true)}<p class="mute" style="font-size:13px">${esc(c.battery.note)}</p>
       ${d.battery_detail ? `${d.battery_detail.trend ? `<div>Trend: <b>${esc(d.battery_detail.trend)}</b></div>` : ''}${d.battery_detail.forecast ? `<div class="todo" style="font-weight:400">🔮 ${esc(d.battery_detail.forecast)}</div>` : ''}` : ''}</div>
+    <div class="sec aisec"><h3>${ico('ai', 30)} AI check <span class="mute" style="font-size:13px;font-weight:400">forecast and measurement check</span></h3>
+      <div class="aisub"><div class="aih">🔮 Looking ahead</div>${d.predictions.items.map(predHTML).join('') || '<p class="mute">No forecast available.</p>'}
+        <p class="mute" style="font-size:13px;margin-bottom:0">ℹ️ ${esc(d.predictions.quality)}</p></div>
+      <div class="aisub"><div class="aih">🧪 Are the measurements reliable?</div>${(c.problems.length || d.anomalies.length || d.offsets.length) ?
+      `<ul class="plain">${[...c.problems.filter(p => !d.anomalies.some(a => a.what === p)), ...d.anomalies.map(a => `${a.what} (${a.days} day${a.days > 1 ? 's' : ''}, last ${a.last.slice(0, 10)})`)].map(x => `<li>${esc(x)}</li>`).join('')}${d.offsets.map(o => `<li>${esc(o.what)} <span class="mute">${esc(o.note || '')}</span></li>`).join('')}</ul>`
+      : '<p style="margin:4px 0">✅ No unusual measurements found.</p>'}</div></div>
     <div class="sec"><h3>📶 Last contact</h3><div class="kv"><b>Last message received</b><span>${esc(c.last_heard)}</span><b>Last data saved</b><span>${esc(c.last_saved)}</span>
       <b>Normally reports every</b><span>${esc(d.interval)}</span><b>Main gateway</b><span>${esc(c.gateway || '–')}</span></div></div>
-    <div class="sec"><h3>🔮 Looking ahead <span class="mute" style="font-size:13px">(AI forecast)</span></h3>${d.predictions.items.map(predHTML).join('') || '<p class="mute">No forecast available.</p>'}
-      <p class="mute" style="font-size:13px">ℹ️ ${esc(d.predictions.quality)}</p></div>
-    <div class="sec"><h3>🧪 Are the measurements reliable?</h3>${(c.problems.length || d.anomalies.length || d.offsets.length) ?
-      `<ul class="plain">${[...c.problems.filter(p => !d.anomalies.some(a => a.what === p)), ...d.anomalies.map(a => `${a.what} (${a.days} day${a.days > 1 ? 's' : ''}, last ${a.last.slice(0, 10)})`)].map(x => `<li>${esc(x)}</li>`).join('')}${d.offsets.map(o => `<li>${esc(o.what)} <span class="mute">${esc(o.note || '')}</span></li>`).join('')}</ul>`
-      : '<p>✅ No unusual measurements found.</p>'}</div>
     <div class="sec"><h3>📈 History (last 120 days)</h3><div class="ctabs">${ctabs.map(([k, l], i) => `<button class="ctab${i ? '' : ' on'}" data-c="${k}">${l}</button>`).join('')}</div><div class="chartbox"><canvas id="chart"></canvas></div></div>
     <div class="sec"><h3>⛔ Past breakdowns</h3>${d.outages.length ? `<table><tr><th>Started</th><th>Ended</th><th>Duration</th><th>Affected</th></tr>${d.outages.map(o => `<tr><td>${esc(o.start)}</td><td>${esc(o.end || 'still ongoing')}</td><td>${esc(o.duration)}</td><td>${esc(o.scope)}</td></tr>`).join('')}</table>` : '<p class="mute">No breakdowns recorded.</p>'}</div>
     <div class="sec"><h3>✉️ E-mails sent about this sensor</h3>${d.emails.length ? `<table>${d.emails.map(m => `<tr class="click" data-mail="${m.id}"><td>${esc(m.when)}</td><td>${esc(m.kind)}</td></tr>`).join('')}</table>` : '<p class="mute">No e-mails.</p>'}</div>

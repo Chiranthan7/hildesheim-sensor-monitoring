@@ -134,3 +134,8 @@ tr.click{cursor:pointer}tr.click:hover{background:#f2f6fd}.tablewrap{max-height:
 .statuscard .sc-row{display:grid;grid-template-columns:118px 1fr;gap:8px;padding:8px 0;border-bottom:1px solid #eef1f5;align-items:start}
 .statuscard .sc-row:last-child{border-bottom:0}.statuscard .sc-lab{font-weight:700;color:#334155;white-space:nowrap}
 .statuscard .sc-row .badge{justify-self:start}
+
+/* AI check: forecast + measurement reliability */
+.aisec{border-color:#bcd3fb;background:linear-gradient(180deg,#f4f8ff,#fff 60px)}
+.aisec .aisub{padding:10px 0 4px;border-top:1px solid #e3ecfb}.aisec .aisub:first-of-type{border-top:0;padding-top:2px}
+.aisec .aih{font-weight:700;color:#1e3a8a;margin-bottom:6px}
