@@ -55,6 +55,7 @@ SOURCES = {
     'LORA_SENS_TABLE': ('Blaszczyszyn et al., Analyzing LoRa ... stochastic geometry, arXiv:1811.01886 (sensitivity per SF, 125 kHz)', 'https://arxiv.org/pdf/1811.01886'),
     'OUTBACK_MX60_SOC': ('OutBack Power MX60 charge controller manual: 12 V lead-acid voltage vs state of charge (charged >12.6, ~50% 12.0, ~25% 11.7, discharged <11.4)', 'https://auto.manualsonline.com/manuals/mfg/outback_power/mx60_1.html?p=85'),
     'SAMLEX_STANDING_V': ('Samlex PST-300-12 manual, Table 7.4: state of charge vs standing voltage, 12 V lead-acid', 'https://www.manualslib.fr/manual/409057/Samplexpower-Pst-300-12.html?page=20'),
+    'BCI_OCV_SOC': ('Battery Council International open-circuit voltage vs state of charge for 12 V lead-acid (12.6 V 100 %, 12.4 V 75 %, 12.2 V 50 %, 12.0 V 25 %, 11.7 V 0 %), as quoted by Practical Sailor', 'https://www.practical-sailor.com/boat-maintenance/solving-the-power-puzzle/'),
     'DYNAMIS_SLA_MANUAL': ('Dynamis sealed lead-acid technical manual (open-circuit voltage needs hours to days to stabilise)', 'https://manualmachine.com/dynamis/leadline/21505470-technical-manual'),
     'SX1276_DATASHEET': ('Semtech SX1276/77/78/79 datasheet', 'https://cdn.sparkfun.com/assets/7/7/3/2/2/SX1276_Datasheet.pdf'),
 }
@@ -245,5 +246,11 @@ LEAD_ACID_REST_V = const('LEAD_ACID_REST_V', dict(good=12.3, warning=12.0, criti
     'minimum of a solar-charged system is only a PROXY for resting voltage (open-circuit voltage needs hours to days to stabilise). '
     'Used as condition bands and threshold-crossing targets, never converted to a percentage.',
     sources=['OUTBACK_MX60_SOC', 'SAMLEX_STANDING_V', 'DYNAMIS_SLA_MANUAL'], verification='general_family')
+LEAD_ACID_SOC_TABLE = const('LEAD_ACID_SOC_TABLE', [(11.7, 0), (12.0, 25), (12.2, 50), (12.4, 75), (12.6, 100)], 'external', 'display',
+    'APPROXIMATE charge shown in the app for 12 V lead-acid batteries (Bigbelly, OTT): linear interpolation of the Battery Council '
+    'International open-circuit table, rounded to 5 %, shown as "about x %". Generic for the chemistry, not device specific; the '
+    'measured night-time minimum of a solar-charged battery is only a proxy for open-circuit voltage, and published tables differ by '
+    'about 0.1-0.2 V (roughly +/-15 % charge). Added 21 Nov 2026 at the user\'s request; the condition bands and forecasts still use LEAD_ACID_REST_V.',
+    sources=['BCI_OCV_SOC', 'OUTBACK_MX60_SOC', 'SAMLEX_STANDING_V'], verification='general_family')
 BATTERY_FORECAST_DAYS = const('BATTERY_FORECAST_DAYS', [7, 14], 'operational', 'evaluation', 'backtest horizons for the resting-voltage proxy')
 BATTERY_RISK_DAYS = const('BATTERY_RISK_DAYS', 30, 'operational', 'features', 'window for P(threshold crossing)')

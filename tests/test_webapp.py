@@ -45,8 +45,9 @@ def test_battery_never_invented(client):
         b = c['battery']
         if c['family'] in ('Sensoterra', 'MeteoHelix', 'MeteoWind'): assert b['kind'] in ('solar', 'sealed') and b['fill'] == 0   # no telemetry: power source only
         if b.get('stale'): assert b['text'].startswith('Last known (')                                                        # old reading always dated
-        if b['kind'] == 'band': assert b['label'].endswith('V') and '%' not in b['label']      # lead-acid: voltage + band, never a percentage
+        if b['kind'] == 'band': assert b['label'].startswith('≈') and b['label'].endswith('%') and 'estimate' in b['note']   # lead-acid: approximate % only
         if b['kind'] == 'percent': assert c['family'] == 'CloverSoilSensor'                  # only the sensor's own reported level
+        if b['kind'] == 'lithium': assert b['label'].startswith('≈') and c['family'] in ('Agvolution', 'Dragino-SE0X-LB', 'Adeunis')
 
 def test_time_travel_changes_state(client):
     a = strict(client.get('/api/state?as_of=2026-09-23 15:00')); b = strict(client.get('/api/state'))

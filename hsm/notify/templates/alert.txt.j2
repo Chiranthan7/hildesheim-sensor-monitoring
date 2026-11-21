@@ -30,7 +30,7 @@ WHAT TO DO
   {{ it.todo }}
   {% if it.visit %}Site visit needed.{% else %}No site visit needed.{% endif %}
 {% if it.battery %}
-Battery: {{ it.battery.text }}{% if it.battery.kind in ('band', 'percent', 'ok') %} ({{ it.battery.label }}){% endif %}
+Battery: {{ it.battery.text }}{% if it.battery.kind in ('band', 'percent', 'lithium') %} ({{ it.battery.label }}){% endif %}
 {% endif %}
 {% endfor %}
 {% if app_url %}Open the monitoring app: {{ app_url }}

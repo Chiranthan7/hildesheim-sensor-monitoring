@@ -106,11 +106,30 @@ POWER = {   # power source per family (manufacturer documentation, docs/MANUFACT
     'MeteoWind': ('solar', '☀️', 'Solar powered. This sensor does not report its battery.'),
 }
 
+def lead_acid_pct(v):
+    """approximate state of charge of a 12 V lead-acid battery from its voltage (Battery Council International table)"""
+    from ..config import LEAD_ACID_SOC_TABLE as T
+    if v is None: return None
+    if v <= T[0][0]: return 0
+    if v >= T[-1][0]: return 100
+    for (v0, p0), (v1, p1) in zip(T, T[1:]):
+        if v0 <= v <= v1: return int(round((p0 + (p1 - p0) * (v - v0) / (v1 - v0)) / 5) * 5)
+
+LITHIUM_FULL_V, LITHIUM_EMPTY_V = 3.6, 3.0     # 3.6 V lithium cells: simple linear comparison (user request 21 Nov 2026)
+
+def lithium_pct(v):
+    """rough charge of a 3.6 V lithium cell by simple comparison: 3.6 V or more = 100 %, 3.0 V = 0 %, linear in between.
+    Lithium cells keep ~3.6 V for most of their life and drop near the end, so this mainly shows 'still full' vs 'running out'."""
+    if v is None: return None
+    p = (v - LITHIUM_EMPTY_V) / (LITHIUM_FULL_V - LITHIUM_EMPTY_V) * 100
+    return int(round(max(0, min(100, p)) / 5) * 5)
+
 def _band(c, v, fam, stale=None):
-    fill = {'good': 90, 'fair': 60, 'low': 30, 'critical': 10}[c]
-    return dict(kind='band', fill=fill, level=c, label=f'{v:.1f} V' if v else c, text={'good': 'Good', 'fair': 'Fair', 'low': 'Low', 'critical': 'Critical'}[c],
-                note='12 V battery with solar panel. Shown as a band (good / fair / low / critical) from the measured voltage; '
-                     'the voltage cannot be turned into an exact percentage for this battery.')
+    pct = lead_acid_pct(v)
+    return dict(kind='band', fill=max(pct if pct is not None else 0, 4), level=c, pct=pct, label=f'≈{pct}%' if pct is not None else '?',
+                text={'good': 'Good', 'fair': 'Fair', 'low': 'Low', 'critical': 'Critical'}[c], volts=v,
+                note='12 V battery with solar panel. The percentage is an estimate from the measured voltage using the standard '
+                     'lead-acid charge table, so it can be off by about 15 %.')
 
 def battery(row, fam, last=None):
     """battery widget: fill level only where the measurement supports it. Lead-acid: condition band (no %),
@@ -126,12 +145,15 @@ def battery(row, fam, last=None):
     if fam == 'CloverSoilSensor' and v is not None:
         return dict(kind='percent', fill=int(round(v)), level='good' if v >= 50 else 'low', label=f'{v:.0f} %', text='Good' if v >= 50 else 'Low',
                     note="Lithium battery (about 11 years). Level as reported by the sensor itself (manufacturer's estimate).")
-    if c == 'nominal_plateau':
-        return dict(kind='ok', fill=100, level='good', label=f'{v:.2f} V' if v else 'OK', text='OK',
-                    note='Lithium battery: its voltage stays flat until it is almost empty, so only "OK" or "problem" can be shown, not a level.')
-    if c == 'voltage_step_change':
-        return dict(kind='ok', fill=40, level='low', label=f'{v:.2f} V' if v else '!', text='Check',
-                    note='Lithium battery: a sudden voltage change was detected. Check the battery.')
+    if c in ('nominal_plateau', 'voltage_step_change') and v is not None:
+        pct = lithium_pct(v); lvl = 'good' if pct >= 60 else 'fair' if pct >= 30 else 'low' if pct >= 10 else 'critical'
+        r = dict(kind='lithium', fill=max(pct, 4), level=lvl, pct=pct, label=f'≈{pct}%', volts=v,
+                 text={'good': 'Good', 'fair': 'Fair', 'low': 'Low', 'critical': 'Critical'}[lvl],
+                 note='3.6 V lithium battery. Rough estimate by simple comparison of the voltage (3.6 V = full, 3.0 V = empty). '
+                      'These batteries keep almost the same voltage for most of their life and drop only near the end, so the '
+                      'percentage stays high for a long time and then falls quickly.')
+        if c == 'voltage_step_change': r.update(level='low', text='Check', note='A sudden voltage change was detected. Check the battery. ' + r['note'])
+        return r
     if fam in POWER:
         kind, ic, note = POWER[fam]
         return dict(kind=kind, fill=0, level='none', label=ic, text='Solar powered' if kind == 'solar' else 'Sealed battery', note=note)

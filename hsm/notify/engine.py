@@ -288,7 +288,8 @@ class Engine:
                 det.append(plain.PREDICTION_QUALITY.get(fam, plain.DEFAULT_QUALITY))
             if 'battery' in why:
                 v = getattr(r, 'battery_value', np.nan)
-                det.append(f"Battery critical: {v:.2f} V resting voltage, below the 11.7 V critical level for 12 V lead-acid batteries. The sensor may shut down soon.")
+                from ..webapp.plain import lead_acid_pct
+                det.append(f"Battery critical: about {lead_acid_pct(v)} % charge left ({v:.2f} V, below the 11.7 V critical level for 12 V lead-acid batteries). The sensor may shut down soon.")
             det.append(f"The sensor is still sending. Last message received: {it['last_heard']} ({it['last_heard_ago']}).")
             if 'battery' in why: it['todo'] = 'Visit soon: charge or replace the battery and check the solar panel.'; it['visit'] = True
             elif not it.get('cause'): it['todo'] = 'Check the sensor soon (power, antenna, mounting) before it stops sending.'; it['visit'] = True

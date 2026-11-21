@@ -186,8 +186,11 @@ def create_app(data_dir, live=None):
         stt = plain.status(r, t, fam); pr = plain.predictions(r, fam)
         labels = plain.MEASURES.get(fam, (fam, '', (None, None)))[2]
         Y = st.Y[(st.Y.device_id == dev) & (st.Y.day <= t) & (st.Y.day > t - pd.Timedelta(days=120))].sort_values('day')
+        conv = plain.lead_acid_pct if fam in ('Bigbelly', 'OttSensor') else plain.lithium_pct if fam in ('Agvolution', 'Dragino-SE0X-LB', 'Adeunis') else None
         series = dict(day=[_j(x) for x in Y.day], delivered=[_j(x * 100) if pd.notna(x) else None for x in Y.service_availability],
-                      battery_v=[_j(x) for x in Y.v_min] if 'v_min' in Y else [], battery_pct=[_j(x) for x in Y.level_pct] if 'level_pct' in Y else [],
+                      battery_v=[],
+                      battery_pct=[conv(float(x)) if pd.notna(x) else None for x in Y.v_min] if conv and 'v_min' in Y
+                                  else ([_j(x) for x in Y.level_pct] if 'level_pct' in Y else []), battery_pct_estimated=conv is not None,
                       m1=[_j(x) for x in Y.m1], m2=[_j(x) for x in Y.m2], risk7=[_j(x * 100) if pd.notna(x) else None for x in Y.risk7],
                       m1_label=labels[0], m2_label=labels[1])
         E = st.E[(st.E.device_id == dev) & (st.E.onset <= t)].sort_values('onset', ascending=False).head(15)
@@ -205,7 +208,8 @@ def create_app(data_dir, live=None):
             b = st.BA[st.BA.device_id == dev]
             if len(b):
                 b = b.iloc[0]; bat = dict(trend=None, forecast=None)
-                if pd.notna(b.get('slope_mV_per_week')): bat['trend'] = f"{b.slope_mV_per_week:+.0f} mV per week"
+                if pd.notna(b.get('slope_mV_per_week')):
+                    w = b.slope_mV_per_week; bat['trend'] = ('slowly falling' if w < -5 else 'slowly rising' if w > 5 else 'stable') + ' (charge changes by a few % per month)' if abs(w) < 40 else ('falling quickly' if w < 0 else 'rising')
                 if pd.notna(b.get('p_below_critical_30d')):
                     already_low = b.get('condition') in ('low', 'critical')
                     bat['forecast'] = ("The battery is already in the 'low' band. " if already_low else
@@ -234,7 +238,8 @@ def create_app(data_dir, live=None):
                                        label='Sensor position' if card['lat'] is not None else f'Area of gateway {gw} (exact sensor position not in the data)'),
                        tech=dict(state=r.get('state'), cause=r.get('probable_cause'), evidence=r.get('cause_evidence'), alternatives=r.get('alternative_causes'),
                                  data_24h=_j(r.get('avail_svc_24h')), data_28d=_j(r.get('avail_svc_672h')), gateway=gw, gateway_condition=r.get('gateway_condition'),
-                                 signal_snr=_j(r.get('snr_mean_168h')), note=_j(d.get('battery_note')) if len(d) else None))
+                                 signal_snr=_j(r.get('snr_mean_168h')), battery_voltage=(f"{card['battery']['volts']:.2f} V" if card['battery'].get('volts') else None),
+                                 note=_j(d.get('battery_note')) if len(d) else None))
 
     @app.get('/api/gateway/<path:gid>')
     def gateway(gid):

@@ -25,15 +25,17 @@ main{flex:1;display:flex;min-height:0}
 .view{display:none;flex:1;background:var(--card);margin:0 18px 18px;border-radius:0 var(--radius) var(--radius) var(--radius);box-shadow:0 1px 3px #0001;min-height:0}
 .view.active{display:flex}.view.pad{display:none;padding:6px 22px 22px;flex-direction:column;overflow:auto}.view.pad.active{display:flex}
 #view-map{height:calc(100vh - 215px);min-height:520px}
-.side{width:330px;border-right:1px solid var(--line);display:flex;flex-direction:column;padding:12px;gap:8px;overflow:hidden}
+.side{width:330px;border-right:1px solid var(--line);display:flex;flex-direction:column;padding:12px;gap:8px;overflow-y:auto;min-height:0}
 #search{padding:10px 12px;border:1px solid var(--line);border-radius:10px;font-size:15px}
 .chips{display:flex;flex-wrap:wrap;gap:6px}.chip{border:1px solid var(--line);background:#f7f9fc;border-radius:20px;padding:4px 10px;font-size:13px;cursor:pointer}
 .chip.on{background:var(--blue);color:#fff;border-color:var(--blue)}
 .listhead{display:flex;justify-content:space-between;font-size:13px;font-weight:600}
-.list{overflow:auto;flex:1;display:flex;flex-direction:column;gap:6px}
+.list{overflow:auto;display:flex;flex-direction:column;gap:6px}
+#sensorList{flex:1 1 auto;min-height:150px}
+.unloc{flex:none}
 .item{display:flex;gap:10px;align-items:center;padding:8px;border-radius:10px;border:1px solid var(--line);cursor:pointer;background:#fff}
 .item:hover{background:#f2f6fd}.item .ic{font-size:22px}.item .nm{font-weight:600;font-size:14px}.item .st{font-size:13px;color:var(--mute)}
-.unloc summary{cursor:pointer;font-size:13px;font-weight:600;padding:6px 0}.unloc .list{max-height:220px}
+.unloc summary{cursor:pointer;font-size:13px;font-weight:600;padding:6px 0}.unloc .list{max-height:260px}
 #map{flex:1;border-radius:0 var(--radius) var(--radius) 0}
 .dot{display:inline-block;width:12px;height:12px;border-radius:50%;vertical-align:middle}.dot.red{background:var(--red)}.dot.yellow{background:var(--yellow)}.dot.green{background:var(--green)}.dot.grey{background:var(--grey)}
 /* ---------- map markers ---------- */

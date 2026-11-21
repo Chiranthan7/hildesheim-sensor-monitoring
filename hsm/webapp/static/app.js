@@ -127,7 +127,7 @@ async function openSensor(id, fly) {
   if (fly && c.lat != null) { showTab('map'); map.flyTo([c.lat, c.lon], 17, {duration: .8}); }
   const dir = d.directions.lat != null ? `<a class="btn green" target="_blank" rel="noopener" href="${gmaps(d.directions.lat, d.directions.lon)}" title="${esc(d.directions.label)}">🧭 Directions${d.directions.approximate ? ' (area)' : ''}</a>` : '';
   const ser = d.series; const ctabs = [['delivered', 'Data received'], ['meas', 'Measurements'], ['battery', 'Battery'], ['risk7', 'Breakdown risk']]
-    .filter(([k]) => k === 'delivered' || (k === 'meas' && ser.m1_label && ser.m1.some(x => x != null)) || (k === 'battery' && (ser.battery_v.some(x => x != null) || ser.battery_pct.some(x => x != null))) || (k === 'risk7' && ser.risk7.some(x => x != null)));
+    .filter(([k]) => k === 'delivered' || (k === 'meas' && ser.m1_label && ser.m1.some(x => x != null)) || (k === 'battery' && (ser.battery_pct.some(x => x != null) || ser.battery_v.some(x => x != null))) || (k === 'risk7' && ser.risk7.some(x => x != null)));
   openDrawer(`
     <div class="dhead">${ico(c.icon_key, 56)}<div><div class="t1">${esc(c.measures)}</div><div class="t2">${esc(c.manufacturer)} · ${esc(c.model)}<br>ID ${esc(c.id)}</div></div></div>
     <div class="banner ${c.light}"><div class="b1">${esc(c.light_text)}: ${esc(s.title)}</div><div>${esc(s.text)}</div></div>
@@ -160,13 +160,16 @@ function drawChart(ser, kind) {
   const ds = [];
   if (kind === 'delivered') ds.push({label: 'Data received (% of expected)', data: ser.delivered, borderColor: '#2563eb', backgroundColor: '#2563eb33', fill: true, stepped: true});
   if (kind === 'meas') { ds.push({label: ser.m1_label, data: ser.m1, borderColor: '#0f766e'}); if (ser.m2_label) ds.push({label: ser.m2_label, data: ser.m2, borderColor: '#f59e0b', yAxisID: 'y2'}); }
-  if (kind === 'battery') { if (ser.battery_v.some(x => x != null)) ds.push({label: 'Battery (V, night minimum)', data: ser.battery_v, borderColor: '#16a34a'}); if (ser.battery_pct.some(x => x != null)) ds.push({label: 'Battery (% reported by the sensor)', data: ser.battery_pct, borderColor: '#16a34a'}); }
+  if (kind === 'battery') {
+    if (ser.battery_pct.some(x => x != null)) ds.push({label: ser.battery_pct_estimated ? 'Battery charge (%, estimated)' : 'Battery charge (%, reported by the sensor)', data: ser.battery_pct, borderColor: '#16a34a', backgroundColor: '#16a34a22', fill: true});
+    else if (ser.battery_v.some(x => x != null)) ds.push({label: 'Battery voltage (lithium: stays flat until nearly empty)', data: ser.battery_v, borderColor: '#16a34a'});
+  }
   if (kind === 'risk7') ds.push({label: 'Chance of a long breakdown in the next 7 days (%)', data: ser.risk7, borderColor: '#d32f2f', backgroundColor: '#d32f2f22', fill: true});
   ds.forEach(d => { d.pointRadius = 0; d.borderWidth = 2; d.spanGaps = true; d.tension = .2; });
   const scales = {x: {ticks: {maxTicksLimit: 6, callback: function (v) { return (this.getLabelForValue(v) || '').slice(5, 10); }}}};
   if (kind === 'meas') { ds[0].yAxisID = 'y'; scales.y = {position: 'left', title: {display: true, text: ser.m1_label}}; }
   if (kind === 'meas' && ser.m2_label) scales.y2 = {position: 'right', grid: {drawOnChartArea: false}, title: {display: true, text: ser.m2_label}};
-  if (kind === 'delivered' || kind === 'risk7') scales.y = {min: 0, max: 100};
+  if (kind === 'delivered' || kind === 'risk7' || (kind === 'battery' && ser.battery_pct.some(x => x != null))) scales.y = {min: 0, max: 100};
   S.chart = new Chart($('#chart'), {type: 'line', data: {labels: ser.day, datasets: ds}, options: {responsive: true, maintainAspectRatio: false, interaction: {mode: 'index', intersect: false}, plugins: {legend: {labels: {boxWidth: 12}}}, scales}});
 }
 async function openGateway(id) {

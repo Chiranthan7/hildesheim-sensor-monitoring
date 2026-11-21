@@ -43,6 +43,8 @@ Rules whose value was **derived from this dataset** keep provenance `exploratory
 | `CLOVER` GWC (in `silver.soil`) | GWC is a table conversion of a frequency; in the data GWC = 0 exactly when the frequency is beyond the dry end of the table | TEKTELIC_FAQ | verified (mechanism) / exploratory (floor) | `flag_gwc_censored_dry`, `gwc_clean` (NaN when censored or rawfreq fault). Record stays valid |
 | `OFFICIAL_GATEWAYS_FILE_GLOB` | gateway list supplied with the challenge | CHALLENGE_GATEWAY_LIST | verified | unchanged |
 | `LEAD_ACID_REST_V` (battery component, added with the final system) | generic 12 V lead-acid resting-voltage references: about 75 % state of charge at 12.3 V, 50 % at 12.0 V, 25 % at 11.7 V. Open-circuit voltage needs hours to days to stabilise, so the night-time minimum of a solar-charged system is only a proxy | OUTBACK_MX60_SOC, SAMLEX_STANDING_V, DYNAMIS_SLA_MANUAL | general_family (not Bigbelly or OTT specific) | condition bands good / fair / low / critical and threshold-crossing targets for Bigbelly and Ott; never converted to a percentage |
+| `LEAD_ACID_SOC_TABLE` (web app display, 21 Nov 2026) | approximate state of charge of a 12 V lead-acid battery: 12.6 V 100 %, 12.4 V 75 %, 12.2 V 50 %, 12.0 V 25 %, 11.7 V 0 % (Battery Council International); published tables differ by about 0.1-0.2 V | BCI_OCV_SOC, OUTBACK_MX60_SOC, SAMLEX_STANDING_V | general_family | shown as "about x %" for Bigbelly and OTT |
+| `LITHIUM_FULL_V` / `LITHIUM_EMPTY_V` (web app display, 21 Nov 2026, user request) | rough charge of 3.6 V lithium cells by simple linear comparison: 3.6 V = 100 %, 3.0 V = 0 % | none (operational simplification) | assumption | shown as "about x %" for Agvolution, Dragino, Adeunis; the flat discharge curve means it stays near 100 % for most of the life and then drops fast; sensors without telemetry get no percentage |
 
 ## Not verifiable with public documentation
 
@@ -87,6 +89,7 @@ Rules whose value was **derived from this dataset** keep provenance `exploratory
 | LORA_SNR_TABLE | Mobilefish LoRa tutorial 16 (SNR limits) | https://www.mobilefish.com/download/lora/lora_part16.pdf |
 | LORA_SENS_TABLE | Blaszczyszyn et al., arXiv:1811.01886 | https://arxiv.org/pdf/1811.01886 |
 | SX1276_DATASHEET | Semtech SX1276 datasheet | https://cdn.sparkfun.com/assets/7/7/3/2/2/SX1276_Datasheet.pdf |
+| BCI_OCV_SOC | Battery Council International OCV / state-of-charge table, as quoted by Practical Sailor | https://www.practical-sailor.com/boat-maintenance/solving-the-power-puzzle/ |
 | OUTBACK_MX60_SOC | OutBack Power MX60 manual: 12 V lead-acid voltage vs state of charge | https://auto.manualsonline.com/manuals/mfg/outback_power/mx60_1.html?p=85 |
 | SAMLEX_STANDING_V | Samlex PST-300-12 manual, Table 7.4: standing voltage vs state of charge | https://www.manualslib.fr/manual/409057/Samplexpower-Pst-300-12.html?page=20 |
 | DYNAMIS_SLA_MANUAL | Dynamis sealed lead-acid technical manual | https://manualmachine.com/dynamis/leadline/21505470-technical-manual |
