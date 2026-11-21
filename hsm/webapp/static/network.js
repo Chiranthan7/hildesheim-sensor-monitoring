@@ -34,8 +34,8 @@ async function focusSensor(c, refit) {
   focusLayer.clearLayers();
   if (c.lat == null) { clearFocus(); return; }
   S.focus = c.id; S.focusGws = new Set(); map.getContainer().classList.add('focus-mode');
-  L.marker([c.lat, c.lon], {pane: 'focus', interactive: false, icon: L.divIcon({className: '', iconSize: [44, 58], iconAnchor: [22, 29],
-    html: `<div class="mk ${c.light} focusmk"><div class="bub">${ico(c.icon_key, 28)}</div></div>`})}).addTo(focusLayer);
+  L.marker([c.lat, c.lon], {pane: 'focus', interactive: false, icon: L.divIcon({className: '', iconSize: [32, 44], iconAnchor: [16, 15],
+    html: `<div class="mk ${c.light} focusmk"><div class="bub">${ico(c.icon_key, 20)}</div></div>`})}).addTo(focusLayer);
   const pts = [[c.lat, c.lon]], s = N.sensors[c.id];
   const links = s ? s.links : (c.gateway && N.gateways[c.gateway] ? [{gw: c.gateway, cls: 'none', share: 1}] : []);
   for (const l of links) {

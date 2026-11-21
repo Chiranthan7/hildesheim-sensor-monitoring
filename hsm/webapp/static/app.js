@@ -27,8 +27,8 @@ const sensorLayer = L.markerClusterGroup({disableClusteringAtZoom: 18, maxCluste
     const kinds = {}; ms.forEach(m => kinds[m.options.kind] = (kinds[m.options.kind] || 0) + 1);
     const ks = Object.entries(kinds).sort((a, b) => b[1] - a[1]);
     const nr = ms.filter(m => m.options.light === 'red').length;
-    const icons = ks.slice(0, 2).map(([k, n]) => `<span>${ico(k, 15)}${n > 1 ? '×' + n : ''}</span>`).join('') + (ks.length > 2 ? '<span>+</span>' : '');
-    return L.divIcon({className: '', iconSize: [62, 50], iconAnchor: [31, 25],
+    const icons = ks.slice(0, 2).map(([k, n]) => `<span>${ico(k, 11)}${n > 1 ? '×' + n : ''}</span>`).join('') + (ks.length > 2 ? '<span>+</span>' : '');
+    return L.divIcon({className: '', iconSize: [46, 38], iconAnchor: [23, 19],
       html: `<div class="cluster ${worst}" title="${ms.length} sensors${nr ? ', ' + nr + ' need action' : ''}. Click to zoom in."><b>${ms.length}</b><div class="kinds">${icons}</div></div>`});
   }}).addTo(map);
 const zoomCls = () => map.getContainer().classList.toggle('zoomed-out', map.getZoom() < 13); map.on('zoomend', zoomCls); zoomCls();
@@ -49,9 +49,9 @@ function batteryHTML(b, big) {
   return `<div class="bat ${lv}"><div class="batbody"><div class="batfill" style="--w:${b.fill}%"></div></div><span>${esc(b.label)}</span></div>`;
 }
 function markerIcon(c) {
-  return L.divIcon({className: '', iconSize: [44, 58], iconAnchor: [22, 29], popupAnchor: [0, -26],
+  return L.divIcon({className: '', iconSize: [32, 44], iconAnchor: [16, 15], popupAnchor: [0, -16],
     // on the map: battery level only for sensors that report one; no solar / sealed-battery / unknown symbols
-    html: `<div class="mk ${c.light}"><div class="pulse"></div><div class="bub">${ico(c.icon_key, 28)}</div>${['band', 'percent', 'lithium'].includes(c.battery.kind) ? batteryHTML(c.battery) : ''}</div>`});
+    html: `<div class="mk ${c.light}"><div class="pulse"></div><div class="bub">${ico(c.icon_key, 20)}</div>${['band', 'percent', 'lithium'].includes(c.battery.kind) ? batteryHTML(c.battery) : ''}</div>`});
 }
 function visible(c) {
   if (S.light !== 'all' && c.light !== S.light) return false;
@@ -64,13 +64,13 @@ function drawMap() {
   for (const c of S.state.sensors) {
     if (c.lat == null || !visible(c)) continue;
     const m = L.marker([c.lat, c.lon], {icon: markerIcon(c), light: c.light, kind: c.icon_key, riseOnHover: true, zIndexOffset: c.light === 'red' ? 1000 : c.light === 'yellow' ? 500 : 0});
-    m.bindTooltip(`<b>${ico(c.icon_key, 18)} ${esc(c.measures)}</b><br>${esc(c.status)}<br><span style="color:#666">${esc(c.id)}</span>`, {direction: 'top', offset: [0, -24]});
+    m.bindTooltip(`<b>${ico(c.icon_key, 18)} ${esc(c.measures)}</b><br>${esc(c.status)}<br><span style="color:#666">${esc(c.id)}</span>`, {direction: 'top', offset: [0, -14]});
     m.on('click', () => openSensor(c.id)); m.addTo(sensorLayer); S.markers[c.id] = m;
   }
   for (const g of S.state.gateways) {
     if (g.lat == null) continue;
-    const m = L.marker([g.lat, g.lon], {pane: 'gateways', zIndexOffset: 5000, riseOnHover: true, icon: L.divIcon({className: '', iconSize: [64, 86], iconAnchor: [32, 29],
-      html: `<div class="gwwrap"><div class="gwmk ${g.light}">${ico('gateway', 40)}</div><div class="gwlab">${esc(g.name.split(' / ')[0].replace('Unlisted gateway ', 'Gateway ').slice(0, 18))}</div></div>`})});
+    const m = L.marker([g.lat, g.lon], {pane: 'gateways', zIndexOffset: 5000, riseOnHover: true, icon: L.divIcon({className: '', iconSize: [48, 64], iconAnchor: [24, 20],
+      html: `<div class="gwwrap"><div class="gwmk ${g.light}">${ico('gateway', 26)}</div><div class="gwlab">${esc(g.name.split(' / ')[0].replace('Unlisted gateway ', 'Gateway ').slice(0, 18))}</div></div>`})});
     m.bindTooltip(`<b>${ico('gateway', 18)} ${esc(g.name)}</b><br>${esc(g.status)}`, {direction: 'top'}); m.on('click', () => openGateway(g.id)); m.addTo(gwLayer); S.gwMarkers[g.id] = m;
   }
 }
