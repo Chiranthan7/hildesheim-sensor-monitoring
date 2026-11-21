@@ -13,19 +13,21 @@ const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {m
 const sat = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {maxZoom: 19, attribution: 'Imagery © Esri'});
 L.control.layers({'Street map': osm, 'Satellite': sat}).addTo(map);
 const RANK = {red: 3, yellow: 2, grey: 1, green: 0};
-const sensorLayer = L.markerClusterGroup({disableClusteringAtZoom: 18, maxClusterRadius: 40, spiderfyOnMaxZoom: true, showCoverageOnHover: false,
+const sensorLayer = L.markerClusterGroup({disableClusteringAtZoom: 18, maxClusterRadius: 70, spiderfyOnMaxZoom: true, showCoverageOnHover: false,
   iconCreateFunction: cl => {
     const ms = cl.getAllChildMarkers(); const worst = ms.reduce((w, m) => RANK[m.options.light] > RANK[w] ? m.options.light : w, 'green');
     const kinds = {}; ms.forEach(m => kinds[m.options.kind] = (kinds[m.options.kind] || 0) + 1);
     const ks = Object.entries(kinds).sort((a, b) => b[1] - a[1]);
     const nr = ms.filter(m => m.options.light === 'red').length;
-    const icons = ks.slice(0, 3).map(([k, n]) => `<span>${ico(k, 15)}${n > 1 ? '×' + n : ''}</span>`).join('') + (ks.length > 3 ? '<span>…</span>' : '');
-    return L.divIcon({className: '', iconSize: [76, 60], iconAnchor: [38, 30],
+    const icons = ks.slice(0, 2).map(([k, n]) => `<span>${ico(k, 15)}${n > 1 ? '×' + n : ''}</span>`).join('') + (ks.length > 2 ? '<span>+</span>' : '');
+    return L.divIcon({className: '', iconSize: [62, 50], iconAnchor: [31, 25],
       html: `<div class="cluster ${worst}" title="${ms.length} sensors${nr ? ', ' + nr + ' need action' : ''}. Click to zoom in."><b>${ms.length}</b><div class="kinds">${icons}</div></div>`});
   }}).addTo(map);
-const gwLayer = L.layerGroup().addTo(map);
+const zoomCls = () => map.getContainer().classList.toggle('zoomed-out', map.getZoom() < 14); map.on('zoomend', zoomCls); zoomCls();
+map.createPane('gateways'); map.getPane('gateways').style.zIndex = 650;      // gateways above sensor markers and groups
+const gwLayer = L.layerGroup([], {pane: 'gateways'}).addTo(map);
 const legend = L.control({position: 'bottomleft'});
-legend.onAdd = () => { const d = L.DomUtil.create('div', 'legend'); d.innerHTML = '<span class="dot red"></span> Action needed<br><span class="dot yellow"></span> Attention soon<br><span class="dot green"></span> Working fine<br><span class="dot grey"></span> No information<br>' + ico('gateway', 16) + ' Gateway'; return d; };
+legend.onAdd = () => { const d = L.DomUtil.create('div', 'legend'); d.innerHTML = '<span class="dot red"></span> Action needed<br><span class="dot yellow"></span> Attention soon<br><span class="dot green"></span> Working fine<br><span class="dot grey"></span> No information<br>' + ico('gateway', 20) + ' Gateway (receiver)'; return d; };
 legend.addTo(map);
 
 function batteryHTML(b, big) {
@@ -58,7 +60,8 @@ function drawMap() {
   }
   for (const g of S.state.gateways) {
     if (g.lat == null) continue;
-    const m = L.marker([g.lat, g.lon], {icon: L.divIcon({className: '', iconSize: [34, 34], iconAnchor: [17, 17], html: `<div class="gwmk ${g.light}">${ico('gateway', 24)}</div>`})});
+    const m = L.marker([g.lat, g.lon], {pane: 'gateways', zIndexOffset: 5000, riseOnHover: true, icon: L.divIcon({className: '', iconSize: [64, 76], iconAnchor: [32, 32],
+      html: `<div class="gwwrap"><div class="gwmk ${g.light}">${ico('gateway', 42)}</div><div class="gwlab">${esc(g.name.split(' / ')[0].replace('Unlisted gateway ', 'Gateway ').slice(0, 18))}</div></div>`})});
     m.bindTooltip(`<b>${ico('gateway', 18)} ${esc(g.name)}</b><br>${esc(g.status)}`, {direction: 'top'}); m.on('click', () => openGateway(g.id)); m.addTo(gwLayer);
   }
 }

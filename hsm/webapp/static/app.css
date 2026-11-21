@@ -44,7 +44,9 @@ main{flex:1;display:flex;min-height:0}
 .mk.red .pulse{position:absolute;top:0;left:2px;width:40px;height:40px;border-radius:50%;background:var(--red);opacity:.5;animation:pulse 1.8s infinite;z-index:1}
 .mk .bat{margin-top:2px;z-index:2}
 .mk.dim{opacity:.18}
-.gwmk{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:#fff;border:3px solid var(--grey);box-shadow:0 2px 6px #0004}
+.gwwrap{display:flex;flex-direction:column;align-items:center;width:64px}
+.gwmk{width:62px;height:62px;border-radius:16px;display:flex;align-items:center;justify-content:center;background:#fff;border:5px solid var(--grey);box-shadow:0 3px 10px #0005}
+.gwlab{margin-top:2px;background:#0f2a4a;color:#fff;font-size:10px;font-weight:700;padding:1px 6px;border-radius:6px;white-space:nowrap;box-shadow:0 1px 3px #0004}
 .gwmk.green{border-color:var(--green)}.gwmk.red{border-color:var(--red);animation:pulse2 1.6s infinite}.gwmk.yellow{border-color:var(--yellow)}.gwmk.grey{border-color:var(--grey)}
 /* ---------- battery widget ---------- */
 .bat{display:flex;align-items:center;gap:3px;background:#fff;border-radius:6px;padding:1px 4px;box-shadow:0 1px 3px #0003;font-size:10px;font-weight:700;white-space:nowrap}
@@ -100,8 +102,8 @@ tr.click{cursor:pointer}tr.click:hover{background:#f2f6fd}.tablewrap{max-height:
 @keyframes shine{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
 @media (max-width:900px){.tiles{grid-template-columns:repeat(3,1fr)}.side{display:none}#view-map{height:70vh}.timecol{min-width:200px}}
 
-.cluster{width:76px;height:60px;border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;border:3px solid #fff;box-shadow:0 2px 8px #0005;line-height:1.1;text-align:center;cursor:pointer}
-.cluster b{font-size:18px}.cluster .kinds{display:flex;gap:3px;align-items:center;margin-top:2px;background:#ffffffe6;border-radius:8px;padding:1px 4px;color:#17202b;font-size:11px;font-weight:700;white-space:nowrap}
+.cluster{width:62px;height:50px;border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;border:3px solid #fff;box-shadow:0 2px 8px #0005;line-height:1.1;text-align:center;cursor:pointer}
+.cluster b{font-size:16px}.cluster .kinds{display:flex;gap:3px;align-items:center;margin-top:2px;background:#ffffffe6;border-radius:8px;padding:1px 4px;color:#17202b;font-size:11px;font-weight:700;white-space:nowrap}
 .cluster.red{background:var(--red)}.cluster.yellow{background:var(--yellow)}.cluster.green{background:var(--green)}.cluster.grey{background:var(--grey)}
 
 .bat.power{padding:0 5px;font-size:11px}.powerbig{font-size:46px;width:120px;text-align:center}
@@ -114,3 +116,5 @@ tr.click{cursor:pointer}tr.click:hover{background:#f2f6fd}.tablewrap{max-height:
 .datebox .cal{font-size:20px;cursor:pointer}
 .datebox input{background:transparent;border:0;color:#fff;font:600 14px system-ui,sans-serif;color-scheme:dark;cursor:pointer}
 .hourticks{display:flex;justify-content:space-between;font-size:10px;color:#b9c7da;margin-top:-2px}
+
+.zoomed-out .gwlab{display:none}
