@@ -60,8 +60,8 @@ function drawMap() {
   }
   for (const g of S.state.gateways) {
     if (g.lat == null) continue;
-    const m = L.marker([g.lat, g.lon], {pane: 'gateways', zIndexOffset: 5000, riseOnHover: true, icon: L.divIcon({className: '', iconSize: [84, 110], iconAnchor: [42, 40],
-      html: `<div class="gwwrap"><div class="gwmk ${g.light}">${ico('gateway', 58)}</div><div class="gwlab">${esc(g.name.split(' / ')[0].replace('Unlisted gateway ', 'Gateway ').slice(0, 18))}</div></div>`})});
+    const m = L.marker([g.lat, g.lon], {pane: 'gateways', zIndexOffset: 5000, riseOnHover: true, icon: L.divIcon({className: '', iconSize: [64, 86], iconAnchor: [32, 29],
+      html: `<div class="gwwrap"><div class="gwmk ${g.light}">${ico('gateway', 40)}</div><div class="gwlab">${esc(g.name.split(' / ')[0].replace('Unlisted gateway ', 'Gateway ').slice(0, 18))}</div></div>`})});
     m.bindTooltip(`<b>${ico('gateway', 18)} ${esc(g.name)}</b><br>${esc(g.status)}`, {direction: 'top'}); m.on('click', () => openGateway(g.id)); m.addTo(gwLayer);
   }
 }
