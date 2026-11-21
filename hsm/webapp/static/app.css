@@ -121,3 +121,5 @@ tr.click{cursor:pointer}tr.click:hover{background:#f2f6fd}.tablewrap{max-height:
 .hourticks{display:flex;justify-content:space-between;font-size:10px;color:#b9c7da;margin-top:-2px}
 
 .zoomed-out .gwlab{display:none}
+
+.actions-top{margin:14px 0 0}.actions-top + .banner{margin-top:10px}
