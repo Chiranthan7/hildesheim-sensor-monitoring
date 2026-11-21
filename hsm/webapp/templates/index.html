@@ -12,12 +12,14 @@
 <header class="top">
   <div class="brand"><span class="logo">📡</span><div><h1>Smart Sensor Monitoring</h1><div class="sub">Hildesheim sensor network</div></div></div>
   <div class="timebox">
-    <button id="playBtn" class="iconbtn" title="Play the history">▶</button>
+    <label class="datebox" title="Choose a day"><span class="cal" id="calBtn">📅</span><input type="date" id="dayPick"></label>
+    <button id="playBtn" class="iconbtn" title="Play this day hour by hour">▶</button>
     <div class="timecol">
-      <label for="timeSlider">Situation on <b id="timeLabel">…</b> <span style="opacity:.7">(local time)</span></label>
-      <input type="range" id="timeSlider" min="0" max="0" value="0">
+      <label for="hourSlider">Situation on <b id="timeLabel">…</b> <span style="opacity:.7">(local time)</span></label>
+      <input type="range" id="hourSlider" min="0" max="23" value="0">
+      <div class="hourticks"></div>
     </div>
-    <button id="nowBtn" class="btn small">Latest</button>
+    <button id="nowBtn" class="btn small">Now</button>
     <span id="liveBadge" class="live hidden" title="Live monitoring is running">● LIVE</span>
     <button id="checkBtn" class="btn small hidden">Check now</button>
   </div>
@@ -95,8 +97,8 @@
         <p><b>Lithium batteries</b>: their voltage stays flat until they are almost empty, so only “OK” is shown.</p>
         <p><b>“?”</b>: the sensor does not report its battery.</p></div>
       <div class="card"><h3>Directions</h3><p>Click a sensor, then <b>🧭 Directions</b>. Google Maps opens in a new window with the route to the sensor. If the sensor has no GPS position in the data, the route goes to the area of the gateway that hears it best.</p></div>
-      <div class="card"><h3>Time slider</h3><p>Move the slider at the top, or press ▶, to see the situation at any moment in the past, exactly as the system saw it then.</p></div>
-      <div class="card"><h3>Alerts</h3><p>When a sensor or gateway goes down, the administrator automatically gets an e-mail. Reminders follow if the problem lasts, and a final e-mail when it is fixed. Several sensors with the same cause are combined into one e-mail.</p></div>
+      <div class="card"><h3>📅 Choosing a moment</h3><p>Click 📅 to choose a day, then move the hour slider, or press ▶ to play that day hour by hour. The map shows the situation exactly as the system saw it at that moment. <b>Now</b> jumps back to the latest data.</p></div>
+      <div class="card"><h3>Alerts</h3><p>The administrator gets an e-mail only when a sensor <b>stops working</b> or <b>may stop working within 24 hours</b>, once per problem. It contains the sensor, its location, a Google Maps route and what was detected. Several sensors with the same cause are combined into one e-mail. Everything else is shown here in the app.</p></div>
     </div>
   </section>
 </main>

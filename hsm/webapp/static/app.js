@@ -212,14 +212,38 @@ let qT = null; $('#search').oninput = e => { S.q = e.target.value.trim(); clearT
 
 // ---------------------------------------------------------------- time
 function fmt(t) { return new Date(t.replace(' ', 'T') + 'Z').toLocaleString('en-GB', {day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Berlin'}); }
+// ---- time: pick a day (calendar), then move through its hours or play the day
 let tmr = null;
-$('#timeSlider').oninput = e => { const t = S.hours[+e.target.value]; $('#timeLabel').textContent = fmt(t); clearTimeout(tmr); tmr = setTimeout(() => loadState(t), 250); };
-$('#nowBtn').onclick = () => { stopPlay(); $('#timeSlider').value = S.hours.length - 1; loadState(S.hours[S.hours.length - 1]); };
-function stopPlay() { clearInterval(S.playing); S.playing = null; $('#playBtn').textContent = '▶'; }
+const BERLIN = new Intl.DateTimeFormat('en-CA', {timeZone: 'Europe/Berlin', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', hourCycle: 'h23'});
+function berlinDay(h) { const p = Object.fromEntries(BERLIN.formatToParts(new Date(h.replace(' ', 'T') + 'Z')).map(x => [x.type, x.value])); return [`${p.year}-${p.month}-${p.day}`, +p.hour]; }
+function dayHours() { return S.days[S.day] || []; }
+function drawTicks() {                 // labels under the hour slider follow the hours that exist on that day
+  const H = dayHours(); if (!H.length) return;
+  const idx = [...new Set([0, 1, 2, 3, 4].map(k => Math.round(k * (H.length - 1) / 4)))];
+  $('.hourticks').innerHTML = idx.map(i => `<span>${String(berlinDay(H[i])[1]).padStart(2, '0')}:00</span>`).join('');
+}
+function showHour(i, load = true) {
+  const H = dayHours(); i = Math.max(0, Math.min(i, H.length - 1)); $('#hourSlider').value = i;
+  const t = H[i]; $('#timeLabel').textContent = fmt(t);
+  if (load) { clearTimeout(tmr); tmr = setTimeout(() => loadState(t), 200); }
+}
+function setDay(day, hour) {           // hour: local hour to keep, or 'last'
+  stopPlay(); S.day = day; $('#dayPick').value = day;
+  const H = dayHours(); $('#hourSlider').max = H.length - 1; drawTicks();
+  let i = H.length - 1;
+  if (hour !== 'last' && hour != null) { const j = H.findIndex(h => berlinDay(h)[1] >= hour); if (j >= 0) i = j; }
+  showHour(i);
+}
+$('#hourSlider').oninput = e => { stopPlay(); showHour(+e.target.value); };
+$('#dayPick').onchange = e => { if (S.days[e.target.value]) setDay(e.target.value, berlinDay(S.asOf)[1]); else alertBox('No data for that day. Choose a day between ' + S.dayKeys[0] + ' and ' + S.dayKeys.at(-1) + '.'); };
+$('#calBtn').onclick = e => { e.preventDefault(); try { $('#dayPick').showPicker(); } catch (_) { $('#dayPick').focus(); } };
+$('#nowBtn').onclick = () => setDay(S.dayKeys.at(-1), 'last');
+function stopPlay() { clearInterval(S.playing); S.playing = null; $('#playBtn').textContent = '▶'; $('#playBtn').title = 'Play this day hour by hour'; }
 $('#playBtn').onclick = () => {
   if (S.playing) return stopPlay();
-  $('#playBtn').textContent = '⏸';
-  S.playing = setInterval(() => { const sl = $('#timeSlider'); let v = +sl.value + 12; if (v >= S.hours.length) { v = S.hours.length - 1; stopPlay(); } sl.value = v; loadState(S.hours[v]); }, 1500);
+  const sl = $('#hourSlider'); if (+sl.value >= +sl.max) showHour(0, true);       // at the end of the day: start from midnight
+  $('#playBtn').textContent = '⏸'; $('#playBtn').title = 'Pause';
+  S.playing = setInterval(() => { const v = +sl.value + 1; if (v > +sl.max) return stopPlay(); showHour(v); }, 1300);
 };
 $('#testMailBtn').onclick = async () => {
   $('#testMailMsg').textContent = 'Sending…';
@@ -247,7 +271,9 @@ async function init() {
   S.meta = await api('/api/meta');
   const a = new Date(S.meta.first.replace(' ', 'T') + 'Z'), b = new Date(S.meta.last.replace(' ', 'T') + 'Z');
   for (let x = a; x <= b; x = new Date(x.getTime() + 3600e3)) S.hours.push(x.toISOString().slice(0, 16).replace('T', ' '));
-  const sl = $('#timeSlider'); sl.max = S.hours.length - 1; sl.value = S.hours.length - 1;
+  S.days = {}; for (const h of S.hours) { const [d] = berlinDay(h); (S.days[d] = S.days[d] || []).push(h); }
+  S.dayKeys = Object.keys(S.days).sort(); $('#dayPick').min = S.dayKeys[0]; $('#dayPick').max = S.dayKeys.at(-1);
+  S.day = S.dayKeys.at(-1); $('#dayPick').value = S.day; $('#hourSlider').max = dayHours().length - 1; $('#hourSlider').value = dayHours().length - 1; drawTicks();
   const groups = {};
   for (const t of S.meta.types) { const k = t.measures.split(' (')[0]; (groups[k] = groups[k] || {label: k, icon: t.icon, families: []}).families.push(t.family); }
   S.groups = Object.values(groups);
