@@ -99,9 +99,7 @@ async function setupNetwork() {
   await net();
   if (NW.map) { NW.map.invalidateSize(); drawNetSensors(); evaluateCand(); return; }
   NW.map = L.map('netMap', {zoomControl: true}).setView([52.152, 9.95], 13);
-  const o = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom: 19, attribution: '© OpenStreetMap contributors'}).addTo(NW.map);
-  const sa = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {maxZoom: 19, attribution: 'Imagery © Esri'});
-  L.control.layers({'Street map': o, 'Satellite': sa}).addTo(NW.map);
+  baseLayers(NW.map);
   NW.map.createPane('bld'); NW.map.getPane('bld').style.zIndex = 380;
   NW.map.createPane('lines'); NW.map.getPane('lines').style.zIndex = 420;
   NW.bld = L.layerGroup().addTo(NW.map); NW.lines = L.layerGroup().addTo(NW.map);
@@ -263,7 +261,7 @@ function orderStops(pts, start) {           // nearest neighbour, then 2-opt (op
 async function drawRoute() {
   if (!RT.map) {
     RT.map = L.map('routeMap').setView([52.152, 9.95], 13);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom: 19, attribution: '© OpenStreetMap contributors'}).addTo(RT.map);
+    baseLayers(RT.map);
     RT.layer = L.layerGroup().addTo(RT.map);
   }
   setTimeout(() => RT.map.invalidateSize(), 50);
