@@ -100,13 +100,19 @@ function drawTiles() {
 }
 function drawFirst() {
   const P = S.state.priority;
-  $('#firstList').innerHTML = P.map((c, i) => `<div class="card fcard ${c.light}">
-      <div class="top1"><span class="rank">${i + 1}</span>${ico(c.icon_key, 40)}<div style="flex:1"><b>${esc(c.measures)}</b><div class="mute" style="font-size:13px">${esc(c.manufacturer)} · ${esc(c.id)}</div></div>${batteryHTML(c.battery)}</div>
-      <div><b>${esc(c.status)}</b>${c.cause ? ' – ' + esc(c.cause) : ''}</div>
-      <div class="todo">👉 ${esc(c.todo)}</div>
-      <div>${c.visit ? '<span class="badge visit">Site visit needed</span>' : '<span class="badge novisit">No site visit needed</span>'} <span class="mute" style="font-size:13px">Last heard ${esc(c.last_heard)}</span></div>
-      <div class="actions"><button class="btn small" data-open="${esc(c.id)}">Details</button>${c.lat != null ? `<a class="btn small green" target="_blank" rel="noopener" href="${gmaps(c.lat, c.lon)}">🧭 Directions</a>` : ''}</div></div>`).join('') || '<p>Nothing to check right now. 🎉</p>';
-  $$('#firstList [data-open]').forEach(b => b.onclick = () => openSensor(b.dataset.open, true));
+  $('#firstList').innerHTML = P.map((c, i) => `<details class="prow ${c.light}">
+      <summary><span class="rank">${i + 1}</span><span class="dot ${c.light}"></span>${ico(c.icon_key, 34)}
+        <span class="pmain"><b>${esc(c.measures)}</b><span class="mute pid">${esc(c.id)}</span></span>
+        <span class="pstat">${esc(c.status)}</span><span class="mute plast">${esc(c.last_heard)}</span>
+        <button class="btn small" data-open="${esc(c.id)}">Details</button><span class="chev">▾</span></summary>
+      <div class="pbody">
+        ${c.cause ? `<div class="sc-row"><span class="sc-lab">🔎 Why</span><span>${esc(c.cause)}</span></div>` : ''}
+        <div class="sc-row"><span class="sc-lab">👉 What to do</span><b>${esc(c.todo)}</b></div>
+        <div class="sc-row"><span class="sc-lab">🚐 Site visit</span>${c.visit ? '<span class="badge visit">Needed</span>' : '<span class="badge novisit">Not needed</span>'}</div>
+        <div class="sc-row"><span class="sc-lab">📶 Last heard</span><span>${esc(c.last_heard)}</span></div>
+        ${c.lat != null ? `<div class="actions" style="margin-top:6px"><a class="btn small green" target="_blank" rel="noopener" href="${gmaps(c.lat, c.lon)}">🧭 Directions</a></div>` : ''}
+      </div></details>`).join('') || '<p>Nothing to check right now. 🎉</p>';
+  $$('#firstList [data-open]').forEach(b => b.onclick = e => { e.preventDefault(); e.stopPropagation(); openSensor(b.dataset.open, true); });
 }
 function drawGateways() {
   $('#gwList').innerHTML = S.state.gateways.map(g => `<div class="card fcard ${g.light}"><div class="top1">${ico('gateway', 40)}<div style="flex:1"><b>${esc(g.name)}</b><div class="mute" style="font-size:13px">${g.official ? 'official gateway' : 'not in the official list'}</div></div></div>

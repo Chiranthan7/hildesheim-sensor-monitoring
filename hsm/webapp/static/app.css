@@ -150,3 +150,19 @@ tr.click{cursor:pointer}tr.click:hover{background:#f2f6fd}.tablewrap{max-height:
 .histsec .hsh{font-weight:700;margin-bottom:8px}
 /* no blue focus square around a clicked map marker */
 .leaflet-marker-icon:focus,.leaflet-marker-icon:focus-visible{outline:none}
+
+/* Check these first: compact priority list with dropdowns */
+.plist{display:flex;flex-direction:column;gap:8px}
+.prow{background:#fff;border:1px solid var(--line);border-left:7px solid var(--grey);border-radius:12px}
+.prow.red{border-left-color:var(--red)}.prow.yellow{border-left-color:var(--yellow)}.prow.green{border-left-color:var(--green)}
+.prow>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:10px;padding:8px 12px}
+.prow>summary::-webkit-details-marker{display:none}
+.prow .rank{width:30px;font-size:18px;text-align:right}
+.prow .pmain{display:flex;flex-direction:column;min-width:150px;flex:0 0 190px}.prow .pid{font-size:12px}
+.prow .pstat{flex:1;font-weight:600}.prow .plast{font-size:13px;white-space:nowrap}
+.prow .chev{color:#64748b;font-size:18px;transition:transform .2s}.prow[open] .chev{transform:rotate(180deg)}
+.prow[open]>summary{border-bottom:1px solid var(--line)}
+.prow .pbody{padding:6px 14px 12px 54px}
+.prow .pbody .sc-row{display:grid;grid-template-columns:118px 1fr;gap:8px;padding:7px 0;border-bottom:1px solid #eef1f5;align-items:start}
+.prow .pbody .sc-row .badge{justify-self:start}.prow .pbody .sc-lab{font-weight:700;color:#334155;white-space:nowrap}
+@media (max-width:700px){.prow .plast{display:none}.prow .pmain{flex:1 1 auto;min-width:0}.prow .pstat{display:none}.prow .pbody{padding-left:14px}}
