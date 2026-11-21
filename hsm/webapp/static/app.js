@@ -147,16 +147,17 @@ async function openSensor(id, fly) {
       <div class="aisub"><div class="aih">🧪 Are the measurements reliable?</div>${(c.problems.length || d.anomalies.length || d.offsets.length) ?
       `<ul class="plain">${[...c.problems.filter(p => !d.anomalies.some(a => a.what === p)), ...d.anomalies.map(a => `${a.what} (${a.days} day${a.days > 1 ? 's' : ''}, last ${a.last.slice(0, 10)})`)].map(x => `<li>${esc(x)}</li>`).join('')}${d.offsets.map(o => `<li>${esc(o.what)} <span class="mute">${esc(o.note || '')}</span></li>`).join('')}</ul>`
       : '<p style="margin:4px 0">✅ No unusual measurements found.</p>'}</div></div>
-    <div class="sec"><h3>📶 Last contact</h3><div class="kv"><b>Last message received</b><span>${esc(c.last_heard)}</span><b>Last data saved</b><span>${esc(c.last_saved)}</span>
+    <details class="sec histsec" id="histDrop"><summary><span>📜 History &amp; last contact</span><span class="mute hsum">Last message ${esc(c.last_heard)} · ${d.outages.length} past breakdown${d.outages.length === 1 ? '' : 's'}</span></summary>
+    <div class="hsub"><div class="hsh">📶 Last contact</div><div class="kv"><b>Last message received</b><span>${esc(c.last_heard)}</span><b>Last data saved</b><span>${esc(c.last_saved)}</span>
       <b>Normally reports every</b><span>${esc(d.interval)}</span><b>Main gateway</b><span>${esc(c.gateway || '–')}</span></div></div>
-    <div class="sec"><h3>📈 History (last 120 days)</h3><div class="ctabs">${ctabs.map(([k, l], i) => `<button class="ctab${i ? '' : ' on'}" data-c="${k}">${l}</button>`).join('')}</div><div class="chartbox"><canvas id="chart"></canvas></div></div>
-    <div class="sec"><h3>⛔ Past breakdowns</h3>${d.outages.length ? `<table><tr><th>Started</th><th>Ended</th><th>Duration</th><th>Affected</th></tr>${d.outages.map(o => `<tr><td>${esc(o.start)}</td><td>${esc(o.end || 'still ongoing')}</td><td>${esc(o.duration)}</td><td>${esc(o.scope)}</td></tr>`).join('')}</table>` : '<p class="mute">No breakdowns recorded.</p>'}</div>
+    <div class="hsub"><div class="hsh">📈 Last 120 days</div><div class="ctabs">${ctabs.map(([k, l], i) => `<button class="ctab${i ? '' : ' on'}" data-c="${k}">${l}</button>`).join('')}</div><div class="chartbox"><canvas id="chart"></canvas></div></div>
+    <div class="hsub"><div class="hsh">⛔ Past breakdowns</div>${d.outages.length ? `<table><tr><th>Started</th><th>Ended</th><th>Duration</th><th>Affected</th></tr>${d.outages.map(o => `<tr><td>${esc(o.start)}</td><td>${esc(o.end || 'still ongoing')}</td><td>${esc(o.duration)}</td><td>${esc(o.scope)}</td></tr>`).join('')}</table>` : '<p class="mute">No breakdowns recorded.</p>'}</div></details>
     <div class="sec"><h3>✉️ E-mails sent about this sensor</h3>${d.emails.length ? `<table>${d.emails.map(m => `<tr class="click" data-mail="${m.id}"><td>${esc(m.when)}</td><td>${esc(m.kind)}</td></tr>`).join('')}</table>` : '<p class="mute">No e-mails.</p>'}</div>
     <details class="sec"><summary><b>⚙️ Technical details (for engineers)</b></summary><div class="kv" style="margin-top:8px">${Object.entries(d.tech).map(([k, v]) => `<b>${esc(k.replace(/_/g, ' '))}</b><span>${esc(v ?? '–')}</span>`).join('')}</div></details>`);
   if ($('#flyBtn')) $('#flyBtn').onclick = () => { showTab('map'); map.flyTo([c.lat, c.lon], 17, {duration: .8}); };
   $$('#drawerBody [data-mail]').forEach(r => r.onclick = () => showMail(r.dataset.mail));
   $$('#drawerBody .ctab').forEach(b => b.onclick = () => { $$('#drawerBody .ctab').forEach(x => x.classList.remove('on')); b.classList.add('on'); drawChart(ser, b.dataset.c); });
-  drawChart(ser, 'delivered');
+  $('#histDrop').addEventListener('toggle', e => { if (e.target.open) drawChart(ser, $('#drawerBody .ctab.on')?.dataset.c || 'delivered'); });
 }
 function drawChart(ser, kind) {
   if (S.chart) S.chart.destroy();

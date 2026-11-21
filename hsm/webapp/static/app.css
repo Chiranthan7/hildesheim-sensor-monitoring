@@ -139,3 +139,14 @@ tr.click{cursor:pointer}tr.click:hover{background:#f2f6fd}.tablewrap{max-height:
 .aisec{border-color:#bcd3fb;background:linear-gradient(180deg,#f4f8ff,#fff 60px)}
 .aisec .aisub{padding:10px 0 4px;border-top:1px solid #e3ecfb}.aisec .aisub:first-of-type{border-top:0;padding-top:2px}
 .aisec .aih{font-weight:700;color:#1e3a8a;margin-bottom:6px}
+
+/* History & last contact dropdown */
+.histsec>summary{cursor:pointer;list-style:none;display:flex;flex-wrap:wrap;align-items:center;gap:4px 10px;font-weight:700;font-size:17px;padding-right:28px;position:relative}
+.histsec>summary::-webkit-details-marker{display:none}
+.histsec>summary::after{content:'▾';position:absolute;right:2px;top:0;font-size:18px;color:#64748b;transition:transform .2s}
+.histsec[open]>summary::after{transform:rotate(180deg)}
+.histsec .hsum{font-size:13px;font-weight:400}
+.histsec .hsub{padding:12px 0 4px;border-top:1px solid var(--line);margin-top:12px}
+.histsec .hsh{font-weight:700;margin-bottom:8px}
+/* no blue focus square around a clicked map marker */
+.leaflet-marker-icon:focus,.leaflet-marker-icon:focus-visible{outline:none}
