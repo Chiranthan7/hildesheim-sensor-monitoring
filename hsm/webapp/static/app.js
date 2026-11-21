@@ -132,12 +132,13 @@ async function openSensor(id, fly) {
   openDrawer(`
     <div class="dhead">${ico(c.icon_key, 56)}<div><div class="t1">${esc(c.measures)}</div><div class="t2">${esc(c.manufacturer)} · ${esc(c.model)}<br>ID ${esc(c.id)}</div></div></div>
     <div class="actions actions-top">${dir}${c.lat != null ? `<button class="btn ghost" id="flyBtn">📍 Show on map</button>` : ''}</div>
-    <div class="banner ${c.light}"><div class="b1">${esc(c.light_text)}: ${esc(s.title)}</div><div>${esc(s.text)}</div></div>
+    <div class="statuscard ${c.light}"><div class="sc-head"><div class="b1">${esc(c.light_text)}: ${esc(s.title)}</div><div>${esc(s.text)}</div></div>
+      ${s.cause ? `<div class="sc-body"><div class="sc-row"><span class="sc-lab">🔎 Why</span><span>${esc(s.cause)}${s.cause_certainty ? ` <span class="mute">(${esc(s.cause_certainty)})</span>` : ''}</span></div>
+        <div class="sc-row"><span class="sc-lab">👉 What to do</span><b>${esc(s.todo)}</b></div>
+        <div class="sc-row"><span class="sc-lab">🚐 Site visit</span>${s.visit ? '<span class="badge visit">Needed</span>' : '<span class="badge novisit">Not needed</span>'}</div></div>` : ''}</div>
     ${d.directions.approximate && d.directions.lat != null ? `<p class="mute" style="font-size:13px">${esc(d.directions.label)}</p>` : ''}
     ${d.moved ? `<div class="sec"><h3>🚚 This sensor has been moved</h3><p style="margin:4px 0">It is at its current place since <b>${esc(d.moved.current_since.slice(0, 10))}</b>. The map and the directions always use the position at the selected time.</p>
       <table><tr><th>Since</th><th>Position</th><th></th></tr>${d.moved.history.map(h => `<tr><td>${esc(h.since.slice(0, 10))}</td><td>${h.lat.toFixed(5)}, ${h.lon.toFixed(5)}</td><td><a target="_blank" rel="noopener" href="https://www.google.com/maps?q=${h.lat},${h.lon}">map</a></td></tr>`).join('')}</table></div>` : ''}
-    ${s.cause ? `<div class="sec"><h3>🔎 What is the problem?</h3><div>${esc(s.cause)} <span class="mute">(${esc(s.cause_certainty)})</span></div>
-      <div class="todo">👉 ${esc(s.todo)}</div><div style="margin-top:8px">${s.visit ? '<span class="badge visit">Site visit needed</span>' : '<span class="badge novisit">No site visit needed</span>'}</div></div>` : ''}
     <div class="sec"><h3>🔋 Battery</h3>${batteryHTML(c.battery, true)}<p class="mute" style="font-size:13px">${esc(c.battery.note)}</p>
       ${d.battery_detail ? `${d.battery_detail.trend ? `<div>Trend: <b>${esc(d.battery_detail.trend)}</b></div>` : ''}${d.battery_detail.forecast ? `<div class="todo" style="font-weight:400">🔮 ${esc(d.battery_detail.forecast)}</div>` : ''}` : ''}</div>
     <div class="sec"><h3>📶 Last contact</h3><div class="kv"><b>Last message received</b><span>${esc(c.last_heard)}</span><b>Last data saved</b><span>${esc(c.last_saved)}</span>
@@ -178,8 +179,10 @@ async function openGateway(id) {
   const d = await api(`/api/gateway/${encodeURIComponent(id)}?as_of=${encodeURIComponent(S.asOf)}`); const g = d.gateway;
   openDrawer(`<div class="dhead">${ico('gateway', 56)}<div><div class="t1">${esc(g.name)}</div><div class="t2">Gateway (receiver) · ${g.official ? 'official' : 'not in the official list'}</div></div></div>
     <div class="actions actions-top">${g.lat != null ? `<a class="btn green" target="_blank" rel="noopener" href="${gmaps(g.lat, g.lon)}">🧭 Directions</a>` : ''}</div>
-    <div class="banner ${g.light}"><div class="b1">${esc(g.status)}</div><div>Last message received ${esc(g.last_heard)}</div></div>
-    ${g.light === 'red' ? `<div class="sec"><div class="todo">👉 Check the gateway's power supply and internet connection.</div></div>` : ''}
+    <div class="statuscard ${g.light}"><div class="sc-head"><div class="b1">${esc(g.status)}</div><div>Last message received ${esc(g.last_heard)}</div></div>
+      ${g.light === 'red' ? `<div class="sc-body"><div class="sc-row"><span class="sc-lab">🔎 Why</span><span>The gateway is not passing on any messages, so the sensors around it cannot send their data.</span></div>
+        <div class="sc-row"><span class="sc-lab">👉 What to do</span><b>Check the gateway's power supply and internet connection.</b></div>
+        <div class="sc-row"><span class="sc-lab">🚐 Site visit</span><span class="badge visit">Needed</span></div></div>` : ''}</div>
     ${d.history_rate ? `<div class="sec"><h3>🔮 How often is it off?</h3><p>${esc(d.history_rate)}</p></div>` : ''}
     <div class="sec"><h3>📈 Messages received per day (last 28 days)</h3><div class="chartbox"><canvas id="chart"></canvas></div></div>
     <div class="sec"><h3>Sensors that mainly use this gateway (${d.sensors.length})</h3><div class="list">${d.sensors.map(itemHTML).join('') || '<p class="mute">None at the moment.</p>'}</div></div>

@@ -122,4 +122,15 @@ tr.click{cursor:pointer}tr.click:hover{background:#f2f6fd}.tablewrap{max-height:
 
 .zoomed-out .gwlab{display:none}
 
-.actions-top{margin:14px 0 0}.actions-top + .banner{margin-top:10px}
+.actions-top{margin:14px 0 0}.actions-top + .banner,.actions-top + .statuscard{margin-top:10px}
+
+/* combined status + problem card */
+.statuscard{border-radius:12px;margin:14px 0;overflow:hidden;border:2px solid var(--grey);background:#fff}
+.statuscard .sc-head{padding:12px 14px;color:#fff;background:var(--grey)}.statuscard .sc-head .b1{font-size:18px;font-weight:800}
+.statuscard.red{border-color:var(--red)}.statuscard.red .sc-head{background:var(--red)}
+.statuscard.yellow{border-color:#e69b00}.statuscard.yellow .sc-head{background:#e69b00}
+.statuscard.green{border-color:var(--green)}.statuscard.green .sc-head{background:var(--green)}
+.statuscard .sc-body{padding:6px 14px 10px}
+.statuscard .sc-row{display:grid;grid-template-columns:118px 1fr;gap:8px;padding:8px 0;border-bottom:1px solid #eef1f5;align-items:start}
+.statuscard .sc-row:last-child{border-bottom:0}.statuscard .sc-lab{font-weight:700;color:#334155;white-space:nowrap}
+.statuscard .sc-row .badge{justify-self:start}
