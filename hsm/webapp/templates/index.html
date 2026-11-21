@@ -38,6 +38,7 @@
   <button class="tab" data-tab="first">🔧 Check these first</button>
   <button class="tab" data-tab="alerts">✉️ Alerts &amp; e-mails</button>
   <button class="tab" data-tab="gateways">📡 Gateways</button>
+  <button class="tab" data-tab="network">📶 Improve network</button>
   <button class="tab" data-tab="quality">📊 How good are the predictions?</button>
   <button class="tab" data-tab="help">❓ Help</button>
 </nav>
@@ -56,9 +57,23 @@
   </section>
 
   <section id="view-first" class="view pad">
-    <h2>Check these first <span class="mute">· Diese Sensoren jetzt prüfen</span></h2>
-    <p class="mute">Most urgent at the top. Press <b>Details</b> to see the problem and what to do.</p>
-    <div id="firstList" class="plist"></div>
+    <div class="firsthead"><h2>Check these first <span class="mute">· Diese Sensoren jetzt prüfen</span></h2>
+      <div class="seg"><button class="on" data-mode="list">📋 List</button><button data-mode="route">🚐 Visit route</button></div></div>
+    <div id="firstListBox"><p class="mute">Most urgent at the top. Press <b>Details</b> to see the problem and what to do.</p>
+      <div id="firstList" class="plist"></div></div>
+    <div id="routeBox" class="routebox hidden">
+      <aside class="side routeside">
+        <div class="howto">🚐 <b>Shortest round</b> to every sensor that needs a <b>site visit</b> right now.</div>
+        <label class="mute" style="font-size:13px">Which sensors
+          <select id="routeWhich"><option value="all">all that need a site visit</option><option value="red">only “Action needed” (red)</option></select></label>
+        <label class="mute" style="font-size:13px">Start from
+          <select id="routeStart"><option value="first">the most urgent sensor</option><option value="me">my current location</option></select></label>
+        <div id="routeSummary" class="routesum"></div>
+        <div id="routeLinks" class="actions" style="flex-direction:column;align-items:stretch"></div>
+        <ol id="routeStops" class="stops"></ol>
+      </aside>
+      <div style="flex:1;position:relative;display:flex"><div id="routeMap" class="submap"></div></div>
+    </div>
   </section>
 
   <section id="view-alerts" class="view pad">
@@ -74,6 +89,22 @@
     <h2>Gateways (receivers)</h2>
     <p class="mute">Gateways receive the radio messages of the sensors. If a gateway is off, nearby sensors may switch to another one or go silent.</p>
     <div id="gwList" class="cards"></div>
+  </section>
+
+  <section id="view-network" class="view">
+    <aside class="side netside">
+      <h2 style="margin:4px 0 0">📶 Improve the network</h2>
+      <p class="mute" style="margin:0;font-size:13px">Find where the radio signal is weak and test where a new gateway would help.</p>
+      <div class="netstats" id="netStats"></div>
+      <div class="netstep"><span class="num">1</span><div><b>See the weak spots</b><br><span class="mute">Red glow = sensors whose messages often arrive with a weak signal.</span>
+        <label class="tgl"><input type="checkbox" id="heatTgl" checked> Show weak-signal areas</label></div></div>
+      <div class="netstep"><span class="num">2</span><div><b>Try a new gateway</b><br><span class="mute">Drag the blue <b>NEW</b> pin on the map, or let the app pick a spot.</span>
+        <div class="actions" style="margin-top:6px"><button class="btn small" id="bestSpotBtn">✨ Suggest best spot</button></div></div></div>
+      <div class="netstep"><span class="num">3</span><div><b>Check what is in the way</b><br><label class="tgl"><input type="checkbox" id="bldTgl"> Show buildings (from OpenStreetMap)</label></div></div>
+      <div id="candResult" class="candres"></div>
+      <details class="netinfo"><summary>How is this calculated?</summary><div id="netMethod"></div></details>
+    </aside>
+    <div style="flex:1;position:relative;display:flex"><div id="netMap" class="submap"></div></div>
   </section>
 
   <section id="view-quality" class="view pad">
@@ -98,6 +129,8 @@
         <p><b>“?”</b>: the sensor does not report its battery.</p></div>
       <div class="card"><h3>Directions</h3><p>Click a sensor, then <b>🧭 Directions</b>. Google Maps opens in a new window with the route to the sensor. If the sensor has no GPS position in the data, the route goes to the area of the gateway that hears it best.</p></div>
       <div class="card"><h3>📅 Choosing a moment</h3><p>Click 📅 to choose a day, then move the hour slider, or press ▶ to play that day hour by hour. The map shows the situation exactly as the system saw it at that moment. <b>Now</b> jumps back to the latest data.</p></div>
+      <div class="card"><h3>📶 Improve network</h3><p>Shows where sensors have a <b>weak radio signal</b> (measured, not guessed) and lets you <b>drag a new gateway</b> on the map to see which sensors would get a better signal or a backup receiver. ✨ <b>Suggest best spot</b> finds the place that helps the most sensors.</p></div>
+      <div class="card"><h3>🚐 Visit route</h3><p>In <b>Check these first</b>, switch to <b>Visit route</b>: the app puts all sensors that need a site visit into the shortest order and opens the route in Google Maps.</p></div>
       <div class="card"><h3>Alerts</h3><p>The administrator gets an e-mail only when a sensor <b>stops working</b> or <b>may stop working within 24 hours</b>, once per problem. It contains the sensor, its location, a Google Maps route and what was detected. Several sensors with the same cause are combined into one e-mail. Everything else is shown here in the app.</p></div>
     </div>
   </section>
@@ -110,6 +143,8 @@
 <script src="{{ url_for('static', filename='vendor/leaflet.js') }}"></script>
 <script src="{{ url_for('static', filename='vendor/leaflet.markercluster.js') }}"></script>
 <script src="{{ url_for('static', filename='vendor/chart.umd.min.js') }}"></script>
+<script src="{{ url_for('static', filename='vendor/leaflet-heat.js') }}"></script>
 <script src="{{ url_for('static', filename='app.js', v=v) }}"></script>
+<script src="{{ url_for('static', filename='network.js', v=v) }}"></script>
 </body>
 </html>

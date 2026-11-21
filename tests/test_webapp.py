@@ -62,3 +62,15 @@ def test_gateways_alerts_quality_email(client):
 
 def test_check_without_live_is_refused(client):
     assert client.post('/api/check').status_code == 400
+
+def test_network_links_are_measured(client):
+    """signal data only for sensors with radio records; links point to real gateway sites; classes follow the SX127x limits"""
+    from hsm.network import signal_class
+    n = strict(client.get('/api/network')); S = strict(client.get('/api/state'))['sensors']
+    fam = {c['id']: c['family'] for c in S}
+    assert n['model']['snr_db_per_decade'] < 0 and n['model']['residual_sd_db'] > 0
+    for dev, s in n['sensors'].items():
+        assert fam.get(dev) not in ('MeteoWind', 'OttSensor', 'Bigbelly')            # no radio records -> nothing invented
+        assert s['links'] and all(l['gw'] in n['gateways'] for l in s['links']) and s['n_gw'] == len(s['links'])
+        assert s['cls'] == signal_class(s['best_snr']) and s['best_snr'] == max(l['snr'] for l in s['links'])
+    for f in ['network.js', 'vendor/leaflet-heat.js']: assert client.get(f'/static/{f}').status_code == 200

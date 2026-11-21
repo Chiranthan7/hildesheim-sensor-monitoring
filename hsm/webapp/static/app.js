@@ -52,7 +52,7 @@ function visible(c) {
   return true;
 }
 function drawMap() {
-  sensorLayer.clearLayers(); gwLayer.clearLayers(); S.markers = {};
+  sensorLayer.clearLayers(); gwLayer.clearLayers(); S.markers = {}; S.gwMarkers = {};
   for (const c of S.state.sensors) {
     if (c.lat == null || !visible(c)) continue;
     const m = L.marker([c.lat, c.lon], {icon: markerIcon(c), light: c.light, kind: c.icon_key, riseOnHover: true, zIndexOffset: c.light === 'red' ? 1000 : c.light === 'yellow' ? 500 : 0});
@@ -63,7 +63,7 @@ function drawMap() {
     if (g.lat == null) continue;
     const m = L.marker([g.lat, g.lon], {pane: 'gateways', zIndexOffset: 5000, riseOnHover: true, icon: L.divIcon({className: '', iconSize: [64, 86], iconAnchor: [32, 29],
       html: `<div class="gwwrap"><div class="gwmk ${g.light}">${ico('gateway', 40)}</div><div class="gwlab">${esc(g.name.split(' / ')[0].replace('Unlisted gateway ', 'Gateway ').slice(0, 18))}</div></div>`})});
-    m.bindTooltip(`<b>${ico('gateway', 18)} ${esc(g.name)}</b><br>${esc(g.status)}`, {direction: 'top'}); m.on('click', () => openGateway(g.id)); m.addTo(gwLayer);
+    m.bindTooltip(`<b>${ico('gateway', 18)} ${esc(g.name)}</b><br>${esc(g.status)}`, {direction: 'top'}); m.on('click', () => openGateway(g.id)); m.addTo(gwLayer); S.gwMarkers[g.id] = m;
   }
 }
 function itemHTML(c) {
@@ -116,15 +116,16 @@ function drawGateways() {
 
 // ---------------------------------------------------------------- detail drawer
 function openDrawer(html) { $('#drawerBody').innerHTML = html; $('#drawer').classList.add('open'); }
-$('#closeDrawer').onclick = () => { $('#drawer').classList.remove('open'); S.openId = null; };
+$('#closeDrawer').onclick = () => { $('#drawer').classList.remove('open'); S.openId = null; if (window.clearFocus) clearFocus(); };
 function predHTML(p) {
   const col = p.level === 'High' ? COLORS.red : p.level === 'Medium' ? COLORS.yellow : COLORS.green;
   return `<div class="pred"><div class="q">${esc(p.q)}</div><div class="meter"><div style="width:${Math.max(2, p.p * 100)}%;background:${col}"></div></div><span class="lvl ${p.level}">${p.level}</span> <span class="mute">(${p.pct})</span></div>`;
 }
 async function openSensor(id, fly) {
-  S.openId = id; S.openKind = 'sensor';
+  S.openId = id; S.openKind = 'sensor'; await net();
   const d = await api(`/api/sensor/${encodeURIComponent(id)}?as_of=${encodeURIComponent(S.asOf)}`); const c = d.card, s = d.status;
-  if (fly && c.lat != null) { showTab('map'); map.flyTo([c.lat, c.lon], 17, {duration: .8}); }
+  if (fly && c.lat != null) showTab('map');
+  focusSensor(c, true);                       // fade the others, draw lines to the gateways that received it
   const dir = d.directions.lat != null ? `<a class="btn green" target="_blank" rel="noopener" href="${gmaps(d.directions.lat, d.directions.lon)}" title="${esc(d.directions.label)}">🧭 Directions${d.directions.approximate ? ' (area)' : ''}</a>` : '';
   const ser = d.series; const ctabs = [['delivered', 'Data received'], ['meas', 'Measurements'], ['battery', 'Battery'], ['risk7', 'Breakdown risk']]
     .filter(([k]) => k === 'delivered' || (k === 'meas' && ser.m1_label && ser.m1.some(x => x != null)) || (k === 'battery' && (ser.battery_pct.some(x => x != null) || ser.battery_v.some(x => x != null))) || (k === 'risk7' && ser.risk7.some(x => x != null)));
@@ -148,7 +149,7 @@ async function openSensor(id, fly) {
       : '<p style="margin:4px 0">✅ No unusual measurements found.</p>'}</div></div>
     <details class="sec histsec" id="histDrop"><summary><span>📜 History &amp; last contact</span><span class="mute hsum">Last message ${esc(c.last_heard)} · ${d.outages.length} past breakdown${d.outages.length === 1 ? '' : 's'}</span></summary>
     <div class="hsub"><div class="hsh">📶 Last contact</div><div class="kv"><b>Last message received</b><span>${esc(c.last_heard)}</span><b>Last data saved</b><span>${esc(c.last_saved)}</span>
-      <b>Normally reports every</b><span>${esc(d.interval)}</span><b>Main gateway</b><span>${esc(c.gateway || '–')}</span></div></div>
+      <b>Normally reports every</b><span>${esc(d.interval)}</span><b>Main gateway</b><span>${esc(c.gateway || '–')}</span>${signalKV(c.id)}</div></div>
     <div class="hsub"><div class="hsh">📈 Last 120 days</div><div class="ctabs">${ctabs.map(([k, l], i) => `<button class="ctab${i ? '' : ' on'}" data-c="${k}">${l}</button>`).join('')}</div><div class="chartbox"><canvas id="chart"></canvas></div></div>
     <div class="hsub"><div class="hsh">⛔ Past breakdowns</div>${d.outages.length ? `<table><tr><th>Started</th><th>Ended</th><th>Duration</th><th>Affected</th></tr>${d.outages.map(o => `<tr><td>${esc(o.start)}</td><td>${esc(o.end || 'still ongoing')}</td><td>${esc(o.duration)}</td><td>${esc(o.scope)}</td></tr>`).join('')}</table>` : '<p class="mute">No breakdowns recorded.</p>'}</div></details>
     <div class="sec"><h3>✉️ E-mails sent about this sensor</h3>${d.emails.length ? `<table>${d.emails.map(m => `<tr class="click" data-mail="${m.id}"><td>${esc(m.when)}</td><td>${esc(m.kind)}</td></tr>`).join('')}</table>` : '<p class="mute">No e-mails.</p>'}</div>
@@ -176,7 +177,7 @@ function drawChart(ser, kind) {
   S.chart = new Chart($('#chart'), {type: 'line', data: {labels: ser.day, datasets: ds}, options: {responsive: true, maintainAspectRatio: false, interaction: {mode: 'index', intersect: false}, plugins: {legend: {labels: {boxWidth: 12}}}, scales}});
 }
 async function openGateway(id) {
-  S.openId = id; S.openKind = 'gateway';
+  S.openId = id; S.openKind = 'gateway'; clearFocus();
   const d = await api(`/api/gateway/${encodeURIComponent(id)}?as_of=${encodeURIComponent(S.asOf)}`); const g = d.gateway;
   openDrawer(`<div class="dhead">${ico('gateway', 56)}<div><div class="t1">${esc(g.name)}</div><div class="t2">Gateway (receiver) · ${g.official ? 'official' : 'not in the official list'}</div></div></div>
     <div class="actions actions-top">${g.lat != null ? `<a class="btn green" target="_blank" rel="noopener" href="${gmaps(g.lat, g.lon)}">🧭 Directions</a>` : ''}</div>
@@ -217,7 +218,8 @@ async function loadQuality() {
 function showTab(t) {
   $$('.tab').forEach(b => b.classList.toggle('active', b.dataset.tab === t)); $$('.view').forEach(v => v.classList.toggle('active', v.id === 'view-' + t));
   if (t === 'map') setTimeout(() => map.invalidateSize(), 50);
-  if (t === 'alerts') loadAlerts(); if (t === 'quality') loadQuality();
+  if (t === 'alerts') loadAlerts(); if (t === 'quality') loadQuality(); if (t === 'network') setTimeout(setupNetwork, 30);
+  if (t === 'first' && !$('#routeBox').classList.contains('hidden')) drawRoute();
 }
 $$('.tab').forEach(b => b.onclick = () => showTab(b.dataset.tab));
 $$('.tile').forEach(t => t.onclick = () => { if (t.dataset.tab) return showTab(t.dataset.tab); S.light = t.dataset.filter; showTab('map'); render(true); });
@@ -268,7 +270,9 @@ $('#checkBtn').onclick = async () => { const r = await api('/api/check', {method
 function alertBox(msg) { $('#modalBody').innerHTML = `<p>${esc(msg)}</p>`; $('#modal').classList.remove('hidden'); }
 
 function render(fit) {
-  drawTiles(); drawMap(); drawList(); drawFirst(); drawGateways(); drawChipCounts();
+  drawTiles(); drawMap(); drawList(); drawFirst(); drawGateways(); drawChipCounts(); if (window.dimGateways) dimGateways();
+  if (NW.map && $('#view-network').classList.contains('active')) drawNetSensors();
+  if (RT.map && !$('#routeBox').classList.contains('hidden')) drawRoute();
   if (fit) {                                                  // zoom to the sensors that match the filter
     const pts = S.state.sensors.filter(c => c.lat != null && visible(c)).map(c => [c.lat, c.lon]);
     if (pts.length === 1) map.flyTo(pts[0], 17, {duration: .6}); else if (pts.length) map.flyToBounds(pts, {padding: [50, 50], maxZoom: 17, duration: .6});

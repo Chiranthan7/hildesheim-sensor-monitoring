@@ -167,3 +167,49 @@ tr.click{cursor:pointer}tr.click:hover{background:#f2f6fd}.tablewrap{max-height:
 .prow .pbody .sc-row .badge{justify-self:start}.prow .pbody .sc-lab{font-weight:700;color:#334155;white-space:nowrap}
 @media (max-width:700px){.prow .plast{display:none}.prow .pmain{flex:1 1 auto;min-width:0}.prow .pstat{display:none}.prow .pbody{padding-left:14px}}
 .prow:hover{background:#f7f9fc}
+
+/* ---------- focus mode (selected sensor on the main map) */
+.focus-mode .leaflet-marker-pane>*{opacity:.18!important;transition:opacity .25s}
+.focusmk .bub{transform:scale(1.25);box-shadow:0 0 0 6px #2563eb55,0 4px 14px #0006}
+.focuslegend{font-size:12px;line-height:1.6;max-width:230px}.focuslegend .sw{display:inline-block;width:14px;height:4px;border-radius:2px;margin:0 3px 2px 6px;vertical-align:middle}
+.sigdot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:-1px}
+
+/* ---------- Improve network page */
+#view-network{height:calc(100vh - 215px);min-height:560px}
+.submap{flex:1;border-radius:0 var(--radius) var(--radius) 0;min-height:400px}
+.netside{width:380px;gap:10px}
+.netstats{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.netstats .ns{border-radius:10px;padding:8px;background:#f7f9fc;border:1px solid var(--line);display:flex;flex-direction:column;font-size:12px;line-height:1.25}
+.netstats .ns b{font-size:22px}.ns.red b{color:#d73027}.ns.amber b{color:#d97706}.ns.green b{color:#1a9850}
+.netstep{display:flex;gap:10px;align-items:flex-start;font-size:14px}
+.netstep .num{flex:0 0 26px;height:26px;border-radius:50%;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px}
+.netstep .mute{font-size:13px}.tgl{display:flex;gap:6px;align-items:center;margin-top:4px;font-size:13px;cursor:pointer}
+.candcard{padding:12px 14px;margin:0;border:2px solid #bcd3fb}.candcard h3{margin:0 0 6px}
+.cbig{font-size:15px;margin:2px 0}.cbig .n{display:inline-block;min-width:30px;text-align:center;font-size:20px;font-weight:800;border-radius:8px;padding:0 6px;margin-right:6px;color:#fff}
+.cbig .n.good{background:#1a9850}.cbig .n.backup{background:#2563eb}
+.csub{font-weight:700;margin:10px 0 4px;font-size:13px}
+.crow{display:flex;gap:8px;align-items:center;padding:6px 4px;border-bottom:1px solid #eef1f5;cursor:pointer;border-radius:6px}.crow:hover{background:#f4f8ff}
+.crow .nm{font-weight:600;font-size:13px}.crow .nm .mute{font-weight:400;font-size:11px}.cdet{font-size:12px;margin-top:2px}
+.sigpill{display:inline-block;color:#fff;border-radius:10px;padding:0 7px;font-size:11px;font-weight:700}
+.netinfo summary{cursor:pointer;font-weight:600;font-size:13px}.netinfo p{font-size:12.5px;margin:6px 0}
+.gwsmall{width:34px;height:34px;border-radius:9px;background:#fff;border:3px solid #2b2f36;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px #0005}
+.newgw{display:flex;flex-direction:column;align-items:center;cursor:grab}
+.newgwbub{position:relative;width:58px;height:58px;border-radius:16px;background:#fff;border:4px solid #2563eb;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 6px #2563eb33,0 6px 16px #0006;animation:newpulse 2s infinite}
+.newgwbub span{position:absolute;bottom:-9px;background:#2563eb;color:#fff;font-size:10px;font-weight:800;border-radius:6px;padding:0 5px}
+.newgwtip{width:0;height:0;border-left:9px solid transparent;border-right:9px solid transparent;border-top:12px solid #2563eb;margin-top:2px}
+@keyframes newpulse{0%,100%{box-shadow:0 0 0 4px #2563eb33,0 6px 16px #0006}50%{box-shadow:0 0 0 12px #2563eb18,0 6px 16px #0006}}
+
+/* ---------- visit route */
+.firsthead{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.seg{display:inline-flex;background:#eef2f7;border-radius:10px;padding:3px}.seg button{border:0;background:transparent;padding:7px 14px;border-radius:8px;font:600 14px system-ui,sans-serif;cursor:pointer;color:#334155}
+.seg button.on{background:#fff;box-shadow:0 1px 3px #0002;color:#111}
+.routebox{display:flex;height:calc(100vh - 290px);min-height:480px;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+.routebox.hidden,#firstListBox.hidden{display:none}
+.routeside{width:340px}.routeside select{margin-top:4px;width:100%;padding:6px;border-radius:8px;border:1px solid var(--line)}
+.howto{font-size:14px;background:#f4f8ff;border-radius:10px;padding:8px 10px}
+.rbig{font-size:17px}.rbig b{font-size:20px}
+.stops{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:4px}
+.stops li{display:flex;gap:8px;align-items:center;padding:6px;border-radius:8px;cursor:pointer;font-size:13px;border:1px solid var(--line)}.stops li:hover{background:#f4f8ff}
+.stopnum{width:26px;height:26px;flex:0 0 26px;border-radius:50%;color:#fff;font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center;border:2px solid #fff;box-shadow:0 1px 4px #0006;background:var(--grey)}
+.stopnum.red{background:var(--red)}.stopnum.yellow{background:#e69b00}.stopnum.green{background:var(--green)}.stopnum.me{background:#2563eb}
+@media (max-width:900px){.netside,.routeside{display:flex;width:100%;max-height:45vh}#view-network,.routebox{flex-direction:column;height:auto}.submap{min-height:55vh}}

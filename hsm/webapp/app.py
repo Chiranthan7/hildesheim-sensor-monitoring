@@ -71,6 +71,7 @@ class Store:
             self.ev = json.load(open(self.dir / 'evaluation.json')) if (self.dir / 'evaluation.json').exists() else {}
             P = rd('positions')
             self.pos = {str(d): (g.t_start.values, g.lat.values, g.lon.values) for d, g in P.sort_values('t_start').groupby('device_id')} if len(P) else {}
+            self.net = json.load(open(self.dir / 'network.json')) if (self.dir / 'network.json').exists() else {}
             self.meta = json.load(open(self.dir / 'meta.json')); self.mtime = os.path.getmtime(self.dir / 'meta.json')
             self.hours = np.array(sorted(S.hour_end.unique())); self._cache = {}
             # battery readings per device, to show the last known value of sensors that stopped sending
@@ -240,6 +241,11 @@ def create_app(data_dir, live=None):
                                  data_24h=_j(r.get('avail_svc_24h')), data_28d=_j(r.get('avail_svc_672h')), gateway=gw, gateway_condition=r.get('gateway_condition'),
                                  signal_snr=_j(r.get('snr_mean_168h')), battery_voltage=(f"{card['battery']['volts']:.2f} V" if card['battery'].get('volts') else None),
                                  note=_j(d.get('battery_note')) if len(d) else None))
+
+    @app.get('/api/network')
+    def network():
+        """measured radio links and signal quality (whole monitoring period) for the focus mode and the network page"""
+        return jsonify(st.net or dict(sensors={}, gateways={}, model=None))
 
     @app.get('/api/gateway/<path:gid>')
     def gateway(gid):

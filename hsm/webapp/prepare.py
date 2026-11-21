@@ -49,6 +49,8 @@ def prepare(fd, rp, out, eval_dir=None):
     D['manufacturer'] = D.family.map(lambda f: system.MANUFACTURER.get(f, ('', ''))[0]); D['model'] = D.family.map(lambda f: system.MANUFACTURER.get(f, ('', ''))[1])
     D['interval_min'] = D.family.map(NOMINAL_MIN); D['battery_note'] = D.family.map(lambda f: BATTERY_OBSERVABILITY.get(f, {}).get('note', ''))
     D.reset_index().to_parquet(out / 'devices.parquet', index=False)
+    from .. import network                                             # radio links, signal quality, distance model
+    network.build(fd, D.reset_index(), out)
     # ---- daily series per device ----
     P = rd('gold_m1_period_daily')
     P = P.rename(columns={'period': 'day'})[['device_id', 'day', 'service_availability', 'reception_availability', 'valid_data_availability', 'missed_reports', 'outage_onsets']]
