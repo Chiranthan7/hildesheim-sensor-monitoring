@@ -42,7 +42,8 @@ function batteryHTML(b, big) {
 }
 function markerIcon(c) {
   return L.divIcon({className: '', iconSize: [44, 58], iconAnchor: [22, 29], popupAnchor: [0, -26],
-    html: `<div class="mk ${c.light}"><div class="pulse"></div><div class="bub">${ico(c.icon_key, 28)}</div>${batteryHTML(c.battery)}</div>`});
+    // on the map: battery level only for sensors that report one; no solar / sealed-battery / unknown symbols
+    html: `<div class="mk ${c.light}"><div class="pulse"></div><div class="bub">${ico(c.icon_key, 28)}</div>${['band', 'percent', 'lithium'].includes(c.battery.kind) ? batteryHTML(c.battery) : ''}</div>`});
 }
 function visible(c) {
   if (S.light !== 'all' && c.light !== S.light) return false;
