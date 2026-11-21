@@ -139,8 +139,9 @@ def create_app(data_dir, live=None):
     @app.before_request
     def _reload(): st.maybe_reload()
 
+    ver = str(int(max(os.path.getmtime(p) for p in Path(app.static_folder).rglob('*') if p.is_file())))
     @app.get('/')
-    def index(): return render_template('index.html')
+    def index(): return render_template('index.html', v=ver)
 
     @app.get('/api/meta')
     def meta():

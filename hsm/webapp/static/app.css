@@ -44,9 +44,10 @@ main{flex:1;display:flex;min-height:0}
 .mk.red .pulse{position:absolute;top:0;left:2px;width:40px;height:40px;border-radius:50%;background:var(--red);opacity:.5;animation:pulse 1.8s infinite;z-index:1}
 .mk .bat{margin-top:2px;z-index:2}
 .mk.dim{opacity:.18}
-.gwwrap{display:flex;flex-direction:column;align-items:center;width:64px}
-.gwmk{width:62px;height:62px;border-radius:16px;display:flex;align-items:center;justify-content:center;background:#fff;border:5px solid var(--grey);box-shadow:0 3px 10px #0005}
-.gwlab{margin-top:2px;background:#0f2a4a;color:#fff;font-size:10px;font-weight:700;padding:1px 6px;border-radius:6px;white-space:nowrap;box-shadow:0 1px 3px #0004}
+.gwwrap{position:relative;display:flex;flex-direction:column;align-items:center;width:84px}
+.gwwrap::before{content:"";position:absolute;top:-14px;left:50%;width:108px;height:108px;margin-left:-54px;border-radius:50%;background:radial-gradient(circle,#2563eb44 0%,#2563eb22 45%,#2563eb00 70%);z-index:-1}
+.gwmk{width:80px;height:80px;border-radius:20px;display:flex;align-items:center;justify-content:center;background:#fff;border:6px solid var(--grey);box-shadow:0 0 0 4px #0f2a4a,0 6px 16px #0006}
+.gwlab{margin-top:6px;background:#0f2a4a;color:#fff;font-size:12px;font-weight:700;padding:2px 8px;border-radius:8px;white-space:nowrap;box-shadow:0 1px 4px #0005}
 .gwmk.green{border-color:var(--green)}.gwmk.red{border-color:var(--red);animation:pulse2 1.6s infinite}.gwmk.yellow{border-color:var(--yellow)}.gwmk.grey{border-color:var(--grey)}
 /* ---------- battery widget ---------- */
 .bat{display:flex;align-items:center;gap:3px;background:#fff;border-radius:6px;padding:1px 4px;box-shadow:0 1px 3px #0003;font-size:10px;font-weight:700;white-space:nowrap}

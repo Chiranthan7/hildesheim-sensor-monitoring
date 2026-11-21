@@ -23,7 +23,7 @@ const sensorLayer = L.markerClusterGroup({disableClusteringAtZoom: 18, maxCluste
     return L.divIcon({className: '', iconSize: [62, 50], iconAnchor: [31, 25],
       html: `<div class="cluster ${worst}" title="${ms.length} sensors${nr ? ', ' + nr + ' need action' : ''}. Click to zoom in."><b>${ms.length}</b><div class="kinds">${icons}</div></div>`});
   }}).addTo(map);
-const zoomCls = () => map.getContainer().classList.toggle('zoomed-out', map.getZoom() < 14); map.on('zoomend', zoomCls); zoomCls();
+const zoomCls = () => map.getContainer().classList.toggle('zoomed-out', map.getZoom() < 13); map.on('zoomend', zoomCls); zoomCls();
 map.createPane('gateways'); map.getPane('gateways').style.zIndex = 650;      // gateways above sensor markers and groups
 const gwLayer = L.layerGroup([], {pane: 'gateways'}).addTo(map);
 const legend = L.control({position: 'bottomleft'});
@@ -60,8 +60,8 @@ function drawMap() {
   }
   for (const g of S.state.gateways) {
     if (g.lat == null) continue;
-    const m = L.marker([g.lat, g.lon], {pane: 'gateways', zIndexOffset: 5000, riseOnHover: true, icon: L.divIcon({className: '', iconSize: [64, 76], iconAnchor: [32, 32],
-      html: `<div class="gwwrap"><div class="gwmk ${g.light}">${ico('gateway', 42)}</div><div class="gwlab">${esc(g.name.split(' / ')[0].replace('Unlisted gateway ', 'Gateway ').slice(0, 18))}</div></div>`})});
+    const m = L.marker([g.lat, g.lon], {pane: 'gateways', zIndexOffset: 5000, riseOnHover: true, icon: L.divIcon({className: '', iconSize: [84, 110], iconAnchor: [42, 40],
+      html: `<div class="gwwrap"><div class="gwmk ${g.light}">${ico('gateway', 58)}</div><div class="gwlab">${esc(g.name.split(' / ')[0].replace('Unlisted gateway ', 'Gateway ').slice(0, 18))}</div></div>`})});
     m.bindTooltip(`<b>${ico('gateway', 18)} ${esc(g.name)}</b><br>${esc(g.status)}`, {direction: 'top'}); m.on('click', () => openGateway(g.id)); m.addTo(gwLayer);
   }
 }
