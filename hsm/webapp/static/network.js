@@ -60,7 +60,7 @@ const _focusCls = new MutationObserver(() => { const on = map.getContainer().cla
 _focusCls.observe(map.getContainer(), {attributes: true, attributeFilter: ['class']});
 
 // ---------------------------------------------------------------- 2. Improve network page
-const NW = {map: null, heat: null, dots: null, gw: null, cand: null, lines: null, bld: null, bldData: null, bldBox: null, res: null};
+const NW = {map: null, heat: null, dots: null, gw: null, cand: null, lines: null, bld: null, res: null};
 const sensorsWithSignal = () => S.state.sensors.filter(c => c.lat != null && NET.sensors[c.id]);
 
 function predictAt(lat, lon) {
@@ -164,8 +164,8 @@ function evaluateCand(quick) {
   for (const x of r.better) L.polyline([[p.lat, p.lng], [x.c.lat, x.c.lon]], {pane: 'lines', color: '#1a9850', weight: 3, opacity: .9}).addTo(NW.lines);
   for (const x of r.backup) L.polyline([[p.lat, p.lng], [x.c.lat, x.c.lon]], {pane: 'lines', color: '#2563eb', weight: 1.5, opacity: .45, dashArray: '5 6'}).addTo(NW.lines);
   if (quick) { $('#candHead') && ($('#candHead').innerHTML = candHead(r)); return; }
-  if ($('#bldTgl').checked) loadBuildings(p);
   drawCandResult();
+  if ($('#bldTgl').checked) { drawBuildings(); loadBuildings(p); }
 }
 function candHead(r) {
   return `<div class="cbig"><span class="n good">${r.better.length}</span> sensor${r.better.length === 1 ? '' : 's'} get a <b>better signal</b></div>
@@ -173,7 +173,8 @@ function candHead(r) {
 }
 function drawCandResult() {
   const r = NW.res, p = NW.cand.getLatLng();
-  const crossing = x => NW.bldData ? countCrossings(p, x.c) : null;
+  const near = $('#bldTgl').checked && covered(p) ? nearBuildings(p) : null;
+  const crossing = x => near ? countCrossings(p, x.c, near) : null;
   const row = (x, kind) => {
     const n = crossing(x);
     return `<div class="crow" data-id="${esc(x.c.id)}"><span class="ic">${ico(x.c.icon_key, 26)}</span><div style="flex:1;min-width:0"><div class="nm">${esc(x.c.measures)} <span class="mute">${esc(x.c.id)}</span></div>
@@ -185,35 +186,99 @@ function drawCandResult() {
     ${r.better.length + r.backup.length ? '' : '<p class="mute">No sensor would clearly benefit here. Drag the pin closer to the red areas or press ✨ Suggest best spot.</p>'}
     ${r.better.length ? `<div class="csub">✅ Better signal</div>${r.better.map(x => row(x, 'better')).join('')}` : ''}
     ${r.backup.length ? `<div class="csub">🛟 Backup gateway <span class="mute">(they keep working if their only gateway fails)</span></div>${r.backup.map(x => row(x, 'backup')).join('')}` : ''}
-    <div id="bldNote" class="mute" style="font-size:12px;margin-top:6px">${NW.bldMsg || ''}</div>
+    <div id="bldNote" class="mute" style="font-size:12px;margin-top:6px"></div>
     <div class="actions" style="margin-top:8px"><a class="btn small green" target="_blank" rel="noopener" href="${gmaps(p.lat.toFixed(6), p.lng.toFixed(6))}">🧭 Directions to this spot</a>
     <span class="mute" style="font-size:12px;align-self:center">${p.lat.toFixed(5)}, ${p.lng.toFixed(5)}</span></div></div>`;
   $$('#candResult .crow').forEach(e => e.onclick = () => openSensor(e.dataset.id));
+  showBldState();
 }
 
 // ---- buildings (2D footprints from OpenStreetMap, loaded in the browser via the Overpass API)
-const BLD_R = 800;                                                      // metres around the new gateway
-async function loadBuildings(p) {
-  if (NW.bldBox && hav(p.lat, p.lng, NW.bldBox[0], NW.bldBox[1]) < BLD_R / 3) { drawCandResult(); return; }
-  const dLa = BLD_R / 111320, dLo = BLD_R / (111320 * Math.cos(p.lat * Math.PI / 180));
-  const bb = [p.lat - dLa, p.lng - dLo, p.lat + dLa, p.lng + dLo].map(x => x.toFixed(5)).join(',');
-  NW.bldMsg = 'Loading buildings…'; drawCandResult();
+/* Robust loading: buildings are cached per grid cell (~550 x 340 m) so moving the pin only fetches what is missing;
+   only one request runs at a time and the newest pin wins; several public Overpass servers are tried in turn with a
+   time limit (the main server often answers "too busy"); a failed request never wipes buildings already loaded; counts
+   are shown only when every cell around the pin is loaded, and always use the same 800 m circle, so they are consistent. */
+const BLD_R = 800, CELL = 0.005;                                       // metres around the new gateway; cell size in degrees
+const OVERPASS = ['https://overpass-api.de/api/interpreter', 'https://lz4.overpass-api.de/api/interpreter',
+  'https://z.overpass-api.de/api/interpreter', 'https://overpass.kumi.systems/api/interpreter', 'https://overpass.private.coffee/api/interpreter'];
+const BLD = {polys: new Map(), cells: new Set(), busy: false, want: null, failed: false, renderer: null, timer: null};
+const cellKey = (i, j) => i + '_' + j;
+function cellsAround(p) {
+  const dLa = BLD_R / 111320, dLo = BLD_R / (111320 * Math.cos(p.lat * Math.PI / 180)), out = [];
+  for (let i = Math.floor((p.lat - dLa) / CELL); i <= Math.floor((p.lat + dLa) / CELL); i++)
+    for (let j = Math.floor((p.lng - dLo) / CELL); j <= Math.floor((p.lng + dLo) / CELL); j++) out.push([i, j]);
+  return out;
+}
+const covered = p => cellsAround(p).every(([i, j]) => BLD.cells.has(cellKey(i, j)));
+async function overpass(query) {
+  let last = null;
+  for (const url of OVERPASS) {
+    const ctl = new AbortController(), t = setTimeout(() => ctl.abort(), 30000);
+    try {
+      const r = await fetch(url, {method: 'POST', body: 'data=' + encodeURIComponent(query), signal: ctl.signal,
+                                  headers: {'Content-Type': 'application/x-www-form-urlencoded'}});
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return await r.json();
+    } catch (e) { last = e; } finally { clearTimeout(t); }
+  }
+  throw last;
+}
+function addElements(els) {
+  for (const e of els) {
+    const rings = e.type === 'way' ? [e.geometry] : (e.members || []).filter(m => m.role === 'outer' && m.geometry).map(m => m.geometry);
+    rings.forEach((g, k) => {
+      if (!g || g.length < 3) return;
+      const poly = g.map(q => [q.lat, q.lon]);
+      const c = poly.reduce((a, q) => [a[0] + q[0] / poly.length, a[1] + q[1] / poly.length], [0, 0]);
+      BLD.polys.set(e.type + e.id + '_' + k, {poly, c, la0: Math.min(...poly.map(q => q[0])), la1: Math.max(...poly.map(q => q[0])),
+                                              lo0: Math.min(...poly.map(q => q[1])), lo1: Math.max(...poly.map(q => q[1]))});
+    });
+  }
+}
+function loadBuildings(p) {                     // debounced; the newest pin position wins
+  BLD.want = p; clearTimeout(BLD.timer);
+  BLD.timer = setTimeout(pumpBuildings, 300); showBldState();
+}
+async function pumpBuildings() {
+  if (BLD.busy || !BLD.want || !$('#bldTgl').checked) return;
+  const p = BLD.want, miss = cellsAround(p).filter(([i, j]) => !BLD.cells.has(cellKey(i, j)));
+  if (!miss.length) { BLD.failed = false; drawBuildings(); drawCandResult(); return; }
+  const i0 = Math.min(...miss.map(c => c[0])), i1 = Math.max(...miss.map(c => c[0])), j0 = Math.min(...miss.map(c => c[1])), j1 = Math.max(...miss.map(c => c[1]));
+  const bb = [i0 * CELL, j0 * CELL, (i1 + 1) * CELL, (j1 + 1) * CELL].map(x => x.toFixed(5)).join(',');
+  BLD.busy = true; showBldState();
   try {
-    const r = await fetch('https://overpass-api.de/api/interpreter', {method: 'POST', body: 'data=' + encodeURIComponent(`[out:json][timeout:25];way["building"](${bb});out geom;`)});
-    if (!r.ok) throw new Error(r.status);
-    const j = await r.json();
-    NW.bldData = j.elements.filter(e => e.geometry && e.geometry.length > 2).map(e => e.geometry.map(g => [g.lat, g.lon]));
-    NW.bldBox = [p.lat, p.lng];
-    NW.bldMsg = `🏢 ${NW.bldData.length} buildings loaded within ${km(BLD_R)} of the new gateway (OpenStreetMap). Buildings further away are not counted.`;
-  } catch (e) { NW.bldData = null; NW.bldBox = null; NW.bldMsg = '⚠️ Building data could not be loaded right now (OpenStreetMap service not reachable). Nothing is counted.'; }
+    const j = await overpass(`[out:json][timeout:25];(way["building"](${bb});relation["building"](${bb}););out geom;`);
+    addElements(j.elements || []);
+    for (let i = i0; i <= i1; i++) for (let k = j0; k <= j1; k++) BLD.cells.add(cellKey(i, k));
+    BLD.failed = false;
+  } catch (e) { BLD.failed = true; console.warn('[buildings] all Overpass servers failed:', e); }
+  BLD.busy = false;
+  if (BLD.want !== p && !BLD.failed) return pumpBuildings();           // the pin moved meanwhile: load the new area
   drawBuildings(); drawCandResult();
 }
+function nearBuildings(p) {
+  const out = []; for (const b of BLD.polys.values()) if (hav(p.lat, p.lng, b.c[0], b.c[1]) <= BLD_R) out.push(b); return out;
+}
+function bldMsg() {
+  if (!$('#bldTgl').checked || !NW.cand) return '';
+  const p = NW.cand.getLatLng();
+  if (covered(p)) return `🏢 ${nearBuildings(p).length} buildings within ${km(BLD_R)} of the new gateway (OpenStreetMap). Buildings further away are not counted.`;
+  if (BLD.failed) return `⚠️ Building data could not be loaded (OpenStreetMap servers busy). <a href="#" id="bldRetry">Try again</a>`;
+  return '⏳ Loading buildings…';
+}
+function showBldState() { const n = $('#bldNote'); if (n) n.innerHTML = bldMsg(); const r = $('#bldRetry'); if (r) r.onclick = e => { e.preventDefault(); BLD.failed = false; loadBuildings(NW.cand.getLatLng()); }; }
 function drawBuildings() {
   NW.bld.clearLayers();
-  if (!$('#bldTgl').checked || !NW.bldData) return;
-  for (const poly of NW.bldData) L.polygon(poly, {pane: 'bld', color: '#4b5563', weight: .6, fillColor: '#64748b', fillOpacity: .45, interactive: false}).addTo(NW.bld);
+  if (!$('#bldTgl').checked || !NW.cand) return;
+  BLD.renderer = BLD.renderer || L.canvas({pane: 'bld', padding: .3});       // canvas: fast with thousands of buildings
+  for (const b of nearBuildings(NW.cand.getLatLng()))
+    L.polygon(b.poly, {renderer: BLD.renderer, color: '#4b5563', weight: .6, fillColor: '#64748b', fillOpacity: .45, interactive: false}).addTo(NW.bld);
 }
-$('#bldTgl').onchange = e => { if (e.target.checked) loadBuildings(NW.cand.getLatLng()); else { NW.bld.clearLayers(); NW.bldData = null; NW.bldBox = null; NW.bldMsg = ''; drawCandResult(); } };
+$('#bldTgl').onchange = e => {
+  if (e.target.checked) { BLD.failed = false; loadBuildings(NW.cand.getLatLng()); }
+  else { NW.bld.clearLayers(); clearTimeout(BLD.timer); }                // keep the cache: ticking again is instant
+  drawCandResult();
+};
 function segX(a, b, c, d) {                 // do segments a-b and c-d cross? points as [lat, lon]
   const o = (p, q, r) => Math.sign((q[1] - p[1]) * (r[0] - p[0]) - (q[0] - p[0]) * (r[1] - p[1]));
   return o(a, b, c) !== o(a, b, d) && o(c, d, a) !== o(c, d, b);
@@ -224,11 +289,12 @@ function inPoly(pt, poly) {
     if ((poly[i][0] > pt[0]) !== (poly[j][0] > pt[0]) && pt[1] < (poly[j][1] - poly[i][1]) * (pt[0] - poly[i][0]) / (poly[j][0] - poly[i][0]) + poly[i][1]) ins = !ins;
   return ins;
 }
-function countCrossings(p, c) {
+function countCrossings(p, c, near) {
   const a = [p.lat, p.lng], b = [c.lat, c.lon]; let n = 0;
-  const [la0, la1] = [Math.min(a[0], b[0]), Math.max(a[0], b[0])], [lo0, lo1] = [Math.min(a[1], b[1]), Math.max(a[1], b[1])];
-  for (const poly of NW.bldData) {
-    if (poly.every(q => q[0] < la0) || poly.every(q => q[0] > la1) || poly.every(q => q[1] < lo0) || poly.every(q => q[1] > lo1)) continue;
+  const la0 = Math.min(a[0], b[0]), la1 = Math.max(a[0], b[0]), lo0 = Math.min(a[1], b[1]), lo1 = Math.max(a[1], b[1]);
+  for (const B of near) {
+    if (B.la1 < la0 || B.la0 > la1 || B.lo1 < lo0 || B.lo0 > lo1) continue;
+    const poly = B.poly;
     if (inPoly(a, poly) || inPoly(b, poly)) continue;                    // the building the gateway / sensor sits on
     for (let i = 0; i < poly.length - 1; i++) if (segX(a, b, poly[i], poly[i + 1])) { n++; break; }
   }

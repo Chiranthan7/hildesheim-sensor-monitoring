@@ -35,7 +35,7 @@ test a spot with a temporary gateway before installing.
 ## Buildings
 2D building footprints from OpenStreetMap (Overpass API), loaded in the browser within 800 m of the new gateway.
 For each line from the new gateway to a benefiting sensor the page counts the footprints it crosses (the buildings the gateway
-and the sensor stand on are excluded). If the service is not reachable, nothing is counted and the page says so.
+and the sensor stand on are excluded). Buildings are cached per grid cell (about 550 × 340 m), so moving the pin only loads the missing area; only one request runs at a time (the newest pin wins); five public Overpass servers are tried in turn with a 30 s limit; a failed request keeps what is already loaded and offers "Try again". Counts are shown only when the whole 800 m circle is loaded, so they do not depend on earlier pin positions. If no server answers, nothing is counted and the page says so.
 
 ## Sensor focus mode
 Selecting a sensor fades the other markers and draws a line to every gateway that regularly received it:
