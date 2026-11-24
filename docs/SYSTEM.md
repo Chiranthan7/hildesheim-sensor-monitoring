@@ -217,27 +217,25 @@ The full system runs hour by hour from 1 Aug to 18 Nov 2026, using only causal i
 
 **Interactive web app** (Flask, Leaflet map, Chart.js; all libraries bundled). It is written for operators and repair staff, not for data scientists. Every text is a translation of a model output in `hsm/webapp/plain.py`; nothing new is inferred.
 
-- **Map.** Sensors sit at their GPS positions from the data. Each has a colour for its overall condition, a symbol for what it measures (💧 soil moisture, 🌡️ weather or temperature, 🌬️ wind, 🌊 water station, 🗑️ waste bin) and an animated battery badge with the measured value. Markers are clustered: a cluster takes the colour of its worst member and shows how many sensors need action. Gateways appear as 📡 tiles. Street and satellite backgrounds are available.
+- **Map.** Sensors sit at their GPS positions from the data (time-aware: the waste bins that moved are shown where they were at the chosen hour). Each has a colour for its overall condition, a flat icon for what it measures (soil moisture, soil and temperature, soil and salinity, weather, wind, water station, waste bin, temperature) and a battery badge. Markers are clustered; a cluster takes the colour of its worst member and shows the sensor types inside. Gateways are larger tiles with their name. Base maps: BKG TopPlusOpen Light Grey (default; WMS, dl-de/by-2-0 source note shown), TopPlusOpen Light, Colour and Grey, OpenStreetMap and satellite.
 - **Sensor panel**, opened by clicking a sensor:
-  - status in one sentence;
-  - "What is the problem?" (the cause and how certain it is);
-  - "👉 what to do", and whether a site visit is needed;
+  - Directions and Show on map at the top;
+  - one **status card**: the status, why (cause and how certain), what to do and whether a site visit is needed (gateways get the same card);
   - battery: widget, trend and 30-day forecast;
-  - last contact;
-  - "Looking ahead": the AI forecasts as Low, Medium or High with a percentage and a note on how well that forecast was tested for this sensor type;
-  - measurement checks;
-  - 120-day charts: data received, measurements, battery, breakdown risk;
-  - past breakdowns and the e-mails sent (full text viewable);
-  - a collapsible technical section for engineers.
+  - **AI check**: "Looking ahead" (the forecasts as Low, Medium or High with a percentage and how well they were tested for this sensor type) and "Are the measurements reliable?";
+  - **History & last contact** dropdown: last contact and radio signal, 120-day charts (data received, measurements, battery, breakdown risk), past breakdowns;
+  - the e-mails sent (full text viewable) and a collapsible technical section for engineers.
+- **Focus mode.** Selecting a sensor fades the other markers and draws a line to every gateway that regularly received it: colour = measured signal class, thickness = share of its messages, dashed = rarely. Gateways it never used are dimmed. Lines are measured links from the radio records, not inferred.
 - **🧭 Directions** opens Google Maps in a new window with the route to the sensor. For the 25 sensors without a GPS position in the data, the route goes to the area of their main gateway, and the panel says so. **No position is ever invented**: these sensors are listed separately and are not placed on the map.
-- **Battery badge.** 12 V batteries show the voltage and a band (good, fair, low or critical), not a percentage. CLOVER shows the level the sensor itself reports. Lithium batteries show "OK" or "Check", because a flat voltage carries no level. Sensors without battery telemetry show "?".
+- **Battery badge.** 12 V lead-acid batteries (Bigbelly, OTT) show an approximate percentage from the Battery Council International resting-voltage table; 3.6 V lithium cells an approximate percentage by linear comparison (3.0 V = 0 %, 3.6 V = 100 %); CLOVER the level it reports itself. All are labelled "≈". Sensors without battery telemetry show no percentage. See `docs/MANUFACTURER_SPECS.md`.
 - **Other tabs:**
-  - "Check these first" (Diese Sensoren jetzt prüfen): ranked cards with the problem, the action, a site-visit badge and directions;
-  - alerts and e-mails, with each sent e-mail viewable;
+  - "Check these first" (Diese Sensoren jetzt prüfen): a plain ranked list (rank, sensor, short status, Details) and a **Visit route** mode: sensors that need a site visit, ordered by nearest neighbour + 2-opt, shown as numbered stops and opened in Google Maps in parts of at most 10 points;
+  - **Improve network**: weak-signal heat map, draggable new-gateway pin with expected "better signal" and "backup gateway" sensors, best-spot grid search, OpenStreetMap building footprints with crossings counted (method in `docs/NETWORK.md`);
+  - alerts and e-mails, with each sent e-mail viewable and a token-protected "Send test e-mails" button;
   - gateways, with historical interruption frequency (gateway outages are not predicted);
   - "How good are the predictions?": the test results in plain words, with real examples from the history;
   - help.
-- **Time slider and ▶ playback.** These show the network exactly as the system saw it at any hour since April 2026, using causal snapshots.
+- **Time control.** A calendar, an hour slider with tick labels and ▶ to play a day, showing the network exactly as the system saw it at any hour since April 2026, using causal snapshots.
 - **Live mode.** A background thread runs the monitoring cycle; the map refreshes itself, and "Check now" starts a cycle immediately.
 
 The static single-file dashboard (`python -m hsm.cli dashboard`) remains available for offline sharing.

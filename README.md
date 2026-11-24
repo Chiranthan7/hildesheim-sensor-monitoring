@@ -5,9 +5,16 @@ battery health, measurement anomalies, probable cause, maintenance priority, aut
 and a dashboard. Method, mathematics, results and limitations of every component: [`docs/SYSTEM.md`](docs/SYSTEM.md).
 
 ## The web app (start here)
-An interactive map of the whole network for operators and repair staff:
-- Sensors are shown at their real GPS positions, coloured red, yellow or green, with a symbol for what each one measures and an animated battery badge.
-- Clicking a sensor opens a plain-language panel: what is wrong, what to do, whether a site visit is needed, the battery, the AI forecasts, the measurement checks, history charts and the e-mails sent. A 🧭 button opens the route in Google Maps in a new window.
+**Live demo:** https://hildesheim-sensor-monitoring.onrender.com (free server: the first visit can take about a minute to wake up).
+
+An interactive map of the whole network for operators and repair staff, in plain language:
+- **Map.** Sensors at their real GPS positions, coloured red, yellow or green, with a flat icon for what each one measures and a battery badge (approximate % where the battery voltage is measured). Gateways are shown as larger tiles. Base map: **TopPlusOpen Light Grey** from the German federal mapping agency (BKG), with Light, Colour, Grey, OpenStreetMap and satellite as alternatives.
+- **Time control.** A calendar, an hour slider and ▶ to play a whole day: the network exactly as the system saw it at any hour since April 2026.
+- **Sensor panel.** One status card (what is wrong, why, what to do, site visit yes/no), 🧭 Directions in Google Maps, battery, an **AI check** (breakdown forecast plus measurement reliability) and a **History & last contact** dropdown (last contact, 120-day charts, past breakdowns).
+- **Focus mode.** Selecting a sensor fades the others and draws lines to the gateways that actually received its messages, coloured by measured signal strength.
+- **Check these first.** A simple priority list (most urgent first, Details opens the panel) and a **🚐 Visit route**: the shortest round to every sensor that needs a site visit, opened in Google Maps.
+- **📶 Improve network.** Weak-signal areas from measured messages, a draggable **new gateway** pin showing which sensors would get a better signal or a backup gateway, **✨ Suggest best spot**, and 2D building footprints from OpenStreetMap with a count of buildings in the way. Method: [`docs/NETWORK.md`](docs/NETWORK.md).
+- **Alerts & e-mails**, **Gateways**, **How good are the predictions?** and **Help** tabs.
 
 ```
 pip install -r requirements.txt
@@ -15,7 +22,7 @@ python -m hsm.cli app --data appdata          # then open http://localhost:8050
 ```
 Or double-click `start_app.bat` (Windows) or `start_app.sh` (macOS / Linux). To host it on a server: `docker build -t hsm . && docker run -p 8050:8050 hsm`.
 
-The `appdata/` folder is produced by `python -m hsm.cli prepare --foundation foundation --replay replay --out appdata`. It is already included in the delivery, so the app runs straight away. The map background needs an internet connection (OpenStreetMap / Esri tiles); everything else runs offline.
+The `appdata/` folder is produced by `python -m hsm.cli prepare --foundation foundation --replay replay --out appdata`. It is already included in the delivery, so the app runs straight away. The map background (BKG TopPlusOpen, OpenStreetMap, Esri) and the building footprints (OpenStreetMap Overpass) need an internet connection; everything else runs offline.
 
 **E-mail alerts** (only "sensor stopped working" and "may stop within 24 hours", with location and Google Maps directions): see [`docs/EMAIL_ALERTS.md`](docs/EMAIL_ALERTS.md) for turning on real e-mails with Gmail or from the online app.
 
